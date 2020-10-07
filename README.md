@@ -1,0 +1,1 @@
+Hier soll meine Programmarchitektur zur Kopplung von Geometrie, FEM und Optimierung entstehen und verwaltet werden.
