@@ -90,9 +90,10 @@ opt_prob.addConGroup('g_mat_web', 3, 'i')
 alpso = ALPSO()
 alpso.setOption('fileout',1)
 
+alpso_path = "/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/"
 filename = 'Balken_Output_ALPSO'
 
-alpso.setOption('filename',     filename)
+alpso.setOption('filename',     alpso_path+filename)
 alpso.setOption('SwarmSize',    40      )
 alpso.setOption('stopIters',    5       )      
 alpso.setOption('rinit',        1.      )
@@ -104,7 +105,7 @@ def coldstart():
     
 def hotstart():
     alpso.setOption('filename',filename + '_hotstart')
-    alpso(opt_prob, store_hst=True, hot_start= filename)
+    alpso(opt_prob, store_hst=True, hot_start= alpso_path+filename)
     print(opt_prob.solution(0)) # 0 or 1?
 
 print('Run coldstart(), hotstart() or do what you want!')
