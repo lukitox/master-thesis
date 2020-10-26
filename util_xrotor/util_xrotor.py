@@ -31,9 +31,10 @@ class xfoil(xsoftware):
         self.input_file = '_xfoil_input.txt'
         
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        super().__init__(exc_type, exc_value, exc_traceback)
+        super().__exit__(exc_type, exc_value, exc_traceback)
         os.system('xfoil < ' + self.input_file)
     
+        os.remove(self.input_file)
 
 class xrotor(xsoftware):
     
@@ -49,7 +50,7 @@ class xrotor(xsoftware):
         self.flag_bend = False
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        super().__init__(exc_type, exc_value, exc_traceback)
+        super().__exit__(exc_type, exc_value, exc_traceback)
         os.system('xrotor < ' + self.input_file)
         
         if self.flag_oper == True: 
