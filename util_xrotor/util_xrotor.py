@@ -3,10 +3,39 @@
 # Third-party imports
 import numpy as np
 import pandas as pd
+import os
 
 #%% Interface Class to XRotor
 
-class xrotor:
+class xsoftware:
+    
+    def __enter__(self):
+        self.f = open(self.input_file, 'w')
+        return self
+    
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.f.close()
+        
+    def run(self, argument):
+        self.f.write(str(argument) + '\n')
+    
+    def run_array(self, array):
+        self.array = list(array)
+        for rows in self.array:
+            for columns in rows:
+                self.run(str(columns))
+
+class xfoil(xsoftware):
+    
+    def __init__(self):
+        self.input_file = '_xfoil_input.txt'
+        
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        super().__init__(exc_type, exc_value, exc_traceback)
+        os.system('xfoil < ' + self.input_file)
+    
+
+class xrotor(xsoftware):
     
     def __init__(self, propeller, loadcase):
         self.input_file = '_xrotor_input.txt'
@@ -19,13 +48,8 @@ class xrotor:
         self.flag_oper = False
         self.flag_bend = False
     
-    def __enter__(self):
-        self.f = open(self.input_file, 'w')
-        return self
-    
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        import os
-        self.f.close()
+        super().__init__(exc_type, exc_value, exc_traceback)
         os.system('xrotor < ' + self.input_file)
         
         if self.flag_oper == True: 
@@ -37,15 +61,6 @@ class xrotor:
             os.remove(self.bend_file)
         
         os.remove(self.input_file)
-    
-    def run(self, argument):
-        self.f.write(str(argument) + '\n')
-    
-    def run_array(self, array):
-        self.array = list(array)
-        for rows in self.array:
-            for columns in rows:
-                self.run(str(columns))
     
     def arbi(self):
         self.run('arbi')
