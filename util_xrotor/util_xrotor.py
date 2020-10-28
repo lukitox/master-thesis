@@ -24,6 +24,18 @@ class xsoftware:
         for rows in self.array:
             for columns in rows:
                 self.run(str(columns))
+                
+    @staticmethod
+    def _clean_up_():
+        import glob
+        
+        searchterms = ['_xfoil*', '_xrotor', ':00.bl']
+        
+        for term in searchterms:
+            filenames = glob.glob(term)
+            
+            for filename in filenames:
+                os.remove(filename)
 
 class xfoil(xsoftware):
     
@@ -103,6 +115,60 @@ class propeller:
     def add_loadcase(self, name, loadcase):
         self.loadcases[name] = loadcase
         pass
+    
+#%% Airfoil Class
+
+class airfoil:
+    
+    def __init__(self, airfoil_filename, Re, Ncrit = 9, Iter = 200):
+        self.parameters = {
+            'airfoil_filename': airfoil_filename,
+            'Re': Re,
+            'Ncrit': Ncrit,
+            'Iter': Iter,
+            }
+    
+    def calculate_polar(self, alpha_start = -20, alpha_stop = 20, alpha_inc = 0.25):
+        
+        polar_file = '_xfoil_polar.txt'
+        
+        if os.path.exists(polar_file):
+            os.remove(polar_file)
+            
+        if os.path.exists(polar_file):
+            os.remove(polar_file)
+        
+        aseq = [[0, alpha_start, alpha_inc],
+                [0, alpha_stop , alpha_inc]]
+        
+        for sequence in aseq:        
+            with xfoil() as x:
+                x.run('load ./airfoil-database/' + self.parameters['airfoil_filename'])
+                x.run('pane')
+                x.run('oper')
+                x.run('vpar')
+                x.run('n ' + str(self.parameters['Ncrit']))
+                x.run('')
+                x.run('visc ' + str(self.parameters['Re']))
+                x.run('iter')
+                x.run(str(self.parameters['Iter']))
+                x.run('pacc')
+                x.run(polar_file)
+                x.run('')
+                x.run('aseq ')
+                x.run(sequence[0])
+                x.run(sequence[1])
+                x.run(sequence[2])
+                x.run('')
+                x.run('quit')
+                
+        colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46), (49, 55), (58, 64), (66, 73), (74, 82)]
+        tabular_data = pd.read_fwf(polar_file, colspecs=colspecs, header= [10], skiprows=[11])
+        tabular_data.sort_values('alpha', inplace=True)
+        tabular_data.drop_duplicates(keep='first',inplace=True)
+        
+        self.polar = tabular_data            
+    
     
 #%% Loadcase Class
 
