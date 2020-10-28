@@ -4,12 +4,14 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+import scipy.signal
+
 
 # Local imports
 from util_xrotor import util_xrotor as ux
-from scipy.optimize import curve_fit
 
-#%% Renerate some xfoil polar
+#%% Generate some xfoil polar
 
 filename = 'mh113_polar.txt'
 
@@ -30,35 +32,10 @@ with ux.xfoil() as x:
     x.run('')
     x.run('quit')
     
-#%% Play around
+#%% Read Xfoil 
 
 colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46), (49, 55), (58, 64), (66, 73), (74, 82)]
 tabular_data = pd.read_fwf(filename, colspecs=colspecs, header= [10], skiprows=[11])
-
-# def func(x, x0, b, b2, c):
-#     a = (c-b)/(x0**2)
-#     m = 2*(c-b)/x0 + b2 # (2*a*x0 + b2)
-#     return np.piecewise(x, [x < x0], [lambda x: m*x +b, lambda x: a * x**2 + b2 * x + c])
-
-# def func(x, x0, x1, a1, a3, b1, c1):
-#     c2 = -a1 * x0**2 + c1
-#     b2 = 2 * a1 * x0**2 + b1
-#     b3 = b2 - 2 * a3 * x1
-#     c3 = b2 * x1 + c2 - a3 * x1**2 - b3 * x1
-#     return np.piecewise(x, [x < x1, (x >= x1) & (x < x0), x >= x0 ], [lambda x: a1 * x**2 + b1 * x + c1,
-#                                                                       lambda x: b2 * x + c2,
-#                                                                       lambda x: a3 * x**3 + b3 * x + c3])
-
-# def func(x, x0, x1, a1, a3, b1, b3, c3):
-#     xx = np.sort([x0, x1])
-#     # xx = [x0, x1]
-#     b2 = 2*a3*xx[1] + b3
-#     c2 = a3*xx[1]**2 + b3*xx[1] + c3 - b2*xx[1]
-#     c1 = b2*xx[0] + c2 - a1*xx[0]**2 - b1*xx[0]
-    
-#     return np.piecewise(x, [x <xx[0], (x >=xx[0]) & (x <xx[1]), x >=xx[1] ], [lambda x: a1 * x**2 + b1 * x + c1,
-#                                                                               lambda x: b2 * x + c2,
-#                                                                               lambda x: a3 * x**3 + b3 * x + c3])
 
 def func(x, x0, x1, a3, b1, b3, c2):
     b2 = 2*a3*x1 + b3
@@ -68,8 +45,6 @@ def func(x, x0, x1, a3, b1, b3, c2):
                                                                     lambda x: b2*x + c2,
                                                                     lambda x: a3*x**2 + b3*x + c3])
     
-    
-
 xdata = np.array(tabular_data['alpha'])
 ydata = np.array(tabular_data['CL']) 
 
@@ -80,5 +55,18 @@ plt.plot(tabular_data['alpha'], tabular_data['CL'])
 
 data = np.transpose(np.array([np.arange(-20, 20, 0.25), func(np.arange(-20, 20, 0.25), *popt)]))
 
+ca_alpha = 2*popt[2]*popt[1]+popt[4] * 180 / 3.141
+ca_max = max(data[:,1])
+ca_0 = -popt[5] / (2*popt[2]*popt[1]+popt[4])
+ca_min = float(func(popt[0], *popt))
 
 
+filtered_cd = scipy.signal.savgol_filter(tabular_data['CD'], window_length=11, polyorder=2)
+
+
+tabular_data.plot(x='CL',y='CD')
+dcd_dcl = np.gradient(np.gradient(filtered_cd, tabular_data['CL']), tabular_data['CL'])
+plt.plot(ydata, dcd_dcl)
+
+
+arr = np.transpose(np.array([tabular_data['CL'], dcd_dcl]))
