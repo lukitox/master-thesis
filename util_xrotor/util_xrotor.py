@@ -132,11 +132,14 @@ class airfoil:
         
         polar_file = '_xfoil_polar.txt'
         
-        if os.path.exists(polar_file):
-            os.remove(polar_file)
-            
-        if os.path.exists(polar_file):
-            os.remove(polar_file)
+        def clean_up():
+            if os.path.exists(polar_file):
+                os.remove(polar_file)
+                
+            if os.path.exists(':00.bl'):
+                os.remove(':00.bl')
+                
+        clean_up()
         
         aseq = [[0, alpha_start, alpha_inc],
                 [0, alpha_stop , alpha_inc]]
@@ -167,6 +170,8 @@ class airfoil:
         tabular_data.sort_values('alpha', inplace=True)
         tabular_data.drop_duplicates(keep='first',inplace=True)
         tabular_data = tabular_data.reset_index()
+        
+        clean_up()
         
         self.polar = tabular_data
         self.__calculate_xrotor_parameters__()
