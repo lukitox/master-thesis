@@ -167,7 +167,45 @@ class airfoil:
         tabular_data.sort_values('alpha', inplace=True)
         tabular_data.drop_duplicates(keep='first',inplace=True)
         
-        self.polar = tabular_data            
+        self.polar = tabular_data
+        
+    def calculate_xrotor_parameters(self):
+        from scipy.optimize import curve_fit
+        from scipy.signal import savgol_filter
+                
+        popt, pcov = curve_fit(self.__fit_cl_alpha__, np.array(self.polar['alpha']), np.array(self.polar['CL']))
+        
+        fitted_cl_alpha = np.transpose(np.array([self.polar['alpha'], self.__fit_cl_alpha__(np.array(self.polar['alpha']), *popt)]))
+
+        filtered_cd = savgol_filter(self.polar['CD'],  window_length=11, polyorder=2)      
+        
+        dcd_dcl2 = np.gradient(np.gradient(filtered_cd, self.polar['CL']), self.polar['CL'])
+        
+        self.xrotor_characteristics = {
+            'Zero-lift alpha (deg)' : -popt[5] / (2*popt[2]*popt[1]+popt[4]),
+            'd(Cl)/d(alpha)' : 2*popt[2]*popt[1]+popt[4] * 180 / 3.14159,
+            'Maximum Cl' : max(fitted_cl_alpha[:,1]),
+            'Minimum Cl' : float(self.__fit_cl_alpha__(popt[0], *popt)),
+            'Minimum Cd' : [],
+            'Cl at minimum Cd': [],
+            'd(Cd)/d(Cl**2)' : [],
+            'Cm' : [],
+            }                     
+                             
+    def __fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2):
+        b2, c1, c3 = self.__return_cl_alpha_pars__(x0, x1, a3, b1, b3, c2)
+        b2 = 2*a3*x1 + b3
+        c1 = b2*x0 - b1*x0 + c2
+        c3 = b2*x1 + c2 - a3*x1**2 - b3*x1
+        return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1], [lambda x: b1*x + c1,
+                                                                        lambda x: b2*x + c2,
+                                                                        lambda x: a3*x**2 + b3*x + c3])
+    
+    def __return_cl_alpha_pars__(self, x0, x1, a3, b1, b3, c2):
+        b2 = 2*a3*x1 + b3
+        c1 = b2*x0 - b1*x0 + c2
+        c3 = b2*x1 + c2 - a3*x1**2 - b3*x1
+        return b2, c1, c3
     
     
 #%% Loadcase Class
