@@ -86,6 +86,34 @@ class xrotor(xsoftware):
         self.run_array(self.propeller.geometry)
         self.run('n')
         
+    def parse_airfoils(self):
+        for index, section in enumerate(self.propeller.sections):
+            self.run('aero')
+            self.run('new')
+            self.run(section[0])
+            self.run('edit')
+            self.run(index + 2)
+            self.run('1')
+            self.run(section[1].xrotor_characteristics['Zero-lift alpha (deg)'])
+            self.run('2')
+            self.run(section[1].xrotor_characteristics['d(Cl)/d(alpha)'])
+            self.run('4')
+            self.run(section[1].xrotor_characteristics['Maximum Cl'])
+            self.run('5')
+            self.run(section[1].xrotor_characteristics['Minimum Cl'])
+            self.run('7')
+            self.run(section[1].xrotor_characteristics['Minimum Cd'])
+            self.run('8')
+            self.run(section[1].xrotor_characteristics['Cl at minimum Cd'])
+            self.run('9')
+            self.run(section[1].xrotor_characteristics['d(Cd)/d(Cl**2)'])
+            self.run('10')
+            self.run(section[1].parameters['Re'])
+            self.run('12')
+            self.run(section[1].xrotor_characteristics['Cm'])
+            self.run('')
+            self.run('')
+        
     def write_oper(self):
         self.run('writ ' + self.oper_file)
         self.flag_oper = True
@@ -99,12 +127,15 @@ class xrotor(xsoftware):
 class propeller:
     
     def __init__(self, number_of_blades, tip_radius, hub_radius):
-        self.parameters = {}
-        self.parameters['number_of_blades'] = number_of_blades
-        self.parameters['tip_radius'] = tip_radius
-        self.parameters['hub_radius'] = hub_radius
+        self.parameters = {
+            'number_of_blades'  : number_of_blades,
+            'tip_radius'        : tip_radius,
+            'hub_radius'        : hub_radius,
+            }    
         
         self.loadcases = {}
+        
+        self.sections = []
         
     def __repr__(self):
         return str(self.parameters)
@@ -114,7 +145,10 @@ class propeller:
         
     def add_loadcase(self, name, loadcase):
         self.loadcases[name] = loadcase
-        pass
+    
+    def add_section(self, rR, airfoil):
+        self.sections.append([rR, airfoil])
+        self.sections.sort()
     
 #%% Airfoil Class
 
@@ -129,7 +163,6 @@ class airfoil:
             }
     
     def calculate_polar(self, alpha_start = -20, alpha_stop = 20, alpha_inc = 0.25):
-        
         polar_file = '_xfoil_polar.txt'
         
         def clean_up():
@@ -146,7 +179,7 @@ class airfoil:
         
         for sequence in aseq:        
             with xfoil() as x:
-                x.run('load ./airfoil-database/' + self.parameters['airfoil_filename'])
+                x.run('load ./util_xrotor/airfoil-database/' + self.parameters['airfoil_filename'])      ##### Todo: Relativer Pfad 
                 x.run('pane')
                 x.run('oper')
                 x.run('vpar')

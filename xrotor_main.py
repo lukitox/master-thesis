@@ -30,6 +30,15 @@ Prop_MF3218.geometry = np.array([[0.17, 0.10, 17],
                                  [0.97, 0.08,  7],
                                  [1.00, 0.01,  7],])
 
+MH113 = ux.airfoil('mh113.txt', 250000)
+MH113.calculate_polar()
+
+MH121 = ux.airfoil('mh121.txt', 500000)
+MH121.calculate_polar()
+
+Prop_MF3218.add_section(0.5, MH113)
+Prop_MF3218.add_section(1.0, MH121)
+
 #%% Instantiate Loadcase
 
 Prop_MF3218.add_loadcase(name= 'Max. RPM', loadcase= ux.loadcase(flight_speed= 0.01, rpm= 4000))
@@ -39,6 +48,7 @@ Prop_MF3218.add_loadcase(name= 'Max. RPM', loadcase= ux.loadcase(flight_speed= 0
 with ux.xrotor(propeller= Prop_MF3218, loadcase= 'Max. RPM') as x:
     x.run('atmo 0')             # Set fluid properties from ISA 0km
     x.arbi()                    # Input arbitrary rotor geometry
+    x.parse_airfoils()
     x.run('oper')               # Calculate off-design operating points
     x.run('rpm 4000')           # Prescribe rpm                                     ### automatisieren
     x.write_oper()              # Write current operating point to disk file
@@ -61,3 +71,12 @@ bend_tabular_data  = Prop_MF3218.loadcases['Max. RPM'].results['bend']
 bend_tabular_data.plot(x='r/R',y=['Mz','Mx'])
 oper_tabular_data.plot(x='r/R',y=['CL','Cd'])
 
+#%%
+
+with ux.xrotor(propeller= Prop_MF3218, loadcase= 'Max. RPM') as x:
+    x.run('atmo 0')             # Set fluid properties from ISA 0km
+    x.arbi()                    # Input arbitrary rotor geometry
+    for i in range(10):
+        x.run('aero')
+        x.run('')
+    x.run('quit')
