@@ -16,7 +16,7 @@ from util_xrotor import util_xrotor as ux
 filename = 'mh113_polar.txt'
 
 with ux.xfoil() as x:
-    x.run('load ./util_xrotor/airfoil-database/mh113.txt')
+    x.run('load ./util_loads/airfoil-database/mh113.txt')
     x.run('pane')
     x.run('oper')
     x.run('vpar')

@@ -1,8 +1,53 @@
 util\_xrotor package
 ====================
 
-Submodules
-----------
+util\_xrotor.xsoftware module
+-----------------------------
+
+.. automodule:: util_xrotor.xsoftware
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+util\_xrotor.xfoil module
+-------------------------
+
+.. automodule:: util_xrotor.xfoil
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+util\_xrotor.xrotor module
+--------------------------
+
+.. automodule:: util_xrotor.xrotor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   
+util\_xrotor.airfoil module
+---------------------------
+
+.. automodule:: util_xrotor.airfoil
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+util\_xrotor.loadcase module
+----------------------------
+
+.. automodule:: util_xrotor.loadcase
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+util\_xrotor.propeller module
+-----------------------------
+
+.. automodule:: util_xrotor.propeller
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 util\_xrotor.util\_xrotor module
 --------------------------------

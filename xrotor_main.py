@@ -4,7 +4,8 @@
 import numpy as np
 
 # Local imports
-from util_xrotor import util_xrotor as ux
+import util_loads as ux
+#from util_xrotor import util_xrotor as ux
 
 #%% Instantiate Propeller
 
@@ -71,12 +72,3 @@ bend_tabular_data  = Prop_MF3218.loadcases['Max. RPM'].results['bend']
 bend_tabular_data.plot(x='r/R',y=['Mz','Mx'])
 oper_tabular_data.plot(x='r/R',y=['CL','Cd'])
 
-#%%
-
-with ux.xrotor(propeller= Prop_MF3218, loadcase= 'Max. RPM') as x:
-    x.run('atmo 0')             # Set fluid properties from ISA 0km
-    x.arbi()                    # Input arbitrary rotor geometry
-    for i in range(10):
-        x.run('aero')
-        x.run('')
-    x.run('quit')
