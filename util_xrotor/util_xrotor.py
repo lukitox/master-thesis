@@ -84,20 +84,10 @@ class xfoil(xsoftware):
     '''
     
     def __init__(self):
-        '''
-        
-
-        Returns
-        -------
-        None.
-
-        '''
         self.input_file = '_xfoil_input.txt'
         
     def __exit__(self, exc_type, exc_value, exc_traceback):
         '''
-        
-
         Parameters
         ----------
         exc_type : TYPE
@@ -118,8 +108,22 @@ class xfoil(xsoftware):
         os.remove(self.input_file)
 
 class xrotor(xsoftware):
-    
+    '''
+    The interface class to XROTOR.
+
+    Parameters
+    ----------
+    propeller : Instance of propeller class
+        Propeller to take geometry from.
+    loadcase : Key of loadcase in propeller instance
+        Loadcase to take parameters from and return results to.
+
+    Returns
+    -------
+    None.
+    '''
     def __init__(self, propeller, loadcase):
+
         self.input_file = '_xrotor_input.txt'
         self.oper_file  = '_xrotor_oper.txt'
         self.bend_file  = '_xrotor_bend.txt'  
