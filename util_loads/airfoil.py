@@ -1,4 +1,6 @@
-#%% Import Libraries and Data 
+"""Airfoil class."""
+
+# %% Import Libraries and Data
 
 # Third-party imports
 import os
@@ -8,10 +10,11 @@ import pandas as pd
 # Local imports
 from .xfoil import xfoil
 
-#%%
+# %%
+
 
 class airfoil:
-    '''
+    """
     The airfoil class.
 
     Parameters
@@ -29,49 +32,51 @@ class airfoil:
     -------
     None.
 
-    '''    
-    def __init__(self, airfoil_filename, Re, Ncrit = 9, Iter = 200):
+    """
+
+    def __init__(self, airfoil_filename, Re, Ncrit=9, Iter=200):
         self.parameters = {
             'airfoil_filename': airfoil_filename,
             'Re': Re,
             'Ncrit': Ncrit,
             'Iter': Iter,
             }
-        ''' 
-        Returns parameters dictionary
-        
+        """
+        Return parameters dictionary.
+
         Returns
         -------
         dict : string or int or float
-        
+
         Parameters
         ----------
         airfoil_filename : string,\n
         Re : int or float,\n
         Ncrit : int or float,\n
         Iter : int
-    
-            
-        '''
-        
+
+
+        """
+
         self.polar = {}
-        ''' 
-        Returns Polar Dataframe.
-        
+        """
+        Return Polar Dataframe.
+
         Returns
         -------
         DataFrame
-        '''
         
+        """
+
         self.xrotor_characteristics = {}
-        
-        '''
-        Returns airfoil characteristics dictionary for XROTOR
-        
+
+        """
+        Returns airfoil characteristics dictionary for XROTOR.
+
         Returns
         -------
         dict : int or float
-        
+
         Parameters
         ----------
         Zero-lift alpha (deg)
@@ -82,11 +87,25 @@ class airfoil:
         Cl at minimum Cd
         d(Cd)/d(Cl**2)
         Cm
+
+        """
         
-        '''
+        df = pd.read_fwf('./util_loads/airfoil-database/' + self.parameters['airfoil_filename'],
+                         header = 0,
+                         names=['X','Y'],
+                         index_col = 0,)
+        self.coordinates = df.dropna()
+        """
+        Return Dataframe of airfoil coordinates
         
-    def calculate_polar(self, alpha_start = -20, alpha_stop = 20, alpha_inc = 0.25):
-        '''
+        Returns
+        -------
+        DataFrame
+        
+        """
+
+    def calculate_polar(self, alpha_start=-20, alpha_stop=20, alpha_inc=0.25):
+        """
         Calculate airfoil polar and store as pandas dataframe.
 
         Parameters
@@ -102,24 +121,25 @@ class airfoil:
         -------
         None.
 
-        '''
+        """
         polar_file = '_xfoil_polar.txt'
-        
+
         def clean_up():
             if os.path.exists(polar_file):
                 os.remove(polar_file)
-                
+
             if os.path.exists(':00.bl'):
                 os.remove(':00.bl')
-                
+
         clean_up()
-        
+
         aseq = [[0, alpha_start, alpha_inc],
-                [0, alpha_stop , alpha_inc]]
-        
-        for sequence in aseq:        
+                [0, alpha_stop, alpha_inc]]
+
+        for sequence in aseq:
             with xfoil() as x:
-                x.run('load ./util_loads/airfoil-database/' + self.parameters['airfoil_filename'])      ##### Todo: Relativer Pfad 
+                x.run('load ./util_loads/airfoil-database/' +
+                      self.parameters['airfoil_filename'])  # Todo: Relativer Pfad
                 x.run('pane')
                 x.run('oper')
                 x.run('vpar')
@@ -137,40 +157,54 @@ class airfoil:
                 x.run(sequence[2])
                 x.run('')
                 x.run('quit')
-                
-        colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46), (49, 55), (58, 64), (66, 73), (74, 82)]
-        tabular_data = pd.read_fwf(polar_file, colspecs=colspecs, header= [10], skiprows=[11])
+
+        colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46),
+                    (49, 55), (58, 64), (66, 73), (74, 82)]
+        tabular_data = pd.read_fwf(polar_file,
+                                   colspecs=colspecs,
+                                   header=[10],
+                                   skiprows=[11])
         tabular_data.sort_values('alpha', inplace=True)
-        tabular_data.drop_duplicates(keep='first',inplace=True)
+        tabular_data.drop_duplicates(keep='first', inplace=True)
         tabular_data = tabular_data.reset_index()
-        
+
         clean_up()
-        
-        self.polar = tabular_data        
+
+        self.polar = tabular_data
         self.__calculate_xrotor_parameters__()
-        
+
     def __calculate_xrotor_parameters__(self):
+        """
+
+
+        Returns
+        -------
+        None.
+
+        """
         from scipy.optimize import curve_fit
         from scipy.signal import savgol_filter
-                
-        popt, pcov = curve_fit(self.__fit_cl_alpha__, np.array(self.polar['alpha']), np.array(self.polar['CL']))
-        
-        self.polar['fitted CL']         = self.__fit_cl_alpha__(np.array(self.polar['alpha']), *popt)
-        self.polar['d(Cl)/d(alpha)']    = np.gradient(self.polar['fitted CL'], self.polar['alpha']).round(5)
-        self.polar['filtered CD']       = savgol_filter(self.polar['CD'],  window_length=11, polyorder=2)
-        self.polar['d(Cd)/d(Cl**2)']    = np.gradient(np.gradient(self.polar['filtered CD'], self.polar['CL']), self.polar['CL'])
-        
+
+        popt, pcov = curve_fit(self.__fit_cl_alpha__,
+                               np.array(self.polar['alpha']),
+                               np.array(self.polar['CL']))
+
+        self.polar['fitted CL'] = self.__fit_cl_alpha__(np.array(self.polar['alpha']), *popt)
+        self.polar['d(Cl)/d(alpha)'] = np.gradient(self.polar['fitted CL'], self.polar['alpha']).round(5)
+        self.polar['filtered CD'] = savgol_filter(self.polar['CD'],  window_length=11, polyorder=2)
+        self.polar['d(Cd)/d(Cl**2)'] = np.gradient(np.gradient(self.polar['filtered CD'], self.polar['CL']), self.polar['CL'])
+
         self.xrotor_characteristics = {
-            'Zero-lift alpha (deg)' : float(-self.polar['fitted CL'][self.polar[self.polar['alpha'] == 0].index.values] / self.polar['d(Cl)/d(alpha)'].max()),
-            'd(Cl)/d(alpha)'        : self.polar['d(Cl)/d(alpha)'].max() * 180/3.1416,           
-            'Maximum Cl'            : self.polar['CL'].max(),
-            'Minimum Cl'            : self.polar[self.polar['d(Cl)/d(alpha)'] == self.polar['d(Cl)/d(alpha)'].max()]['fitted CL'].min(), 
-            'Minimum Cd'            : self.polar['CD'].min(),
-            'Cl at minimum Cd'      : self.polar['CL'][self.polar.idxmin()['CD']],
-            'd(Cd)/d(Cl**2)'        : self.polar['d(Cd)/d(Cl**2)'][self.polar.idxmin()['CD']],
-            'Cm'                    : self.polar['CM'].min(),
-            }                     
-                             
+            'Zero-lift alpha (deg)': float(-self.polar['fitted CL'][self.polar[self.polar['alpha'] == 0].index.values] / self.polar['d(Cl)/d(alpha)'].max()),
+            'd(Cl)/d(alpha)': self.polar['d(Cl)/d(alpha)'].max() * 180/3.1416,
+            'Maximum Cl': self.polar['CL'].max(),
+            'Minimum Cl': self.polar[self.polar['d(Cl)/d(alpha)'] == self.polar['d(Cl)/d(alpha)'].max()]['fitted CL'].min(), 
+            'Minimum Cd': self.polar['CD'].min(),
+            'Cl at minimum Cd': self.polar['CL'][self.polar.idxmin()['CD']],
+            'd(Cd)/d(Cl**2)': self.polar['d(Cd)/d(Cl**2)'][self.polar.idxmin()['CD']],
+            'Cm': self.polar['CM'].min(),
+            }
+
     def __fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2):
         b2 = 2*a3*x1 + b3
         c1 = b2*x0 - b1*x0 + c2
