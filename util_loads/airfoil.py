@@ -12,6 +12,17 @@ from .xfoil import xfoil
 
 # %%
 
+def clean_up(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+        
+def read_coordinates(filename):
+    df = pd.read_fwf(filename,
+                     header = 0,
+                     names=['X','Y'],
+                     )
+    df = df.dropna()
+    return df
 
 class airfoil:
     """
@@ -93,7 +104,8 @@ class airfoil:
         df = pd.read_fwf('./util_loads/airfoil-database/' + self.parameters['airfoil_filename'],
                          header = 0,
                          names=['X','Y'],
-                         index_col = 0,)
+#                         index_col = 0,
+                         )
         self.coordinates = df.dropna()
         """
         Return Dataframe of airfoil coordinates
@@ -124,14 +136,9 @@ class airfoil:
         """
         polar_file = '_xfoil_polar.txt'
 
-        def clean_up():
-            if os.path.exists(polar_file):
-                os.remove(polar_file)
-
-            if os.path.exists(':00.bl'):
-                os.remove(':00.bl')
-
-        clean_up()
+        clean_up(polar_file)
+        clean_up(':00.bl')
+        
 
         aseq = [[0, alpha_start, alpha_inc],
                 [0, alpha_stop, alpha_inc]]
@@ -212,3 +219,68 @@ class airfoil:
         return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1], [lambda x: b1*x + c1,
                                                                         lambda x: b2*x + c2,
                                                                         lambda x: a3*x**2 + b3*x + c3])
+    
+    @staticmethod
+    def interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil):
+        """
+        Return interpolated airfoil of two input airfoils and fraction. 
+        This method uses XFOIL's INTE and GDES routines in the background.
+        
+        .. code-block:: python
+            
+            airfoil, profiltropfen, camberline = airfoil.interpolate(airfoil1,
+                                                                     airfoil2,
+                                                                     fraction_of_2nd_airfoil)
+
+        Parameters
+        ----------
+        airfoil1 : Instance of Airfoil class
+        airfoil2 : Instance of Airfoil class
+        fraction_of_2nd_airfoil : float 0..1
+            Fraction of second airfoil to keep.
+
+        Returns
+        -------
+        DataFrame
+            The interpolated airfoil.
+        DataFrame
+            The symmetrical airfoil (Profiltropfen).
+        DataFrame
+            The camber line.
+
+        """
+        output_file = '_xfoil_output.txt'
+        
+        options = [[1,1], [1, 0], [0, 1]]
+        result = []
+        
+        for option in options:
+            clean_up(output_file)
+            with xfoil() as x:
+                x.run('inte')
+                x.run('f')
+                x.run('./util_loads/airfoil-database/' +
+                          airfoil1.parameters['airfoil_filename'])
+                x.run('f')
+                x.run('./util_loads/airfoil-database/' +
+                          airfoil2.parameters['airfoil_filename'])
+                x.run(fraction_of_2nd_airfoil)
+                x.run('')
+                x.run('pcop')
+                x.run('pane')
+                x.run('gdes')
+                x.run('tfac')
+                x.run(option[0])
+                x.run(option[1])
+                x.run('')
+                x.run('pcop')
+                x.run('pane')                
+                x.run('save')
+                x.run(output_file)
+                x.run('quit')
+            
+            result.append(read_coordinates(output_file))
+        # thickness_line= df.loc[df['Y'] >= 0].drop_duplicates()
+        # thickness_line['Y'] = thickness_line['Y']*2
+        
+        return result[0], result[1], result[2]
