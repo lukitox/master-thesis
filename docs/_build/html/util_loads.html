@@ -341,6 +341,7 @@ WRIT f  Write current operating point to disk file
 </div>
 <div class="section" id="module-util_loads.airfoil">
 <span id="util-loads-airfoil-module"></span><h2>util_loads.airfoil module<a class="headerlink" href="#module-util_loads.airfoil" title="Permalink to this headline">¶</a></h2>
+<p>Airfoil class.</p>
 <dl class="py class">
 <dt id="util_loads.airfoil.airfoil">
 <em class="property">class </em><code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">airfoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil_filename</span></em>, <em class="sig-param"><span class="n">Re</span></em>, <em class="sig-param"><span class="n">Ncrit</span><span class="o">=</span><span class="default_value">9</span></em>, <em class="sig-param"><span class="n">Iter</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.airfoil" title="Permalink to this definition">¶</a></dt>
@@ -384,9 +385,51 @@ WRIT f  Write current operating point to disk file
 </dd></dl>
 
 <dl class="py attribute">
+<dt id="util_loads.airfoil.airfoil.coordinates">
+<code class="sig-name descname">coordinates</code><a class="headerlink" href="#util_loads.airfoil.airfoil.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Dataframe of airfoil coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.airfoil.interpolate">
+<em class="property">static </em><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil1</span></em>, <em class="sig-param"><span class="n">airfoil2</span></em>, <em class="sig-param"><span class="n">fraction_of_2nd_airfoil</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.airfoil.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return interpolated airfoil of two input airfoils and fraction.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">airfoil</span><span class="p">,</span> <span class="n">profiltropfen</span><span class="p">,</span> <span class="n">camberline</span> <span class="o">=</span> <span class="n">airfoil</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">airfoil1</span><span class="p">,</span>
+                                                         <span class="n">airfoil2</span><span class="p">,</span>
+                                                         <span class="n">fraction_of_2nd_airfoil</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>airfoil1</strong> (<em>Instance of Airfoil class</em>) – </p></li>
+<li><p><strong>airfoil2</strong> (<em>Instance of Airfoil class</em>) – </p></li>
+<li><p><strong>fraction_of_2nd_airfoil</strong> (<em>float 0..1</em>) – Fraction of second airfoil to keep.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>DataFrame</em> – The interpolated airfoil.</p></li>
+<li><p><em>DataFrame</em> – The symmetrical airfoil (Profiltropfen).</p></li>
+<li><p><em>DataFrame</em> – The camber line.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt id="util_loads.airfoil.airfoil.parameters">
 <code class="sig-name descname">parameters</code><a class="headerlink" href="#util_loads.airfoil.airfoil.parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns parameters dictionary</p>
+<dd><p>Return parameters dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>dict</strong></p>
@@ -408,7 +451,7 @@ WRIT f  Write current operating point to disk file
 <dl class="py attribute">
 <dt id="util_loads.airfoil.airfoil.polar">
 <code class="sig-name descname">polar</code><a class="headerlink" href="#util_loads.airfoil.airfoil.polar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns Polar Dataframe.</p>
+<dd><p>Return Polar Dataframe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p></p>
@@ -422,7 +465,7 @@ WRIT f  Write current operating point to disk file
 <dl class="py attribute">
 <dt id="util_loads.airfoil.airfoil.xrotor_characteristics">
 <code class="sig-name descname">xrotor_characteristics</code><a class="headerlink" href="#util_loads.airfoil.airfoil.xrotor_characteristics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns airfoil characteristics dictionary for XROTOR</p>
+<dd><p>Returns airfoil characteristics dictionary for XROTOR.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>dict</strong></p>
@@ -446,6 +489,16 @@ WRIT f  Write current operating point to disk file
 </dd></dl>
 
 </dd></dl>
+
+<dl class="py function">
+<dt id="util_loads.airfoil.clean_up">
+<code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">clean_up</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.clean_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="util_loads.airfoil.read_coordinates">
+<code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">read_coordinates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.read_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-util_loads.loadcase">
