@@ -282,5 +282,5 @@ class airfoil:
             result.append(read_coordinates(output_file))
         # thickness_line= df.loc[df['Y'] >= 0].drop_duplicates()
         # thickness_line['Y'] = thickness_line['Y']*2
-        
+        clean_up(output_file)
         return result[0], result[1], result[2]
