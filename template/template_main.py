@@ -15,8 +15,61 @@ import pyansys
 
 # Local imports
 from template_femodel import Femodel
+from util_loads import propeller, airfoil, loadcase
 
-# %% Instantiate Propeller and calculate Loads
+# %% Instantiate Airfoils and assign radial sections
+
+airfoil1 = airfoil('mh113.txt', Re=250000, Ncrit=9, Iter=200)
+airfoil2 = airfoil('mh121.txt', Re=500000, Ncrit=9, Iter=200)
+# ...
+
+sections = [# r/R, Airfoil
+            [0.25, airfoil1],
+            [1.00, airfoil2]]
+# ...
+
+for section in sections:   
+    section[1].calculate_polar(alpha_start=-20,
+                               alpha_stop=20,
+                               alpha_inc=0.2)
+
+# %% Instantiate Propeller and assign geometry and airfoils
+
+propeller = propeller(number_of_blades=2,
+                      tip_radius=0.412,
+                      hub_radius=0.04,
+                      )
+
+propeller.geometry = np.array([[0.17, 0.10, 17],
+                               [0.52, 0.13, 13],
+                               [1.00, 0.08, 7]])
+# ...
+
+propeller.sections = sections
+
+# %% Instantiate Loadcases
+
+propeller.add_loadcase(name='Max. RPM',
+                       loadcase=loadcase(flight_speed=0.01, rpm=4000))
+# ...
+
+# %% Calculate loads
+
+for name in propeller.loadcases:
+    with ux.xrotor(propeller=propeller, loadcase=name) as x:
+        x.run('atmo 0')  
+        x.arbi()  
+        x.parse_airfoils()
+        x.run('oper')  
+        x.run('rpm ' + name.parameters['rpm'])  # Todo: automatisieren
+        x.write_oper()  
+        x.run('') 
+        x.run('bend')  
+        x.run('eval')  
+        x.write_bend()  
+        x.run('')
+        x.run('quit')
+
 
 # %% Run ANSYS and instantiate FE-Model
 
@@ -33,7 +86,7 @@ mapdl = pyansys.launch_mapdl(run_location=ansys_path,
 femodel = Femodel(mapdl,
                   mesh_density_factor=1,
                   seltol=1e-4,
-                  loads= [] # Load/ Propeller object
+                  loads= propeller.loadcases # Todo: Load/ Propeller object
                   )
 
 # %% Define Objective function 
