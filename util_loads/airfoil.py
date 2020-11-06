@@ -251,8 +251,8 @@ class airfoil:
         """
         output_file = '_xfoil_output.txt'
         
-        options = [[1,1], [1, 0], [0, 1]]
         result = []
+        options = [[1,1], [1, 0], [0, 1]]
         
         for option in options:
             clean_up(output_file)
@@ -280,7 +280,8 @@ class airfoil:
                 x.run('quit')
             
             result.append(read_coordinates(output_file))
+        clean_up(output_file)    
         # thickness_line= df.loc[df['Y'] >= 0].drop_duplicates()
         # thickness_line['Y'] = thickness_line['Y']*2
-        clean_up(output_file)
+        
         return result[0], result[1], result[2]

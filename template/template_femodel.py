@@ -20,12 +20,12 @@ ansys_input_filename = '_ansys_input_file' # ANSYS input file for model setup
 
 class Femodel:
     
-    def __init__(self, mapdl, mesh_density_factor = 1):
+    def __init__(self, mapdl, mesh_density_factor = 1, seltol = 1e-4, loads):
         self.mapdl = mapdl
         
-        self.__setup__(mesh_density_factor)
+        self.__setup__(mesh_density_factor, seltol, loads)
         
-    def __setup__(self, mesh_density_factor):
+    def __setup__(self, mesh_density_factor, seltol, loads):
         """
         Setup method. 
         Implement all basic model setup (Geometry, Material Parameters, 
@@ -42,7 +42,8 @@ class Femodel:
         """
         self.mapdl.prep7() # Enter Preprocessing Routine
         
-        # Space for basic Parameters
+        # Space for basic parameters and settings
+        self.mapdl.seltol(seltol)
 
         # Material Parameters
         
@@ -57,7 +58,7 @@ class Femodel:
         # Write ANSYS Input file (Do not change!)
         self.mapdl.allsel('all')
         self.mapdl.cdwrite('db', ansys_input_filename, 'cdb')
-        self.mapdl.finish()
+        self.mapdl.finish() # Todo: Dopplung vermeiden
         self.mapdl.clear('nostart')
         
     def __change_design_variables__(self, *args, **kwargs):
@@ -87,7 +88,7 @@ class Femodel:
         
         # Vary Geometry
         
-    def __solution__(self):
+    def __solve__(self):
         """
         Solve the FE-Model. No changes to the code should be necessary.
 
@@ -108,11 +109,11 @@ class Femodel:
 
         Returns
         -------
-        float
+        f : float
             Value for objective function calculation.
-        list
+        g : list
             Values for inequality constraint calculation.
-        list
+        h : list
             Values for equality constraint calculation.
 
         """
@@ -124,5 +125,47 @@ class Femodel:
         # Calculate objective and constraint values
         
         return f, list(g), list(h)
+        
+    def __clear__(self):
+        """
+        Resets ANSYS Session. No changes to the code should be necessary.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.mapdl.finish()
+        self.mapdl.clear('NOSTART')
+        
+    def evaluate(self, x):
+        """
+        Evalue
+
+        Parameters
+        ----------
+        x : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        f : float
+            Objective function value.
+        g : list
+            Inequality constraints list.
+        h : list
+            Equalitiy constraints list.
+
+        """
+        
+        # Convert input for __change_design_variables__() method
+        
+        self.__change_design_variables__(args, kwargs)
+        self.__solve__()
+        f, g, h = self.__post_processing__()
+        
+        # Calculate objective Function and restrictions
+        
+        return f, g, h
         
         
