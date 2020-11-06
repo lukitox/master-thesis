@@ -40,3 +40,5 @@ class loadcase:
         tabular_data = pd.read_fwf(filename, colspecs=colspecs, header= [1], skiprows=[2], nrows= 29)
         
         self.results['bend'] = tabular_data
+
+# Todo: Methode für einhüllenden Lastverlauf
