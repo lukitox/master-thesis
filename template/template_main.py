@@ -12,6 +12,9 @@ Author: Lukas Hilbers
 import time
 import numpy as np
 import pyansys
+from pyOpt import Optimization
+from pyOpt import ALPSO
+
 
 # Local imports
 from template_femodel import Femodel
@@ -61,7 +64,7 @@ for name in propeller.loadcases:
         x.arbi()  
         x.parse_airfoils()
         x.run('oper')  
-        x.run('rpm ' + name.parameters['rpm'])  # Todo: automatisieren
+        x.run('rpm ' + propeller.loadcases[name].parameters['rpm'])  # Todo: automatisieren
         x.write_oper()  
         x.run('') 
         x.run('bend')  
@@ -102,5 +105,20 @@ def objfunc(x):
     fail = 0
     
     return f, g, fail
-
 objfunc.counter = 0
+
+# %% Instantiate Optimization Problem 
+
+optprob = Optimization(name='Propeller',
+                       obj_fun= objfunc
+
+# Add variables                        
+optprob.addVar('y1','i',lower=4, upper=100, value=30)
+# ...
+
+# Add objective
+opt_prob.addObj('f')
+
+# Add constraints
+
+
