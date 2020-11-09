@@ -19,8 +19,11 @@ from util_mapdl import post_functions, prep_functions
 ansys_input_filename = '_ansys_input_file' # ANSYS input file for model setup
 
 class Femodel:
+    """
+    The FE-Model is implemented as a class.
+    """
     
-    def __init__(self, mapdl, mesh_density_factor = 1, seltol = 1e-4, loads):
+    def __init__(self, mapdl, loads, mesh_density_factor = 1, seltol = 1e-4):
         self.mapdl = mapdl
         
         self.__setup__(mesh_density_factor, seltol, loads)

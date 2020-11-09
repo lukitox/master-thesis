@@ -110,7 +110,8 @@ objfunc.counter = 0
 # %% Instantiate Optimization Problem 
 
 optprob = Optimization(name='Propeller',
-                       obj_fun= objfunc
+                       obj_fun=objfunc
+                       )
 
 # Add variables                        
 optprob.addVar('y1','i',lower=4, upper=100, value=30)
