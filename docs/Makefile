@@ -8,6 +8,8 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build
 
+PLANTUML := java -Djava.awt.headless=true -jar /home/y0065120/Dokumente/Software/plantuml/plantuml.jar -tsvg -failfast2
+
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
@@ -18,3 +20,9 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+plantuml:
+#	alias plantuml="/home/y0065120/Dokumente/Software/plantuml/plantuml.jar -tsvg -failfast2"
+	$(PLANTUML) -psvg -o ../images/uml/ ./uml/*.uml
+	
+html: plantuml

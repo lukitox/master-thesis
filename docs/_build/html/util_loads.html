@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="util_mapdl package" href="util_mapdl.html" />
-    <link rel="prev" title="balken_main module" href="balken_main.html" /> 
+    <link rel="prev" title="template package" href="template.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,9 +85,9 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">helics-opt</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="balken_femodel.html">balken_femodel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="balken_femodel_cd.html">balken_femodel_cd module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="balken_main.html">balken_main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple-blade_femodel.html">simple-blade_femodel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple-blade_main.html">simple-blade_main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">template package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">util_loads package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#parent-class-for-xfoil-and-xrotor">Parent Class for XFOIL and XROTOR</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-util_loads.xfoil">XFOIL</a></li>
@@ -401,7 +401,8 @@ WRIT f  Write current operating point to disk file
 <dl class="py method">
 <dt id="util_loads.airfoil.airfoil.interpolate">
 <em class="property">static </em><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil1</span></em>, <em class="sig-param"><span class="n">airfoil2</span></em>, <em class="sig-param"><span class="n">fraction_of_2nd_airfoil</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.airfoil.interpolate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return interpolated airfoil of two input airfoils and fraction.</p>
+<dd><p>Return interpolated airfoil of two input airfoils and fraction.
+This method uses XFOIL’s INTE and GDES routines in the background.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">airfoil</span><span class="p">,</span> <span class="n">profiltropfen</span><span class="p">,</span> <span class="n">camberline</span> <span class="o">=</span> <span class="n">airfoil</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">airfoil1</span><span class="p">,</span>
                                                          <span class="n">airfoil2</span><span class="p">,</span>
                                                          <span class="n">fraction_of_2nd_airfoil</span><span class="p">)</span>
@@ -560,7 +561,7 @@ WRIT f  Write current operating point to disk file
         <a href="util_mapdl.html" class="btn btn-neutral float-right" title="util_mapdl package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="balken_main.html" class="btn btn-neutral float-left" title="balken_main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="template.html" class="btn btn-neutral float-left" title="template package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

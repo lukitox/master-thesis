@@ -1,18 +1,16 @@
-Welcome to helics-opt's documentation!
-======================================
+helics-opt Documentation
+========================
 
-.. automodule::util_xrotor
-	:members:
+.. image:: images/uml/test.svg
+	:width: 600
 
+Contents
+========
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
    
    modules
-   
-   
-
-
 
 Indices and tables
 ==================

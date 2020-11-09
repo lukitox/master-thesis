@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>xrotor_main module &mdash; helics-opt  documentation</title>
+  <title>template package &mdash; helics-opt  documentation</title>
   
 
   
@@ -36,7 +36,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="xfoil_main module" href="xfoil_main.html" /> 
+    <link rel="next" title="util_loads package" href="util_loads.html" />
+    <link rel="prev" title="simple-blade_main module" href="simple-blade_main.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,11 +87,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">helics-opt</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="simple-blade_femodel.html">simple-blade_femodel module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="simple-blade_main.html">simple-blade_main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html">template package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">template package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-template.template_femodel">template.template_femodel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-template-main-module">template.template_main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-template">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="util_loads.html">util_loads package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="util_mapdl.html">util_mapdl package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="xfoil_main.html">xfoil_main module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">xrotor_main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="xrotor_main.html">xrotor_main module</a></li>
 </ul>
 </li>
 </ul>
@@ -141,13 +148,13 @@
         
           <li><a href="modules.html">helics-opt</a> &raquo;</li>
         
-      <li>xrotor_main module</li>
+      <li>template package</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/xrotor_main.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/template.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -160,8 +167,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="xrotor-main-module">
-<h1>xrotor_main module<a class="headerlink" href="#xrotor-main-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="template-package">
+<h1>template package<a class="headerlink" href="#template-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-template.template_femodel">
+<span id="template-template-femodel-module"></span><h2>template.template_femodel module<a class="headerlink" href="#module-template.template_femodel" title="Permalink to this headline">¶</a></h2>
+<p>FE-Model module of HeLics propeller structural analysis Template</p>
+<p>Created on Nov 06 2020</p>
+<p>Author: Lukas Hilbers</p>
+<dl class="py class">
+<dt id="template.template_femodel.Femodel">
+<em class="property">class </em><code class="sig-prename descclassname">template.template_femodel.</code><code class="sig-name descname">Femodel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapdl</span></em>, <em class="sig-param"><span class="n">loads</span></em>, <em class="sig-param"><span class="n">mesh_density_factor</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">seltol</span><span class="o">=</span><span class="default_value">0.0001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#template.template_femodel.Femodel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The FE-Model is implemented as a class.</p>
+<dl class="py method">
+<dt id="template.template_femodel.Femodel.evaluate">
+<code class="sig-name descname">evaluate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#template.template_femodel.Femodel.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evalue</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>TYPE</em>) – DESCRIPTION.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>f</strong> (<em>float</em>) – Objective function value.</p></li>
+<li><p><strong>g</strong> (<em>list</em>) – Inequality constraints list.</p></li>
+<li><p><strong>h</strong> (<em>list</em>) – Equalitiy constraints list.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="template-template-main-module">
+<h2>template.template_main module<a class="headerlink" href="#template-template-main-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-template">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-template" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -172,8 +220,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="util_loads.html" class="btn btn-neutral float-right" title="util_loads package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="xfoil_main.html" class="btn btn-neutral float-left" title="xfoil_main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="simple-blade_main.html" class="btn btn-neutral float-left" title="simple-blade_main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

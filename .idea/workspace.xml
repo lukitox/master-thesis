@@ -2,7 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43f9de06-f2ce-4780-a82b-d072fdab6210" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/xrotor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xrotor_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.spyproject/config/backups/workspace.ini.bak" beforeDir="false" afterPath="$PROJECT_DIR$/.spyproject/config/backups/workspace.ini.bak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.spyproject/config/workspace.ini" beforeDir="false" afterPath="$PROJECT_DIR$/.spyproject/config/workspace.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/balken_femodel.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/balken_femodel.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/balken_femodel_cd.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/balken_femodel_cd.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/balken_main.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/balken_main.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/modules.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/modules.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/util_loads.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/util_loads.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/modules.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/modules.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/balken_femodel.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/balken_femodel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/balken_femodel_cd.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/balken_femodel_cd.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/balken_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/balken_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/util_loads.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/util_loads.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/xfoil_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/xfoil_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/xrotor_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/xrotor_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/balken_femodel.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/balken_femodel_cd.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/balken_main.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/modules.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/modules.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/template/template_femodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/template/template_femodel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/template/template_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/template/template_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604238411687</updated>
       <workItem from="1604238413172" duration="172000" />
+      <workItem from="1604932704477" duration="427000" />
     </task>
     <servers />
   </component>

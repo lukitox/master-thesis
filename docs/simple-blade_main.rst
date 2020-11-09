@@ -1,7 +1,7 @@
-balken\_femodel\_cd module
+simple\-blade\_main module
 ==========================
 
-.. automodule:: balken_femodel_cd
+.. automodule:: simple-blade_main
    :members:
    :undoc-members:
    :show-inheritance:
