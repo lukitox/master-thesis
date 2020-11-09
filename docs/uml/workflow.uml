@@ -1,7 +1,14 @@
 @startuml
+class Airfoil {
+  parameters : dict
+  polar : df
+  xrotor_characteristics : df
+  coordinates : df
+  --
+  __init__(self, airfoil_filename, Re, Ncrit=9, Iter=200)
+  __calculate_xrotor_parameters__(self)
+  calculate_polar(self, alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
+  interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil)
 
-(*) --> "First Activity"
--->[You can put also labels] "Second Activity"
---> (*)
-
+}
 @enduml
