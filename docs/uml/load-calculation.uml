@@ -1,6 +1,5 @@
 @startuml
 actor main
-group Load calculation
 main -> Airfoil: Define Airfoils
 Airfoil -> Xfoil: Re, Ncrit, Iter, AoA
 Xfoil -> Airfoil: Polar
@@ -13,18 +12,6 @@ Loadcase -> Propeller: Loadcase Data
 Propeller -> Xrotor: Geometry, Airfoil polars\nLoadcases
 Xrotor -> Propeller: Load data
 Propeller -> Propeller: Todo:\ncalculate\nload envelope
-end
-group Optimization
-main -> Femodel: Setup Femodel
 Propeller -> Femodel: Load envelope
-main -> Optimization: Define optimization Problem
-main -> Optimizer: Define and set up Optimizer
-Optimization -> Optimizer: Optimization\nProblem
-loop until convergence
-	Optimizer -> Femodel: Design Variables
-	Femodel -> Optimizer: Objective, Constraint Values
-	Optimizer -> Optimizer: Design Variable\nvariation
-	end
-Optimizer -> main: Optimization problem solution
-end
+	
 @enduml

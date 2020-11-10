@@ -343,8 +343,8 @@ WRIT f  Write current operating point to disk file
 <span id="util-loads-airfoil-module"></span><h2>util_loads.airfoil module<a class="headerlink" href="#module-util_loads.airfoil" title="Permalink to this headline">¶</a></h2>
 <p>Airfoil class.</p>
 <dl class="py class">
-<dt id="util_loads.airfoil.airfoil">
-<em class="property">class </em><code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">airfoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil_filename</span></em>, <em class="sig-param"><span class="n">Re</span></em>, <em class="sig-param"><span class="n">Ncrit</span><span class="o">=</span><span class="default_value">9</span></em>, <em class="sig-param"><span class="n">Iter</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.airfoil" title="Permalink to this definition">¶</a></dt>
+<dt id="util_loads.airfoil.Airfoil">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">Airfoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil_filename</span></em>, <em class="sig-param"><span class="n">Re</span></em>, <em class="sig-param"><span class="n">Ncrit</span><span class="o">=</span><span class="default_value">9</span></em>, <em class="sig-param"><span class="n">Iter</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The airfoil class.</p>
 <dl class="field-list simple">
@@ -364,29 +364,8 @@ WRIT f  Write current operating point to disk file
 </dd>
 </dl>
 <dl class="py method">
-<dt id="util_loads.airfoil.airfoil.calculate_polar">
-<code class="sig-name descname">calculate_polar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha_start</span><span class="o">=</span><span class="default_value">- 20</span></em>, <em class="sig-param"><span class="n">alpha_stop</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">alpha_inc</span><span class="o">=</span><span class="default_value">0.25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.airfoil.calculate_polar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate airfoil polar and store as pandas dataframe.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>alpha_start</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – first alpha value (deg). The default is -20.</p></li>
-<li><p><strong>alpha_stop</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – last  alpha value (deg). The default is 20.</p></li>
-<li><p><strong>alpha_inc</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – alpha increment. The default is 0.25.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="util_loads.airfoil.airfoil.coordinates">
-<code class="sig-name descname">coordinates</code><a class="headerlink" href="#util_loads.airfoil.airfoil.coordinates" title="Permalink to this definition">¶</a></dt>
+<dt id="util_loads.airfoil.Airfoil.coordinates">
+<em class="property">property </em><code class="sig-name descname">coordinates</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return Dataframe of airfoil coordinates</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -399,11 +378,11 @@ WRIT f  Write current operating point to disk file
 </dd></dl>
 
 <dl class="py method">
-<dt id="util_loads.airfoil.airfoil.interpolate">
-<em class="property">static </em><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil1</span></em>, <em class="sig-param"><span class="n">airfoil2</span></em>, <em class="sig-param"><span class="n">fraction_of_2nd_airfoil</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.airfoil.interpolate" title="Permalink to this definition">¶</a></dt>
+<dt id="util_loads.airfoil.Airfoil.interpolate">
+<em class="property">static </em><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil1</span></em>, <em class="sig-param"><span class="n">airfoil2</span></em>, <em class="sig-param"><span class="n">fraction_of_2nd_airfoil</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil.interpolate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return interpolated airfoil of two input airfoils and fraction.
 This method uses XFOIL’s INTE and GDES routines in the background.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">airfoil</span><span class="p">,</span> <span class="n">profiltropfen</span><span class="p">,</span> <span class="n">camberline</span> <span class="o">=</span> <span class="n">airfoil</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">airfoil1</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">airfoil</span><span class="p">,</span> <span class="n">profiltropfen</span><span class="p">,</span> <span class="n">camberline</span> <span class="o">=</span> <span class="n">Airfoil</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">airfoil1</span><span class="p">,</span>
                                                          <span class="n">airfoil2</span><span class="p">,</span>
                                                          <span class="n">fraction_of_2nd_airfoil</span><span class="p">)</span>
 </pre></div>
@@ -427,9 +406,9 @@ This method uses XFOIL’s INTE and GDES routines in the background.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="util_loads.airfoil.airfoil.parameters">
-<code class="sig-name descname">parameters</code><a class="headerlink" href="#util_loads.airfoil.airfoil.parameters" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.parameters">
+<em class="property">property </em><code class="sig-name descname">parameters</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return parameters dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -449,9 +428,9 @@ This method uses XFOIL’s INTE and GDES routines in the background.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="util_loads.airfoil.airfoil.polar">
-<code class="sig-name descname">polar</code><a class="headerlink" href="#util_loads.airfoil.airfoil.polar" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.polar">
+<em class="property">property </em><code class="sig-name descname">polar</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.polar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return Polar Dataframe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -463,9 +442,31 @@ This method uses XFOIL’s INTE and GDES routines in the background.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt id="util_loads.airfoil.airfoil.xrotor_characteristics">
-<code class="sig-name descname">xrotor_characteristics</code><a class="headerlink" href="#util_loads.airfoil.airfoil.xrotor_characteristics" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.set_polar">
+<code class="sig-name descname">set_polar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha_start</span><span class="o">=</span><span class="default_value">- 20</span></em>, <em class="sig-param"><span class="n">alpha_stop</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">alpha_inc</span><span class="o">=</span><span class="default_value">0.25</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil.set_polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate airfoil polar and store as pandas dataframe.
+Calculate Xrotor Characteristics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha_start</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – first alpha value (deg). The default is -20.</p></li>
+<li><p><strong>alpha_stop</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – last  alpha value (deg). The default is 20.</p></li>
+<li><p><strong>alpha_inc</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – alpha increment. The default is 0.25.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.xrotor_characteristics">
+<em class="property">property </em><code class="sig-name descname">xrotor_characteristics</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.xrotor_characteristics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns airfoil characteristics dictionary for XROTOR.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -494,11 +495,6 @@ This method uses XFOIL’s INTE and GDES routines in the background.</p>
 <dl class="py function">
 <dt id="util_loads.airfoil.clean_up">
 <code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">clean_up</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.clean_up" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="util_loads.airfoil.read_coordinates">
-<code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">read_coordinates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.read_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
