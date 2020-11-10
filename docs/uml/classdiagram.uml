@@ -1,0 +1,112 @@
+@startuml
+'skinparam monochrome true
+
+Xsoftware <|-- Xfoil
+Xsoftware <|-- Xrotor
+Airfoil <-[dotted]-> Xfoil : uses
+Propeller <-[dotted]-> Xrotor: uses
+Propeller "1" o-- "1..*" Airfoil
+Propeller "1" o-- "1..*" Loadcase
+
+
+'note right of Airfoil::__repr__(self) 
+'  Todo: implement
+'end note
+'note left of Propeller::set_load_envelope(self)
+'  Todo: implement
+'end note
+'note "Todo: auf Benutzung von\nProperties ändern" as NProp
+
+'NProp .. Loadcase
+'NProp .. Propeller
+
+class Xsoftware {
+  f: Open
+  -__enter__(self)
+  -__exit__(self, exc_type, exc_value, exc_traceback)
+  +run(self, argument)
+  +run_array(self, array)
+}
+
+class Xfoil {
+  input_file: String
+  -__init__(self)
+  -__exit__(self, exc_type, exc_value, exc_traceback)
+}
+
+class Xrotor {
+  input_file: String
+  oper_file: String
+  bend_file: String
+  flag_oper: Boolean
+  flag_bend: Boolean
+  propeller: Propeller
+  loadcase: Loadcase
+  -__init(self, propeller, loadcase)
+  -__exit__(self, exc_type, exc_value, exc_traceback)
+  +arbi(self)
+  +parse_airfoils(self)
+  +write_oper(self)
+  +write_bend(self)
+}
+
+class Airfoil{
+  -__coordinates: DataFrame
+  -__parameters: Dict
+  -__polar: DataFrame
+  -__xrotor_characteristics: Dict
+  --
+  -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
+  -__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
+  -__repr__(self): String
+  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float)
+  ..Getter..
+  +coordinates(self): DataFrame
+  +parameters(self): Dict
+  +polar(self): DataFrame
+  +xrotor_characteristics(self): Dict
+  ..Setter..
+  +coordinates(self, path: Str)
+  +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
+}
+
+class Propeller{
+  -__parameters: Dict
+  -__loadcases: Dict
+  -__geometry: List
+  -__sections: List
+  --
+  -__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)
+  -__repr__(self): String
+  +calculate_loads(self)
+  ..Getter..
+  +geometry(self): List
+  +sections(self): List
+  +loadcases(self): Dict
+  +load_envelope(self): DataFrame
+  ..Setter..
+  +add_loadcase(self, name: Str, loadcase: Loadcase)
+  +add_section(self, rR: Float, airfoil: Airfoil)
+  +set_load_envelope(self)
+  
+}
+class Loadcase{
+  -__parameters: Dict
+  -__results: Dict
+  --
+  -__init__(self, flight_speed: Float, rpm: Float)
+  -__repr__(self): Str
+  ..Getter..
+  +parameters(self): Dict
+  +results(self): DataFrame, DataFrame
+  ..Setter..
+  +set_results(self, filename)
+}
+
+'Xsoftware -[hidden]- Xfoil
+'Xfoil -[hidden]> Xrotor
+'Xfoil -[hidden]- Propeller
+'Xsoftware -[hidden]- Propeller
+'Airfoil -[hidden]> Propeller
+'Propeller -[hidden]> Loadcase
+@enduml
