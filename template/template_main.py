@@ -22,8 +22,8 @@ from util_loads import propeller, airfoil, loadcase
 
 # %% Instantiate Airfoils and assign radial sections
 
-airfoil1 = airfoil('mh113.txt', Re=250000, Ncrit=9, Iter=200)
-airfoil2 = airfoil('mh121.txt', Re=500000, Ncrit=9, Iter=200)
+airfoil1 = Airfoil('mh113.txt', Re=250000, Ncrit=9, Iter=200)
+airfoil2 = Airfoil('mh121.txt', Re=500000, Ncrit=9, Iter=200)
 # ...
 
 sections = [# r/R, Airfoil
@@ -32,9 +32,9 @@ sections = [# r/R, Airfoil
 # ...
 
 for section in sections:   
-    section[1].calculate_polar(alpha_start=-20,
-                               alpha_stop=20,
-                               alpha_inc=0.2)
+    section[1].set_polar(alpha_start=-20,
+                         alpha_stop=20,
+                         alpha_inc=0.2)
 
 # %% Instantiate Propeller and assign geometry and airfoils
 

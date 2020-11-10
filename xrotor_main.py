@@ -8,8 +8,6 @@ import numpy as np
 # Local imports
 import util_loads as ux
 
-# from util_xrotor import util_xrotor as ux
-
 # %% Instantiate Propeller
 
 Prop_MF3218 = ux.propeller(number_of_blades=2,
@@ -37,11 +35,11 @@ Prop_MF3218.geometry = np.array([[0.17, 0.10, 17],
                                  [1.00, 0.01, 7],
                                  ])
 
-MH113 = ux.airfoil('mh113.txt', 250000)
-MH113.calculate_polar()
+MH113 = ux.Airfoil('mh113.txt', 250000)
+MH113.set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
 
-MH121 = ux.airfoil('mh121.txt', 500000)
-MH121.calculate_polar()
+MH121 = ux.Airfoil('mh121.txt', 500000)
+MH121.set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
 
 Prop_MF3218.add_section(0.5, MH113)
 Prop_MF3218.add_section(1.0, MH121)

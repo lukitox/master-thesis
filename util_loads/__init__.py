@@ -8,6 +8,6 @@ from .xfoil import xfoil
 from .xrotor import xrotor
 
 from .propeller import propeller
-from .airfoil import airfoil
+from .airfoil import Airfoil
 from .loadcase import loadcase
 
