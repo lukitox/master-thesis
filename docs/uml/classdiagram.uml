@@ -66,7 +66,7 @@ class Airfoil{
   +polar(self): DataFrame
   +xrotor_characteristics(self): Dict
   ..Setter..
-  +coordinates(self, path: Str)
+  +coordinates(self, coordinates: Str or DataFrame)
   +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
 }
 

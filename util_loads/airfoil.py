@@ -25,7 +25,7 @@ class Airfoil:
     Parameters
     ----------
     airfoil_filename : string
-        Name of airfoil coordinate file stored in 'airfoil-database' folder.
+        Name of airfoil. If coordinate file is stored in 'airfoil-database' folder, coordinates will be set.
     Re : int or float
         Reynolds number
     Ncrit : int or float, optional
@@ -48,9 +48,12 @@ class Airfoil:
             }
         self.__polar = None
         self.__xrotor_characteristics = None
-        self.__coordinates = './util_loads/airfoil-database/' + self.__parameters['airfoil_filename']
         
-        
+        if os.path.exists('./util_loads/airfoil-database/' + self.__parameters['airfoil_filename']):
+            self.coordinates = './util_loads/airfoil-database/' + self.__parameters['airfoil_filename']
+        else:
+            self.__coordinates = None
+            
     @property
     def coordinates(self):
         """
@@ -64,13 +67,18 @@ class Airfoil:
         return self.__coordinates
     
     @coordinates.setter
-    def coordinates(self, path):
-        df = pd.read_fwf(path,
-                         header = 0,
-                         names=['X','Y'],
-                         )
-        self.__coordinates = df.dropna()
-    
+    def coordinates(self, coordinates):
+        if type(coordinates) == str:
+            df = pd.read_fwf(coordinates,
+                             header = 0,
+                             names=['X','Y'],
+                             )
+            self.__coordinates = df.dropna()
+        elif type(coordinates) == type(pd.DataFrame()):
+            self.__coordinates = coordinates
+        else:
+            raise TypeError
+            
     @property
     def xrotor_characteristics(self):
         """
@@ -145,6 +153,10 @@ class Airfoil:
 
         """
         polar_file = '_xfoil_polar.txt'
+    
+        coordinates_file = '_xfoil_input_coords.txt'
+        clean_up(coordinates_file)
+        np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
 
         clean_up(polar_file)
         clean_up(':00.bl')
@@ -154,8 +166,11 @@ class Airfoil:
 
         for sequence in aseq:
             with xfoil() as x:
-                x.run('load ./util_loads/airfoil-database/' +
-                      self.__parameters['airfoil_filename'])  # Todo: Relativer Pfad
+                x.run('load ')
+                x.run(coordinates_file)
+                x.run('')
+                # x.run('load ./util_loads/airfoil-database/' +
+                #      self.__parameters['airfoil_filename'])  # Todo: Relativer Pfad
                 x.run('pane')
                 x.run('oper')
                 x.run('vpar')
@@ -173,7 +188,7 @@ class Airfoil:
                 x.run(sequence[2])
                 x.run('')
                 x.run('quit')
-
+                
         colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46),
                     (49, 55), (58, 64), (66, 73), (74, 82)]
         tabular_data = pd.read_fwf(polar_file,
@@ -184,6 +199,7 @@ class Airfoil:
         tabular_data.drop_duplicates(keep='first', inplace=True)
         tabular_data = tabular_data.reset_index()
 
+        clean_up(coordinates_file)
         clean_up(polar_file)
         clean_up(':00.bl')
 
@@ -218,6 +234,62 @@ class Airfoil:
         return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1], [lambda x: b1*x + c1,
                                                                         lambda x: b2*x + c2,
                                                                         lambda x: a3*x**2 + b3*x + c3])
+    
+    def cp_vs_x(self, mode, value):
+        """
+        Returns the pressure distribution. Available modes:
+
+        Parameters
+        ----------
+        mode : string.
+            'alfa' for Angle of attack.
+            'cl' for Coefficient of lift.
+            'cli' for Coefficient of lift, inviscid.
+        value : int or float
+
+        Returns
+        -------
+        DataFrame
+            Pressure distribution.
+
+        """
+        coordinates_file = '_xfoil_input_coords.txt'
+        clean_up(coordinates_file)
+        
+        np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
+        
+        cp_vs_x_file = '_xfoil_cpvsx.txt'
+        clean_up(cp_vs_x_file)
+        
+        with xfoil() as x:
+            x.run('load ')
+            x.run(coordinates_file)
+            x.run('')
+            x.run('pane')
+            x.run('oper')
+            x.run('vpar')
+            x.run('n ' + str(self.__parameters['Ncrit']))
+            x.run('')
+            x.run('visc ' + str(self.__parameters['Re']))
+            x.run('iter')
+            x.run(str(self.__parameters['Iter']))
+            x.run(mode)
+            x.run(value)
+            x.run('cpwr')
+            x.run(cp_vs_x_file)
+            x.run('')
+            x.run('quit')
+    
+        df = pd.read_fwf(cp_vs_x_file,
+                 header=0,
+                 skiprows=0,
+                 names=['#','x','Cp'],
+                 )
+        df = df.drop(labels=['#'],axis=1)
+        clean_up(coordinates_file)
+        clean_up(cp_vs_x_file)
+        
+        return df
     
     @staticmethod
     def interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil):
