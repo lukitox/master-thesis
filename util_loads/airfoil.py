@@ -54,6 +54,9 @@ class Airfoil:
         else:
             self.__coordinates = None
             
+    def __repr__(self):
+        return str(self.parameters)
+            
     @property
     def coordinates(self):
         """

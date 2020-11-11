@@ -59,7 +59,8 @@ class Airfoil{
   -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
   -__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
   -__repr__(self): String
-  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float)
+  +cp_vs_x(self, mode: Str, value: Float): DataFrame
+  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame
   ..Getter..
   +coordinates(self): DataFrame
   +parameters(self): Dict

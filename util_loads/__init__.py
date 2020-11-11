@@ -7,7 +7,7 @@ from .xsoftware import xsoftware
 from .xfoil import xfoil
 from .xrotor import xrotor
 
-from .propeller import propeller
+from .propeller import Propeller
 from .airfoil import Airfoil
-from .loadcase import loadcase
+from .loadcase import Loadcase
 

@@ -7,7 +7,7 @@ import pandas as pd
 
 #%%
 
-class loadcase:
+class Loadcase:
 
     def __init__(self, flight_speed, rpm):
         self.parameters = {
