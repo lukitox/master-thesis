@@ -2,6 +2,7 @@
 
 # Third-party imports
 import numpy as np
+import pandas as pd
 import os
 
 ## Local imports
@@ -18,7 +19,7 @@ class Propeller:
                            }    
         
         self.__loadcases = []
-        self.__loads = []
+        self.__load_envelope = {}
         self.__geometry = []
         self.__sections = []
         
@@ -36,13 +37,17 @@ class Propeller:
                 x.arbi()  # Input arbitrary rotor geometry
                 x.parse_airfoils()
                 x.run('oper')  # Calculate off-design operating points
+                x.run('iter')
+                x.run(200)
                 for field in loadcase.data:
                     x.run(field)
                 x.run('writ ' + oper_file)
+                x.run('o')
                 x.run('')  # return
                 x.run('bend')  # Write current operating point to disk file
                 x.run('eval')  # Evaluate structural loads and deflections
                 x.run('writ ' + bend_file)
+                x.run('o')
                 x.run('')  # return
                 x.run('quit')  # Exit program
             
@@ -71,32 +76,26 @@ class Propeller:
         elif type(array) == list:
             self.__geometry = array
         else:
-            raise TypeError
+            raise TypeError('Must be list or np.array')
     
     @property
-    def loads(self):
-        return self.__loads
+    def load_envelope(self):
+        return self.__load_envelope
     
-    @loads.setter
-    def loads_oper(self, path):
-        single_values = {}
-        columns = [[(1, 12), (15, 24)], [(28, 39), (42, 51)], [(54, 65), (69, 78)]]
-        for colspec in columns:
-            header = pd.read_fwf(path, colspecs=colspec, header=0, skiprows=3, nrows = 7, index_col=0)
-            header.columns = ['Value']
-            header.dropna(subset = ['Value'], inplace=True)
-            header = header.to_dict()['Value']
-            single_values.update(header)
-    
-        colspecs = [(1, 4), (4, 9), (10, 16), (16, 25), (25, 30), (33, 39), (40, 47), (48, 53), (54, 60), (61, 66), (67, 74)]
-        tabular_data = pd.read_fwf(path, colspecs=colspecs, header= 16)
+    def set_load_envelope(self):
+        loads = [i[1] for i in self.loadcases]
         
-        self.__loads['single_values'] = single_values
-        self.__loads['oper'] = tabular_data
-    
-    @loads.setter
-    def loads_bend(self, file):
-        self.__loads['bend'] = 'bend'
+        bend = [i['bend'] for i in loads]
+        oper = [i['oper'] for i in loads]
+        # single_values = [i['single_values'] for i in loads]
+        
+        def envelope(liste):
+            return pd.concat(liste).groupby(level=0).max()
+        
+        self.__load_envelope = {'bend': envelope(bend),
+                                'oper': envelope(oper),
+                                # 'single_values': envelope(single_values),
+                                }
     
     @property
     def loadcases(self):

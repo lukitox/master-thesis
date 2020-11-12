@@ -50,7 +50,11 @@ prop_mf3218.add_section(1.0, mh121)
 maxrpm = Loadcase('Max. Rpm', 1)
 maxrpm.set_data('rpm', 4000)
 
+power = Loadcase('power', 0.1)
+maxthrust.set_data('powe', 1000, 'r', 2000)
+
 prop_mf3218.add_loadcase(maxrpm)
+prop_mf3218.add_loadcase(maxthrust)
 
 # %% Run Xrotor
 
