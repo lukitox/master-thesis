@@ -5,7 +5,7 @@ import numpy as np
 import os
 
 ## Local imports
-from .xsoftware import XRotor
+from .xrotor import Xrotor
 
 #%%
 
@@ -31,12 +31,12 @@ class Propeller:
         bend_file  = '_xrotor_bend.txt'
         
         for loadcase, result in self.loadcases:
-            with XRotor(self, loadcase) as x:
+            with Xrotor(self, loadcase) as x:
                 x.run('atmo 0')  # Set fluid properties from ISA 0km
                 x.arbi()  # Input arbitrary rotor geometry
                 x.parse_airfoils()
                 x.run('oper')  # Calculate off-design operating points
-                for field in loadcase:
+                for field in loadcase.data:
                     x.run(field)
                 x.run('writ ' + oper_file)
                 x.run('')  # return
@@ -46,8 +46,8 @@ class Propeller:
                 x.run('')  # return
                 x.run('quit')  # Exit program
             
-            result['single_values'], result['oper'] = XRotor.read_oper_output(oper_file)
-            result['bend'] = XRotor.read_bend_output(bend_file)
+            result['single_values'], result['oper'] = Xrotor.read_oper_output(oper_file)
+            result['bend'] = Xrotor.read_bend_output(bend_file)
             
             os.remove(oper_file)
             os.remove(bend_file)
@@ -101,7 +101,6 @@ class Propeller:
     @property
     def loadcases(self):
         """
-        
 
         Returns
         -------
@@ -134,7 +133,6 @@ class Propeller:
     def sections(self):
         """
         
-
         Returns
         -------
         List

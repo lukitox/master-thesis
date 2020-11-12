@@ -2,6 +2,7 @@
 
 # Third-party imports
 import os
+import pandas as pd
 
 ## Local imports
 from .xsoftware import Xsoftware
@@ -37,26 +38,13 @@ class Xrotor(Xsoftware):
     def __init__(self, propeller, loadcase):
 
         self.input_file = '_xrotor_input.txt'
-        self.oper_file  = '_xrotor_oper.txt'
-        self.bend_file  = '_xrotor_bend.txt'  
         
         self.propeller = propeller
         self.loadcase = loadcase
-        
-        self.flag_oper = False
-        self.flag_bend = False
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
         super().__exit__(exc_type, exc_value, exc_traceback)
         os.system('xrotor < ' + self.input_file)
-        
-        # if self.flag_oper == True: 
-        #     self.loadcase.add_result_oper(self.oper_file)
-        #     os.remove(self.oper_file)
-
-        # if self.flag_bend == True:
-        #     self.loadcase.add_result_bend(self.bend_file)
-        #     os.remove(self.bend_file)
         
         os.remove(self.input_file)
     
@@ -75,7 +63,7 @@ class Xrotor(Xsoftware):
         '''
         self.run('arbi')
         self.run(self.propeller.parameters['number_of_blades'])
-        self.run(self.loadcase.parameters['flight_speed'])
+        self.run(self.loadcase.flight_speed)
         self.run(self.propeller.parameters['tip_radius'])
         self.run(self.propeller.parameters['hub_radius'])
         
@@ -123,49 +111,52 @@ class Xrotor(Xsoftware):
             self.run('')
             self.run('')
         
-    def write_oper(self):
-        '''
-        Writes the output of XROTOR's OPER Routine to textfile and returns results to the given loadcase.
-        
-        .. code-block:: none
-        
-            .OPER   Calculate off-design operating points
-            WRIT f  Write current operating point to disk file
-
-        Returns
-        -------
-        None.
-
-        '''
-        self.run('writ ' + self.oper_file)
-        self.flag_oper = True
-    
-    def write_bend(self):
-        '''
-        Writes the output of XROTOR's BEND Routine to textfile and returns results to the given loadcase.
+    @staticmethod
+    def read_bend_output(filename):
+        """
+        Reads the output file of XROTOR's BEND Routine and returns the content as DataFrame
         
         .. code-block:: none
         
             .BEND   Calculate structural loads and deflections
-            WRIT f  Write structural solution to disk file
+
+        Parameters
+        ----------
+        filename : String
+            Name of outputfile of Xrotor's bend routine.
 
         Returns
         -------
-        None.
+        DataFrame
 
-        '''
-        self.run('writ ' + self.bend_file)
-        self.flag_bend = True    
-        
-    @staticmethod
-    def read_bend_output(path):
+        """
         colspecs = [(1, 3), (4, 10), (11, 18), (19, 26), (28, 34), (35, 46), (48, 59), (61, 72), (74, 85), (87, 98), (100, 111)]
         tabular_data = pd.read_fwf(filename, colspecs=colspecs, header= [1], skiprows=[2], nrows= 29)
         
         return tabular_data
     
     @staticmethod
-    def read_oper_output(path):
+    def read_oper_output(filename):
+        """
+        Reads the output file of XROTOR's OPER Routine and returns the content as DataFrames
+        
+        .. code-block:: none
+        
+            .OPER   Calculate off-design operating points
+
+        Parameters
+        ----------
+        filename : String
+            Name of outputfile of Xrotor's bend routine.
+
+        Returns
+        -------
+        DataFrame
+            Single Values
+        DataFrame 
+            Tabular Data
+
+        """
         single_values = {}
         columns = [[(1, 12), (15, 24)], [(28, 39), (42, 51)], [(54, 65), (69, 78)]]
         for colspec in columns:
