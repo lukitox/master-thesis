@@ -82,25 +82,38 @@ class Propeller{
   +calculate_loads(self)
   ..Getter..
   +geometry(self): List
-  +sections(self): List
   +loadcases(self): Dict
   +load_envelope(self): DataFrame
+  +parameters(self): Dict
+  +sections(self): List
   ..Setter..
   +add_loadcase(self, name: Str, loadcase: Loadcase)
   +add_section(self, rR: Float, airfoil: Airfoil)
+  +parameters(self, parameters: Dict)
   +set_load_envelope(self)
   
 }
 class Loadcase{
-  -__parameters: Dict
+  -__data = List
+  -__fix: Str
+  -__flight_speed: Float
+  -__name: Str
+  -__prescribe_type: Str
+  -__value: Float
+  -__value2: Float
   -__results: Dict
   --
-  -__init__(self, flight_speed: Float, rpm: Float)
+  -__init__(self, name: Str, flight_speed: Float)
   -__repr__(self): Str
   ..Getter..
-  +parameters(self): Dict
+  +data(self): List
+  +flight_speed(self): Float
+  +name(self): Str
   +results(self): DataFrame, DataFrame
   ..Setter..
+  +flight_speed(self, flight_speed: Float)
+  +name(self, name: Str)
+  +set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)
   +set_results(self, filename)
 }
 

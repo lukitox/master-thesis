@@ -3,11 +3,10 @@
 # Third-party imports
 
 # Local imports
-from .xsoftware import xsoftware
-from .xfoil import xfoil
-from .xrotor import xrotor
+from .xsoftware import Xsoftware
+from .xfoil import Xfoil
+from .xrotor import Xrotor
 
 from .propeller import Propeller
 from .airfoil import Airfoil
 from .loadcase import Loadcase
-

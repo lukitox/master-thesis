@@ -10,7 +10,7 @@ from scipy.optimize import curve_fit
 from scipy.signal import savgol_filter
 
 # Local imports
-from .xfoil import xfoil
+from .xfoil import Xfoil
 
 # %%
 
@@ -168,7 +168,7 @@ class Airfoil:
                 [0, alpha_stop, alpha_inc]]
 
         for sequence in aseq:
-            with xfoil() as x:
+            with Xfoil() as x:
                 x.run('load ')
                 x.run(coordinates_file)
                 x.run('')
@@ -264,7 +264,7 @@ class Airfoil:
         cp_vs_x_file = '_xfoil_cpvsx.txt'
         clean_up(cp_vs_x_file)
         
-        with xfoil() as x:
+        with Xfoil() as x:
             x.run('load ')
             x.run(coordinates_file)
             x.run('')
@@ -338,7 +338,7 @@ class Airfoil:
         
         for option in options:
             clean_up(output_file)
-            with xfoil() as x:
+            with Xfoil() as x:
                 x.run('inte')
                 x.run('f')
                 x.run('./util_loads/airfoil-database/' +

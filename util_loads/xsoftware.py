@@ -7,7 +7,7 @@ import os
 
 #%%
 
-class xsoftware:
+class Xsoftware:
     '''
     Parent of xfoil and xrotor class. This class contains all methods, that are common in xrotor and xfoil class.
     
