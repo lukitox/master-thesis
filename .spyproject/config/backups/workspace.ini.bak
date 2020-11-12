@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['template/template_main.py', 'template/template_femodel.py', 'util_loads/airfoil.py', 'util_loads/propeller.py', 'xrotor_main.py']
+recent_files = ['util_loads/airfoil.py', 'xrotor_main.py', 'util_loads/propeller.py', 'util_loads/__init__.py', 'util_loads/loadcase.py']
 

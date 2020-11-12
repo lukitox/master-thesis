@@ -6,18 +6,17 @@
 import numpy as np
 
 # Local imports
-import util_loads as ux
-
-# from util_xrotor import util_xrotor as ux
+from util_loads import Airfoil, Loadcase, Propeller, Xfoil, Xrotor
 
 # %% Instantiate Propeller
 
-Prop_MF3218 = ux.propeller(number_of_blades=2,
-                           tip_radius=0.412,
-                           hub_radius=0.04, )
+prop_mf3218 = Propeller(number_of_blades=2,
+                        tip_radius=0.412,
+                        hub_radius=0.04,
+                        )
 
 #                                r/R   c/R  beta
-Prop_MF3218.geometry = np.array([[0.17, 0.10, 17],
+prop_mf3218.geometry = np.array([[0.17, 0.10, 17],
                                  [0.22, 0.14, 20],
                                  [0.27, 0.16, 18],
                                  [0.32, 0.15, 16],
@@ -37,44 +36,34 @@ Prop_MF3218.geometry = np.array([[0.17, 0.10, 17],
                                  [1.00, 0.01, 7],
                                  ])
 
-MH113 = ux.airfoil('mh113.txt', 250000)
-MH113.calculate_polar()
+mh113 = Airfoil('mh113.txt', 250000)
+mh113.set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
 
-MH121 = ux.airfoil('mh121.txt', 500000)
-MH121.calculate_polar()
+mh121 = Airfoil('mh121.txt', 500000)
+mh121.set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
 
-Prop_MF3218.add_section(0.5, MH113)
-Prop_MF3218.add_section(1.0, MH121)
+prop_mf3218.add_section(0.5, mh113)
+prop_mf3218.add_section(1.0, mh121)
 
 # %% Instantiate Loadcase
 
-Prop_MF3218.add_loadcase(name='Max. RPM',
-                         loadcase=ux.loadcase(flight_speed=0.01, rpm=4000))
+maxrpm = Loadcase('Max. Rpm', 1)
+maxrpm.set_data('rpm', 4000)
+
+prop_mf3218.add_loadcase(maxrpm)
 
 # %% Run Xrotor
 
-with ux.xrotor(propeller=Prop_MF3218, loadcase='Max. RPM') as x:
-    x.run('atmo 0')  # Set fluid properties from ISA 0km
-    x.arbi()  # Input arbitrary rotor geometry
-    x.parse_airfoils()
-    x.run('oper')  # Calculate off-design operating points
-    x.run('rpm 4000')  # Prescribe rpm   # Todo: automatisieren
-    x.write_oper()  # Write current operating point to disk file
-    x.run('')  # return
-    x.run('bend')  # Write current operating point to disk file
-    x.run('eval')  # Evaluate structural loads and deflections
-    x.write_bend()  # Write structural solution to disk file
-    x.run('')  # return
-    x.run('quit')  # Exit program
+prop_mf3218.calc_loads()
 
 # %% Play around
 
-oper_single_values = Prop_MF3218.loadcases['Max. RPM'].results['oper'][0]
-oper_tabular_data = Prop_MF3218.loadcases['Max. RPM'].results['oper'][1]
-bend_tabular_data = Prop_MF3218.loadcases['Max. RPM'].results['bend']
+# oper_single_values = Prop_MF3218.loadcases['Max. RPM'].results['oper'][0]
+# oper_tabular_data = Prop_MF3218.loadcases['Max. RPM'].results['oper'][1]
+# bend_tabular_data = Prop_MF3218.loadcases['Max. RPM'].results['bend']
 
-# print(Prop_MF3218.loadcases)
-# print(Prop_MF3218)
+# # print(Prop_MF3218.loadcases)
+# # print(Prop_MF3218)
 
-bend_tabular_data.plot(x='r/R', y=['Mz', 'Mx'])
-oper_tabular_data.plot(x='r/R', y=['CL', 'Cd'])
+# bend_tabular_data.plot(x='r/R', y=['Mz', 'Mx'])
+# oper_tabular_data.plot(x='r/R', y=['CL', 'Cd'])

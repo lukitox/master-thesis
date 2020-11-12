@@ -1,8 +1,8 @@
 helics-opt Documentation
 ========================
 
-.. image:: images/uml/test.svg
-	:width: 600
+.. image:: images/uml/workflow.svg
+	:width: 800
 
 Contents
 ========

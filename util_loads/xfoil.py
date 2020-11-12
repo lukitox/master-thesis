@@ -4,10 +4,10 @@
 import os
 
 ## Local imports
-from .xsoftware import xsoftware
+from .xsoftware import Xsoftware
 
 #%%
-class xfoil(xsoftware):
+class Xfoil(Xsoftware):
     '''
     The interface class to XFOIL.
     
