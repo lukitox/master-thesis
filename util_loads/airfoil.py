@@ -259,7 +259,7 @@ class Airfoil:
             x.run('')
             x.run('quit')
         
-        return Xfoil.read_cp_vs_x(cp_vs_x_file)
+        return Xfoil.read_cp_vs_x(cp_vs_x_file, True)
     
     @cleanup
     @staticmethod

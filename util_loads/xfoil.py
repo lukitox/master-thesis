@@ -3,6 +3,7 @@
 # Third-party imports
 import os
 import pandas as pd
+import numpy as np
 
 ## Local imports
 from .xsoftware import Xsoftware
@@ -72,7 +73,7 @@ class Xfoil(Xsoftware):
         return df.dropna()
     
     @staticmethod
-    def read_cp_vs_x(filename):
+    def read_cp_vs_x(filename, norm=False):
         """
         Reads a pressure distribution file and returns content as DataFrame.
 
@@ -80,6 +81,8 @@ class Xfoil(Xsoftware):
         ----------
         filename : Str
             Filename/ Path.
+        norm : Bool
+            Normize output?
 
         Returns
         -------
@@ -91,8 +94,36 @@ class Xfoil(Xsoftware):
                  skiprows=0,
                  names=['#','x','Cp'],
                  )
-        return df.drop(labels=['#'],axis=1)
+        df = df.drop(labels=['#'],axis=1)
+        
+        if norm == False:
+            return df
+        else:
+            suction_side = df.iloc[:df['x'].idxmin()+1,:]
+            pressure_side = df.iloc[df['x'].idxmin()+1:,:] 
+            
+            def norm(dataframe):
+                norm_list = list(np.arange(0,1.01,0.01))
+                empty_frame = pd.DataFrame(norm_list,columns=['x'])
+                empty_frame['Cp'] = np.nan
+                dataframe = dataframe.append(empty_frame)
+                dataframe = dataframe.sort_values('x')
+                dataframe = dataframe.interpolate()
+                dataframe = dataframe.drop_duplicates(keep='first')
+                
+                dataframe = dataframe[dataframe['x'].isin(norm_list)]
+                return dataframe
+            
+            norm_suction_side= norm(suction_side)
+            norm_pressure_side= norm(pressure_side)
+            
+            norm_suction_side.columns = ['x', 'Cp_suc']
+            norm_pressure_side.columns = ['x', 'Cp_pres']
     
+            norm_suction_side['Cp_pres'] = norm_pressure_side['Cp_pres']
+            
+            return norm_suction_side
+            
     @staticmethod
     def read_polar(filename):
         """

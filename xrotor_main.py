@@ -60,6 +60,19 @@ prop_mf3218.add_loadcase(power)
 
 prop_mf3218.calc_loads()
 
+# %% Calc Loads
+
+prop_mf3218.set_load_envelope()
+
+loadenvelope = prop_mf3218.load_envelope['oper']
+
+cpvsx = mh113.cp_vs_x('cl', 1.683)
+
+
+
+
+
+
 # %% Play around
 
 # oper_single_values = Prop_MF3218.loadcases['Max. RPM'].results['oper'][0]
