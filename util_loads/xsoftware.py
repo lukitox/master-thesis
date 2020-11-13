@@ -60,16 +60,3 @@ class Xsoftware:
         for rows in self.array:
             for columns in rows:
                 self.run(str(columns))
-                
-    @staticmethod
-    def _clean_up_():
-        '''This method removes all input and result files. Currently unused.'''
-        import glob
-        
-        searchterms = ['_xfoil*', '_xrotor', ':00.bl']
-        
-        for term in searchterms:
-            filenames = glob.glob(term)
-            
-            for filename in filenames:
-                os.remove(filename)

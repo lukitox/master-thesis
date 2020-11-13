@@ -5,7 +5,7 @@ import os
 
 ## Local imports
 
-# %%
+# %% Cleanup Decorator function: Deletes files written by the wrapped function.
 
 def cleanup(func):
     def wrapper(*args, **kwargs):
@@ -17,11 +17,10 @@ def cleanup(func):
         
         return_value = func(*args, **kwargs)
         
-        end_files = list_of_files()
-        
-        for filename in end_files:
+        for filename in list_of_files():
             if filename not in start_files:
                 os.remove(filename)
             
         return return_value
+    
     return wrapper

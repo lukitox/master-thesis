@@ -15,9 +15,9 @@ class Xfoil(Xsoftware):
     
     .. code-block:: python
     
-        import util_loads as ux
+        from util_loads import Xfoil
         
-        with ux.xfoil() as x:
+        with Xfoil() as x:
             x.run('aero')
             #...
             x.run('quit')

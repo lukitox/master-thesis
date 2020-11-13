@@ -17,9 +17,9 @@ class Xrotor(Xsoftware):
     
     .. code-block:: python
     
-        import util_loads as ux
+        from util_loads import Xrotor
         
-        with ux.xrotor(propeller= SomeProp, loadcase= 'SomeLoadcase') as x:
+        with Xrotor(propeller= SomeProp, loadcase= 'SomeLoadcase') as x:
             x.run('atmo 0')
             #...
             x.run('quit')

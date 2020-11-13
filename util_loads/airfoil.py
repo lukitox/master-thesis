@@ -11,12 +11,9 @@ from scipy.signal import savgol_filter
 
 # Local imports
 from .xfoil import Xfoil
+from .support import cleanup
 
 # %%
-
-def clean_up(filename):
-    if os.path.exists(filename):
-        os.remove(filename)
 
 class Airfoil:
     """
@@ -136,6 +133,7 @@ class Airfoil:
         """
         return self.__polar
     
+    @cleanup
     def set_polar(self, alpha_start=-20, alpha_stop=20, alpha_inc=0.25):
         """
         Calculate airfoil polar and store as pandas dataframe.
@@ -158,11 +156,7 @@ class Airfoil:
         polar_file = '_xfoil_polar.txt'
     
         coordinates_file = '_xfoil_input_coords.txt'
-        clean_up(coordinates_file)
         np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
-
-        clean_up(polar_file)
-        clean_up(':00.bl')
         
         aseq = [[0, alpha_start, alpha_inc],
                 [0, alpha_stop, alpha_inc]]
@@ -202,10 +196,6 @@ class Airfoil:
         tabular_data.drop_duplicates(keep='first', inplace=True)
         tabular_data = tabular_data.reset_index()
 
-        clean_up(coordinates_file)
-        clean_up(polar_file)
-        clean_up(':00.bl')
-
         self.__polar = tabular_data
 
         # Set Xrotor_characteristics
@@ -237,7 +227,7 @@ class Airfoil:
         return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1], [lambda x: b1*x + c1,
                                                                         lambda x: b2*x + c2,
                                                                         lambda x: a3*x**2 + b3*x + c3])
-    
+    @cleanup
     def cp_vs_x(self, mode, value):
         """
         Returns the pressure distribution. Available modes:
@@ -256,13 +246,11 @@ class Airfoil:
             Pressure distribution.
 
         """
-        coordinates_file = '_xfoil_input_coords.txt'
-        clean_up(coordinates_file)
+        coordinates_file = '_xfoil_input_coords.txt'        
         
         np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
         
         cp_vs_x_file = '_xfoil_cpvsx.txt'
-        clean_up(cp_vs_x_file)
         
         with Xfoil() as x:
             x.run('load ')
@@ -289,11 +277,10 @@ class Airfoil:
                  names=['#','x','Cp'],
                  )
         df = df.drop(labels=['#'],axis=1)
-        clean_up(coordinates_file)
-        clean_up(cp_vs_x_file)
         
         return df
     
+    @cleanup
     @staticmethod
     def interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil):
         """
@@ -337,7 +324,7 @@ class Airfoil:
             return df
         
         for option in options:
-            clean_up(output_file)
+            if os.path.exists(output_file): os.remove(output_file) 
             with Xfoil() as x:
                 x.run('inte')
                 x.run('f')
@@ -362,7 +349,6 @@ class Airfoil:
                 x.run('quit')
             
             result.append(read_coordinates(output_file))
-        clean_up(output_file)    
         # thickness_line= df.loc[df['Y'] >= 0].drop_duplicates()
         # thickness_line['Y'] = thickness_line['Y']*2
         

@@ -7,6 +7,7 @@ import os
 
 ## Local imports
 from .xrotor import Xrotor
+from .support import cleanup
 
 #%%
 
@@ -26,6 +27,7 @@ class Propeller:
     def __repr__(self):
         return str(self.parameters)
     
+    @cleanup
     def calc_loads(self):
         
         oper_file  = '_xrotor_oper.txt'
@@ -53,9 +55,6 @@ class Propeller:
             
             result['single_values'], result['oper'] = Xrotor.read_oper_output(oper_file)
             result['bend'] = Xrotor.read_bend_output(bend_file)
-            
-            os.remove(oper_file)
-            os.remove(bend_file)
             
     @property
     def geometry(self):
