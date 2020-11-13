@@ -2,7 +2,7 @@ util\_loads package
 ===================
 
 Parent Class for XFOIL and XROTOR
-----------------------------
+----------------------------------
 
 .. automodule:: util_loads.xsoftware
    :members:

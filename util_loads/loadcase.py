@@ -16,8 +16,6 @@ class Loadcase:
         self.__name = name
         self.__flight_speed = flight_speed
         self.__data = None
-
-        self.results = {}
         
     def __repr__(self):
         return str(self.__name) + ' ' + str(self.__data)
@@ -93,28 +91,28 @@ class Loadcase:
 
         """
         if prescribe_type.lower() == 'adva':
-            self.__prescribe_type = 'adva'
-            self.__value = value
+            __prescribe_type = 'adva'
+            __value = value
         elif prescribe_type.lower() == 'rpm':
-            self.__prescribe_type = 'rpm'
-            self.__value = value
+            __prescribe_type = 'rpm'
+            __value = value
         elif prescribe_type.lower() == 'thru' \
         or prescribe_type.lower() == 'torq' \
         or prescribe_type.lower() == 'powe':
-            self.__prescribe_type = prescribe_type.lower()
-            self.__value = value
+            __prescribe_type = prescribe_type.lower()
+            __value = value
             if fix.lower() == 'p':
-                self.__fix = fix
+                __fix = fix
             elif fix.lower() == 'r':
-                self.__fix = fix
-                self.__value2 = value2
+                __fix = fix
+                __value2 = value2
                 if value2 == None:
                     raise ValueError('Invalid value2 %s' % value2)
             else:
                 raise ValueError('Invalid fix %s' % fix)
                 
-        self.__data = [self.__prescribe_type, self.__value]
+        self.__data = [__prescribe_type, __value]
         if fix is not None:
-            self.__data.append(self.__fix)
+            self.__data.append(__fix)
         if value2 is not None:
-            self.__data.append(self.__value2)        
+            self.__data.append(__value2)        

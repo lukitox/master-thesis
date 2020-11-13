@@ -39,8 +39,8 @@ class Xrotor(Xsoftware):
 
         self.input_file = '_xrotor_input.txt'
         
-        self.propeller = propeller
-        self.loadcase = loadcase
+        self.__propeller = propeller
+        self.__loadcase = loadcase
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
         super().__exit__(exc_type, exc_value, exc_traceback)
@@ -62,13 +62,13 @@ class Xrotor(Xsoftware):
 
         '''
         self.run('arbi')
-        self.run(self.propeller.parameters['number_of_blades'])
-        self.run(self.loadcase.flight_speed)
-        self.run(self.propeller.parameters['tip_radius'])
-        self.run(self.propeller.parameters['hub_radius'])
+        self.run(self.__propeller.parameters['number_of_blades'])
+        self.run(self.__loadcase.flight_speed)
+        self.run(self.__propeller.parameters['tip_radius'])
+        self.run(self.__propeller.parameters['hub_radius'])
         
-        self.run(str(len(self.propeller.geometry)))
-        self.run_array(self.propeller.geometry)
+        self.run(str(len(self.__propeller.geometry)))
+        self.run_array(self.__propeller.geometry)
         self.run('n')
         
     def parse_airfoils(self):
@@ -84,7 +84,7 @@ class Xrotor(Xsoftware):
         None.
 
         '''
-        for index, section in enumerate(self.propeller.sections):
+        for index, section in enumerate(self.__propeller.sections):
             self.run('aero')
             self.run('new')
             self.run(section[0])

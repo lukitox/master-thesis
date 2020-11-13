@@ -21,7 +21,7 @@ Propeller "1" o-- "1..*" Loadcase
 'NProp .. Propeller
 
 class Xsoftware {
-  f: Open
+  +f: Open
   -__enter__(self)
   -__exit__(self, exc_type, exc_value, exc_traceback)
   +run(self, argument)
@@ -29,25 +29,21 @@ class Xsoftware {
 }
 
 class Xfoil {
-  input_file: String
+  +input_file: Str
   -__init__(self)
   -__exit__(self, exc_type, exc_value, exc_traceback)
 }
 
 class Xrotor {
-  input_file: String
-  oper_file: String
-  bend_file: String
-  flag_oper: Boolean
-  flag_bend: Boolean
-  propeller: Propeller
-  loadcase: Loadcase
-  -__init(self, propeller, loadcase)
+  +input_file: Str
+  -__loadcase: Loadcase
+  -__propeller: Propeller
+  -__init(self, propeller: Propeller, loadcase: Loadcase)
   -__exit__(self, exc_type, exc_value, exc_traceback)
   +arbi(self)
   +parse_airfoils(self)
-  +write_oper(self)
-  +write_bend(self)
+  +{static}read_bend_output(filename: Str): DataFrame
+  +{static}read_oper_output(filename: Str): DataFrame
 }
 
 class Airfoil{
@@ -58,7 +54,7 @@ class Airfoil{
   --
   -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
   -__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
-  -__repr__(self): String
+  -__repr__(self): Str
   +cp_vs_x(self, mode: Str, value: Float): DataFrame
   +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame
   ..Getter..
@@ -69,39 +65,37 @@ class Airfoil{
   ..Setter..
   +coordinates(self, coordinates: Str or DataFrame)
   +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
+  +xrotor_characteristics(self, characteristics: Dict)
 }
 
 class Propeller{
   -__parameters: Dict
   -__loadcases: Dict
+  -__load_envelope: Dict
   -__geometry: List
   -__sections: List
   --
   -__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)
-  -__repr__(self): String
-  +calculate_loads(self)
+  -__repr__(self): Str
+  +calc_loads(self)
   ..Getter..
   +geometry(self): List
   +loadcases(self): Dict
-  +load_envelope(self): DataFrame
+  +load_envelope(self): Dict
   +parameters(self): Dict
   +sections(self): List
   ..Setter..
   +add_loadcase(self, name: Str, loadcase: Loadcase)
   +add_section(self, rR: Float, airfoil: Airfoil)
+  +geometry(self, array: List or np.array)
   +parameters(self, parameters: Dict)
   +set_load_envelope(self)
   
 }
 class Loadcase{
   -__data = List
-  -__fix: Str
   -__flight_speed: Float
   -__name: Str
-  -__prescribe_type: Str
-  -__value: Float
-  -__value2: Float
-  -__results: Dict
   --
   -__init__(self, name: Str, flight_speed: Float)
   -__repr__(self): Str
@@ -114,7 +108,6 @@ class Loadcase{
   +flight_speed(self, flight_speed: Float)
   +name(self, name: Str)
   +set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)
-  +set_results(self, filename)
 }
 
 'Xsoftware -[hidden]- Xfoil

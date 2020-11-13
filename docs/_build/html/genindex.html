@@ -152,37 +152,34 @@
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
- | <a href="#W"><strong>W</strong></a>
  | <a href="#X"><strong>X</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.propeller.propeller.add_loadcase">add_loadcase() (util_loads.propeller.propeller method)</a>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.add_loadcase">add_loadcase() (util_loads.propeller.Propeller method)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.loadcase.loadcase.add_result_bend">add_result_bend() (util_loads.loadcase.loadcase method)</a>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.add_section">add_section() (util_loads.propeller.Propeller method)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.loadcase.loadcase.add_result_oper">add_result_oper() (util_loads.loadcase.loadcase method)</a>
-</li>
-      <li><a href="util_loads.html#util_loads.propeller.propeller.add_section">add_section() (util_loads.propeller.propeller method)</a>
+      <li><a href="util_loads.html#util_loads.airfoil.Airfoil">Airfoil (class in util_loads.airfoil)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.airfoil.Airfoil">Airfoil (class in util_loads.airfoil)</a>
-</li>
-      <li><a href="util_loads.html#util_loads.xrotor.xrotor.arbi">arbi() (util_loads.xrotor.xrotor method)</a>
+      <li><a href="util_loads.html#util_loads.xrotor.Xrotor.arbi">arbi() (util_loads.xrotor.Xrotor method)</a>
 </li>
       <li><a href="util_mapdl.html#util_mapdl.prep_functions.material.assign_fc">assign_fc() (util_mapdl.prep_functions.material method)</a>
 </li>
@@ -194,11 +191,21 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.airfoil.clean_up">clean_up() (in module util_loads.airfoil)</a>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.calc_loads">calc_loads() (util_loads.propeller.Propeller method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="util_loads.html#util_loads.airfoil.Airfoil.coordinates">coordinates() (util_loads.airfoil.Airfoil property)</a>
+</li>
+      <li><a href="util_loads.html#util_loads.airfoil.Airfoil.cp_vs_x">cp_vs_x() (util_loads.airfoil.Airfoil method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="util_loads.html#util_loads.loadcase.Loadcase.data">data() (util_loads.loadcase.Loadcase property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -220,13 +227,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="template.html#template.template_femodel.Femodel">Femodel (class in template.template_femodel)</a>
 </li>
+      <li><a href="util_loads.html#util_loads.loadcase.Loadcase.flight_speed">flight_speed() (util_loads.loadcase.Loadcase property)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.propeller.propeller.geometry">geometry() (util_loads.propeller.propeller method)</a>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.geometry">geometry() (util_loads.propeller.Propeller property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -234,7 +243,7 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.airfoil.Airfoil.interpolate">interpolate() (util_loads.airfoil.Airfoil static method)</a>
+      <li><a href="util_loads.html#util_loads.airfoil.Airfoil.interpolate">interpolate() (util_loads.airfoil.Airfoil method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -242,11 +251,15 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.load_envelope">load_envelope() (util_loads.propeller.Propeller property)</a>
+</li>
       <li><a href="util_mapdl.html#util_mapdl.prep_functions.material.load_from_db">load_from_db() (util_mapdl.prep_functions.material method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.loadcase.loadcase">loadcase (class in util_loads.loadcase)</a>
+      <li><a href="util_loads.html#util_loads.loadcase.Loadcase">Loadcase (class in util_loads.loadcase)</a>
+</li>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.loadcases">loadcases() (util_loads.propeller.Propeller property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -288,18 +301,30 @@
   </ul></td>
 </tr></table>
 
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="util_loads.html#util_loads.loadcase.Loadcase.name">name() (util_loads.loadcase.Loadcase property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="util_loads.html#util_loads.airfoil.Airfoil.parameters">parameters() (util_loads.airfoil.Airfoil property)</a>
+
+      <ul>
+        <li><a href="util_loads.html#util_loads.propeller.Propeller.parameters">(util_loads.propeller.Propeller property)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.xrotor.xrotor.parse_airfoils">parse_airfoils() (util_loads.xrotor.xrotor method)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="util_loads.html#util_loads.xrotor.Xrotor.parse_airfoils">parse_airfoils() (util_loads.xrotor.Xrotor method)</a>
+</li>
       <li><a href="util_loads.html#util_loads.airfoil.Airfoil.polar">polar() (util_loads.airfoil.Airfoil property)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.propeller.propeller">propeller (class in util_loads.propeller)</a>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller">Propeller (class in util_loads.propeller)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -307,13 +332,17 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="util_loads.html#util_loads.xrotor.Xrotor.read_bend_output">read_bend_output() (util_loads.xrotor.Xrotor static method)</a>
+</li>
       <li><a href="util_mapdl.html#util_mapdl.prep_functions.material.read_csv">read_csv() (util_mapdl.prep_functions.material method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.xsoftware.xsoftware.run">run() (util_loads.xsoftware.xsoftware method)</a>
+      <li><a href="util_loads.html#util_loads.xrotor.Xrotor.read_oper_output">read_oper_output() (util_loads.xrotor.Xrotor static method)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.xsoftware.xsoftware.run_array">run_array() (util_loads.xsoftware.xsoftware method)</a>
+      <li><a href="util_loads.html#util_loads.xsoftware.Xsoftware.run">run() (util_loads.xsoftware.Xsoftware method)</a>
+</li>
+      <li><a href="util_loads.html#util_loads.xsoftware.Xsoftware.run_array">run_array() (util_loads.xsoftware.Xsoftware method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -323,8 +352,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="util_mapdl.html#util_mapdl.prep_functions.material.save_to_db">save_to_db() (util_mapdl.prep_functions.material method)</a>
 </li>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.sections">sections() (util_loads.propeller.Propeller property)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="util_loads.html#util_loads.loadcase.Loadcase.set_data">set_data() (util_loads.loadcase.Loadcase method)</a>
+</li>
+      <li><a href="util_loads.html#util_loads.propeller.Propeller.set_load_envelope">set_load_envelope() (util_loads.propeller.Propeller method)</a>
+</li>
       <li><a href="util_loads.html#util_loads.airfoil.Airfoil.set_polar">set_polar() (util_loads.airfoil.Airfoil method)</a>
 </li>
   </ul></td>
@@ -430,30 +465,18 @@
   </ul></td>
 </tr></table>
 
-<h2 id="W">W</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.xrotor.xrotor.write_bend">write_bend() (util_loads.xrotor.xrotor method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.xrotor.xrotor.write_oper">write_oper() (util_loads.xrotor.xrotor method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="X">X</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="util_loads.html#util_loads.xfoil.xfoil">xfoil (class in util_loads.xfoil)</a>
+      <li><a href="util_loads.html#util_loads.xfoil.Xfoil">Xfoil (class in util_loads.xfoil)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.xrotor.xrotor">xrotor (class in util_loads.xrotor)</a>
+      <li><a href="util_loads.html#util_loads.xrotor.Xrotor">Xrotor (class in util_loads.xrotor)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="util_loads.html#util_loads.airfoil.Airfoil.xrotor_characteristics">xrotor_characteristics() (util_loads.airfoil.Airfoil property)</a>
 </li>
-      <li><a href="util_loads.html#util_loads.xsoftware.xsoftware">xsoftware (class in util_loads.xsoftware)</a>
+      <li><a href="util_loads.html#util_loads.xsoftware.Xsoftware">Xsoftware (class in util_loads.xsoftware)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -102,6 +102,10 @@ class Airfoil:
         """
         return self.__xrotor_characteristics
     
+    @xrotor_characteristics.setter
+    def xrotor_characteristics(self, characteristics):
+        self.__xrotor_characteristics = characteristics
+    
     @property
     def parameters(self):
         """
