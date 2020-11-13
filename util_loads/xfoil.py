@@ -50,9 +50,9 @@ class Xfoil(Xsoftware):
         os.remove(self.input_file)
         
     @staticmethod
-    def read_coordinates_file(filename):
+    def read_coordinates(filename):
         """
-        Reads an airoil coordinates file and returns content as DataFrame
+        Reads an airoil coordinates file and returns content as DataFrame.
 
         Parameters
         ----------
@@ -70,3 +70,51 @@ class Xfoil(Xsoftware):
                          )
         
         return df.dropna()
+    
+    @staticmethod
+    def read_cp_vs_x(filename):
+        """
+        Reads a pressure distribution file and returns content as DataFrame.
+
+        Parameters
+        ----------
+        filename : Str
+            Filename/ Path.
+
+        Returns
+        -------
+        DataFrame
+
+        """
+        df = pd.read_fwf(filename,
+                 header=0,
+                 skiprows=0,
+                 names=['#','x','Cp'],
+                 )
+        return df.drop(labels=['#'],axis=1)
+    
+    @staticmethod
+    def read_polar(filename):
+        """
+        Reads a polar output file and returns content as DataFrame.
+
+        Parameters
+        ----------
+        filename : Str
+            Filename/ Path.
+
+        Returns
+        -------
+        DataFrame
+
+        """
+        colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46),
+                    (49, 55), (58, 64), (66, 73), (74, 82)]
+        tabular_data = pd.read_fwf(filename,
+                                   colspecs=colspecs,
+                                   header=[10],
+                                   skiprows=[11])
+        tabular_data.sort_values('alpha', inplace=True)
+        tabular_data.drop_duplicates(keep='first', inplace=True)
+        
+        return tabular_data.reset_index()

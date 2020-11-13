@@ -32,7 +32,9 @@ class Xfoil {
   +input_file: Str
   -__init__(self)
   -__exit__(self, exc_type, exc_value, exc_traceback)
-  +{static}read_coordinates(filename: Str)
+  +{static}read_coordinates(filename: Str): DataFrame
+  +{static}read_cp_vs_x(filename: Str): DataFrame
+  +{static}read_polar(filename: Str): DataFrame
 }
 
 class Xrotor {

@@ -166,8 +166,6 @@ class Airfoil:
                 x.run('load ')
                 x.run(coordinates_file)
                 x.run('')
-                # x.run('load ./util_loads/airfoil-database/' +
-                #      self.__parameters['airfoil_filename'])  # Todo: Relativer Pfad
                 x.run('pane')
                 x.run('oper')
                 x.run('vpar')
@@ -186,17 +184,7 @@ class Airfoil:
                 x.run('')
                 x.run('quit')
                 
-        colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46),
-                    (49, 55), (58, 64), (66, 73), (74, 82)]
-        tabular_data = pd.read_fwf(polar_file,
-                                   colspecs=colspecs,
-                                   header=[10],
-                                   skiprows=[11])
-        tabular_data.sort_values('alpha', inplace=True)
-        tabular_data.drop_duplicates(keep='first', inplace=True)
-        tabular_data = tabular_data.reset_index()
-
-        self.__polar = tabular_data
+        self.__polar = Xfoil.read_polar(polar_file)
 
         # Set Xrotor_characteristics
         
@@ -270,15 +258,8 @@ class Airfoil:
             x.run(cp_vs_x_file)
             x.run('')
             x.run('quit')
-    
-        df = pd.read_fwf(cp_vs_x_file,
-                 header=0,
-                 skiprows=0,
-                 names=['#','x','Cp'],
-                 )
-        df = df.drop(labels=['#'],axis=1)
         
-        return df
+        return Xfoil.read_cp_vs_x(cp_vs_x_file)
     
     @cleanup
     @staticmethod
