@@ -69,11 +69,7 @@ class Airfoil:
     @coordinates.setter
     def coordinates(self, coordinates):
         if type(coordinates) == str:
-            df = pd.read_fwf(coordinates,
-                             header = 0,
-                             names=['X','Y'],
-                             )
-            self.__coordinates = df.dropna()
+            self.__coordinates = Xfoil.read_coordinates(coordinates)
         elif type(coordinates) == type(pd.DataFrame()):
             self.__coordinates = coordinates
         else:
@@ -319,14 +315,6 @@ class Airfoil:
         result = []
         options = [[1,1], [1, 0], [0, 1]]
         
-        def read_coordinates(filename):
-            df = pd.read_fwf(filename,
-                             header = 0,
-                             names=['X','Y'],
-                             )
-            df = df.dropna()
-            return df
-        
         for option in options:
             if os.path.exists(output_file): os.remove(output_file) 
             with Xfoil() as x:
@@ -352,7 +340,7 @@ class Airfoil:
                 x.run(output_file)
                 x.run('quit')
             
-            result.append(read_coordinates(output_file))
+            result.append(Xfoil.read_coordinates(output_file))
         # thickness_line= df.loc[df['Y'] >= 0].drop_duplicates()
         # thickness_line['Y'] = thickness_line['Y']*2
         

@@ -2,6 +2,7 @@
 
 # Third-party imports
 import os
+import pandas as pd
 
 ## Local imports
 from .xsoftware import Xsoftware
@@ -47,3 +48,25 @@ class Xfoil(Xsoftware):
         os.system('xfoil < ' + self.input_file)
     
         os.remove(self.input_file)
+        
+    @staticmethod
+    def read_coordinates_file(filename):
+        """
+        Reads an airoil coordinates file and returns content as DataFrame
+
+        Parameters
+        ----------
+        filename : Str
+            Filename/ Path.
+
+        Returns
+        -------
+        DataFrame
+
+        """
+        df = pd.read_fwf(filename,
+                         header = 0,
+                         names=['X','Y'],
+                         )
+        
+        return df.dropna()
