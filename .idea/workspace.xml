@@ -1,23 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="43f9de06-f2ce-4780-a82b-d072fdab6210" name="Default Changelist" comment="">
+    <list default="true" id="489bd6f6-f808-4ae7-9567-43fa3852f214" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.spyproject/config/backups/workspace.ini.bak" beforeDir="false" afterPath="$PROJECT_DIR$/.spyproject/config/backups/workspace.ini.bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.spyproject/config/workspace.ini" beforeDir="false" afterPath="$PROJECT_DIR$/.spyproject/config/workspace.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util_loads/airfoil.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/airfoil.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util_loads/support.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/support.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util_loads/loadcase.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/loadcase.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JupyterTrust" id="e26b5ef6-e7dd-44da-b053-9639a89708b3" />
-  <component name="ProjectId" id="1jgvB1rNQwKtgcZEYAM6qatx8RL" />
+  <component name="ProjectId" id="1kHjk6VVWie8j1Zh43JUnpxzSGu" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -25,37 +51,106 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/xrotor_main.py" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="helics-opt" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="xrotor_main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="helics-opt" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="/usr/anaconda3/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xrotor_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="43f9de06-f2ce-4780-a82b-d072fdab6210" name="Default Changelist" comment="" />
-      <created>1604238411687</created>
+      <changelist id="489bd6f6-f808-4ae7-9567-43fa3852f214" name="Default Changelist" comment="" />
+      <created>1605364551364</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1604238411687</updated>
-      <workItem from="1604238413172" duration="172000" />
-      <workItem from="1604932704477" duration="1201000" />
-      <workItem from="1605361154578" duration="1488000" />
+      <updated>1605364551364</updated>
+      <workItem from="1605364552618" duration="3569000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="258" width="806" height="727" key="#Intentions" timestamp="1604238563853">
+    <state x="589" y="278" width="738" height="639" key="#Inspections" timestamp="1605366972893">
       <screen x="0" y="31" width="1920" height="1128" />
     </state>
-    <state x="555" y="258" width="806" height="727" key="#Intentions/0.31.1920.1128@0.31.1920.1128" timestamp="1604238563853" />
-    <state x="418" y="254" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604238494826">
+    <state x="589" y="278" width="738" height="639" key="#Inspections/0.31.1920.1128@0.31.1920.1128" timestamp="1605366972893" />
+    <state x="555" y="258" width="806" height="778" key="#Intentions" timestamp="1605367813844">
       <screen x="0" y="31" width="1920" height="1128" />
     </state>
-    <state x="418" y="254" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.31.1920.1128@0.31.1920.1128" timestamp="1604238494826" />
-    <state x="732" y="325" width="452" height="544" key="FileChooserDialogImpl" timestamp="1604933270250">
+    <state x="555" y="258" width="806" height="778" key="#Intentions/0.31.1920.1128@0.31.1920.1128" timestamp="1605367813844" />
+    <state x="418" y="254" width="1084" height="709" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605364674672">
       <screen x="0" y="31" width="1920" height="1128" />
     </state>
-    <state x="732" y="325" width="452" height="544" key="FileChooserDialogImpl/0.31.1920.1128@0.31.1920.1128" timestamp="1604933270250" />
+    <state x="418" y="254" width="1084" height="709" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.31.1920.1128@0.31.1920.1128" timestamp="1605364674672" />
+    <state x="0" y="343" width="1916" height="509" key="#xdebugger.XInspectDialog" timestamp="1605364842959">
+      <screen x="0" y="31" width="1920" height="1128" />
+    </state>
+    <state x="0" y="343" width="1916" height="509" key="#xdebugger.XInspectDialog/0.31.1920.1128@0.31.1920.1128" timestamp="1605364842959" />
+    <state x="743" y="366" width="430" height="486" key="FileChooserDialogImpl" timestamp="1605364609313">
+      <screen x="0" y="31" width="1920" height="1128" />
+    </state>
+    <state x="743" y="366" width="430" height="486" key="FileChooserDialogImpl/0.31.1920.1128@0.31.1920.1128" timestamp="1605364609313" />
+    <state x="449" y="231" width="1022" height="732" key="SettingsEditor" timestamp="1605365510341">
+      <screen x="0" y="31" width="1920" height="1128" />
+    </state>
+    <state x="449" y="231" width="1022" height="732" key="SettingsEditor/0.31.1920.1128@0.31.1920.1128" timestamp="1605365510341" />
+    <state x="750" y="512" width="420" height="170" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1605365524411">
+      <screen x="0" y="31" width="1920" height="1128" />
+    </state>
+    <state x="750" y="512" width="420" height="170" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.31.1920.1128@0.31.1920.1128" timestamp="1605365524411" />
   </component>
 </project>
