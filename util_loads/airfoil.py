@@ -13,6 +13,7 @@ from scipy.signal import savgol_filter
 from .xfoil import Xfoil
 from .support import cleanup
 
+
 # %%
 
 class Airfoil:
@@ -22,7 +23,8 @@ class Airfoil:
     Parameters
     ----------
     airfoil_filename : string
-        Name of airfoil. If coordinate file is stored in 'airfoil-database' folder, coordinates will be set.
+        Name of airfoil. If coordinate file is stored in 'airfoil-database'
+        folder, coordinates will be set.
     Re : int or float
         Reynolds number
     Ncrit : int or float, optional
@@ -42,30 +44,32 @@ class Airfoil:
             'Re': Re,
             'Ncrit': Ncrit,
             'Iter': Iter,
-            }
+        }
         self.__polar = None
         self.__xrotor_characteristics = None
-        
-        if os.path.exists('./util_loads/airfoil-database/' + self.__parameters['airfoil_filename']):
-            self.coordinates = './util_loads/airfoil-database/' + self.__parameters['airfoil_filename']
+        self.__database = './util_loads/airfoil-database/'
+
+        airfoil_path = self.__database + self.__parameters['airfoil_filename']
+        if os.path.exists(airfoil_path):
+            self.coordinates = airfoil_path
         else:
             self.__coordinates = None
-            
+
     def __repr__(self):
         return str(self.parameters)
-            
+
     @property
     def coordinates(self):
         """
         Return Dataframe of airfoil coordinates
-        
+
         Returns
         -------
         DataFrame
-        
+
         """
         return self.__coordinates
-    
+
     @coordinates.setter
     def coordinates(self, coordinates):
         if type(coordinates) == str:
@@ -74,7 +78,7 @@ class Airfoil:
             self.__coordinates = coordinates
         else:
             raise TypeError
-            
+
     @property
     def xrotor_characteristics(self):
         """
@@ -97,11 +101,11 @@ class Airfoil:
 
         """
         return self.__xrotor_characteristics
-    
+
     @xrotor_characteristics.setter
     def xrotor_characteristics(self, characteristics):
         self.__xrotor_characteristics = characteristics
-    
+
     @property
     def parameters(self):
         """
@@ -120,7 +124,7 @@ class Airfoil:
 
         """
         return self.__parameters
-        
+
     @property
     def polar(self):
         """
@@ -129,10 +133,10 @@ class Airfoil:
         Returns
         -------
         DataFrame
-        
+
         """
         return self.__polar
-    
+
     @cleanup
     def set_polar(self, alpha_start=-20, alpha_stop=20, alpha_inc=0.25):
         """
@@ -154,10 +158,10 @@ class Airfoil:
 
         """
         polar_file = '_xfoil_polar.txt'
-    
+
         coordinates_file = '_xfoil_input_coords.txt'
         np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
-        
+
         aseq = [[0, alpha_start, alpha_inc],
                 [0, alpha_stop, alpha_inc]]
 
@@ -183,38 +187,45 @@ class Airfoil:
                 x.run(sequence[2])
                 x.run('')
                 x.run('quit')
-                
+
         self.__polar = Xfoil.read_polar(polar_file)
 
         # Set Xrotor_characteristics
-        
+
         popt, pcov = curve_fit(self.__fit_cl_alpha__,
                                np.array(self.__polar['alpha']),
                                np.array(self.__polar['CL']))
 
         self.__polar['fitted CL'] = self.__fit_cl_alpha__(np.array(self.__polar['alpha']), *popt)
         self.__polar['d(Cl)/d(alpha)'] = np.gradient(self.__polar['fitted CL'], self.__polar['alpha']).round(5)
-        self.__polar['filtered CD'] = savgol_filter(self.__polar['CD'],  window_length=11, polyorder=2)
-        self.__polar['d(Cd)/d(Cl**2)'] = np.gradient(np.gradient(self.__polar['filtered CD'], self.__polar['CL']), self.__polar['CL'])
+        self.__polar['filtered CD'] = savgol_filter(self.__polar['CD'], window_length=11, polyorder=2)
+        self.__polar['d(Cd)/d(Cl**2)'] = np.gradient(np.gradient(self.__polar['filtered CD'], self.__polar['CL']),
+                                                     self.__polar['CL'])
 
         self.__xrotor_characteristics = {
-            'Zero-lift alpha (deg)': float(-self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] / self.__polar['d(Cl)/d(alpha)'].max()),
-            'd(Cl)/d(alpha)': self.__polar['d(Cl)/d(alpha)'].max() * 180/3.1416,
+            'Zero-lift alpha (deg)': float(
+                -self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] / self.__polar[
+                    'd(Cl)/d(alpha)'].max()),
+            'd(Cl)/d(alpha)': self.__polar['d(Cl)/d(alpha)'].max() * 180 / 3.1416,
             'Maximum Cl': self.__polar['CL'].max(),
-            'Minimum Cl': self.__polar[self.__polar['d(Cl)/d(alpha)'] == self.__polar['d(Cl)/d(alpha)'].max()]['fitted CL'].min(), 
+            'Minimum Cl': self.__polar[self.__polar['d(Cl)/d(alpha)'] == self.__polar['d(Cl)/d(alpha)'].max()][
+                'fitted CL'].min(),
             'Minimum Cd': self.__polar['CD'].min(),
             'Cl at minimum Cd': self.__polar['CL'][self.__polar.idxmin()['CD']],
             'd(Cd)/d(Cl**2)': self.__polar['d(Cd)/d(Cl**2)'][self.__polar.idxmin()['CD']],
             'Cm': self.__polar['CM'].min(),
-            }
+        }
 
     def __fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2):
-        b2 = 2*a3*x1 + b3
-        c1 = b2*x0 - b1*x0 + c2
-        c3 = b2*x1 + c2 - a3*x1**2 - b3*x1
-        return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1], [lambda x: b1*x + c1,
-                                                                        lambda x: b2*x + c2,
-                                                                        lambda x: a3*x**2 + b3*x + c3])
+        b2 = 2 * a3 * x1 + b3
+        c1 = b2 * x0 - b1 * x0 + c2
+        c3 = b2 * x1 + c2 - a3 * x1 ** 2 - b3 * x1
+        return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1],
+                            [lambda x: b1 * x + c1,
+                             lambda x: b2 * x + c2,
+                             lambda x: a3 * x ** 2 + b3 * x + c3],
+                            )
+
     @cleanup
     def cp_vs_x(self, mode, value):
         """
@@ -234,12 +245,12 @@ class Airfoil:
             Pressure distribution.
 
         """
-        coordinates_file = '_xfoil_input_coords.txt'        
-        
+        coordinates_file = '_xfoil_input_coords.txt'
+
         np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
-        
+
         cp_vs_x_file = '_xfoil_cpvsx.txt'
-        
+
         with Xfoil() as x:
             x.run('load ')
             x.run(coordinates_file)
@@ -258,27 +269,27 @@ class Airfoil:
             x.run(cp_vs_x_file)
             x.run('')
             x.run('quit')
-        
+
         return Xfoil.read_cp_vs_x(cp_vs_x_file, True)
-    
+
     @cleanup
     @staticmethod
     def interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil):
         """
-        Return interpolated airfoil of two input airfoils and fraction. 
+        Return interpolated airfoil of two input airfoils and fraction.
         This method uses XFOIL's INTE and GDES routines in the background.
-        
+
         .. code-block:: python
-            
+
             airfoil, profiltropfen, camberline = Airfoil.interpolate(airfoil1,
                                                                      airfoil2,
                                                                      fraction_of_2nd_airfoil)
 
         Parameters
         ----------
-        airfoil1 : Instance of Airfoil class
-        airfoil2 : Instance of Airfoil class
-        fraction_of_2nd_airfoil : float 0..1
+        airfoil1 : Airfoil
+        airfoil2 : Airfoil
+        fraction_of_2nd_airfoil : Float 0..1
             Fraction of second airfoil to keep.
 
         Returns
@@ -292,20 +303,20 @@ class Airfoil:
 
         """
         output_file = '_xfoil_output.txt'
-        
+
         result = []
-        options = [[1,1], [1, 0], [0, 1]]
-        
+        options = [[1, 1], [1, 0], [0, 1]]
+
         for option in options:
-            if os.path.exists(output_file): os.remove(output_file) 
+            if os.path.exists(output_file): os.remove(output_file)
             with Xfoil() as x:
                 x.run('inte')
                 x.run('f')
-                x.run('./util_loads/airfoil-database/' +
-                          airfoil1.parameters['airfoil_filename'])
+                x.run('./util_loads/airfoil-database/' + \
+                      airfoil1.parameters['airfoil_filename'])
                 x.run('f')
-                x.run('./util_loads/airfoil-database/' +
-                          airfoil2.parameters['airfoil_filename'])
+                x.run('./util_loads/airfoil-database/' + \
+                      airfoil2.parameters['airfoil_filename'])
                 x.run(fraction_of_2nd_airfoil)
                 x.run('')
                 x.run('pcop')
@@ -316,13 +327,13 @@ class Airfoil:
                 x.run(option[1])
                 x.run('')
                 x.run('pcop')
-                x.run('pane')                
+                x.run('pane')
                 x.run('save')
                 x.run(output_file)
                 x.run('quit')
-            
+
             result.append(Xfoil.read_coordinates(output_file))
         # thickness_line= df.loc[df['Y'] >= 0].drop_duplicates()
         # thickness_line['Y'] = thickness_line['Y']*2
-        
+
         return result[0], result[1], result[2]
