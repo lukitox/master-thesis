@@ -6,7 +6,7 @@
 import numpy as np
 
 # Local imports
-from util_loads import Airfoil, Loadcase, Propeller, Xfoil, Xrotor
+from util_loads import Airfoil, Loadcase, Propeller
 
 # %% Instantiate Propeller
 
@@ -64,7 +64,7 @@ prop_mf3218.calc_loads()
 
 prop_mf3218.set_load_envelope()
 
-loadenvelope = prop_mf3218.load_envelope['oper']
+load_envelope = prop_mf3218.load_envelope['oper']
 
 cpvsx = mh113.cp_vs_x('cl', 1.683)
 
