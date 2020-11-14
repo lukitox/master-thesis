@@ -25,11 +25,11 @@ class Airfoil:
     airfoil_filename : string
         Name of airfoil. If coordinate file is stored in 'airfoil-database'
         folder, coordinates will be set.
-    Re : int or float
+    re : int or float
         Reynolds number
-    Ncrit : int or float, optional
+    ncrit : int or float, optional
         Ncrit value for XFOIL which affects Transition. The default is 9.
-    Iter : int, optional
+    iter_limit : int, optional
         Viscous-solution iteration limit. The default is 200.
 
     Returns
@@ -38,12 +38,12 @@ class Airfoil:
 
     """
 
-    def __init__(self, airfoil_filename, Re, Ncrit=9, Iter=200):
+    def __init__(self, airfoil_filename, re, ncrit=9, iter_limit=200):
         self.__parameters = {
             'airfoil_filename': airfoil_filename,
-            'Re': Re,
-            'Ncrit': Ncrit,
-            'Iter': Iter,
+            'Re': re,
+            'Ncrit': ncrit,
+            'Iter': iter_limit,
         }
         self.__polar = None
         self.__xrotor_characteristics = None
@@ -74,7 +74,7 @@ class Airfoil:
     def coordinates(self, coordinates):
         if type(coordinates) == str:
             self.__coordinates = Xfoil.read_coordinates(coordinates)
-        elif type(coordinates) == type(pd.DataFrame()):
+        elif type(pd.DataFrame()) == type(coordinates):
             self.__coordinates = coordinates
         else:
             raise TypeError
@@ -84,20 +84,18 @@ class Airfoil:
         """
         Returns airfoil characteristics dictionary for XROTOR.
 
+            Zero-lift alpha (deg)
+            d(Cl)/d(alpha)
+            Maximum Cl
+            Minimum Cl
+            Minimum Cd
+            Cl at minimum Cd
+            d(Cd)/d(Cl**2)
+            Cm
+
         Returns
         -------
         dict : int or float
-
-        Parameters
-        ----------
-        Zero-lift alpha (deg)
-        d(Cl)/d(alpha)
-        Maximum Cl
-        Minimum Cl
-        Minimum Cd
-        Cl at minimum Cd
-        d(Cd)/d(Cl**2)
-        Cm
 
         """
         return self.__xrotor_characteristics
@@ -110,17 +108,14 @@ class Airfoil:
     def parameters(self):
         """
         Return parameters dictionary.
+            airfoil_filename : string
+            Re : int or float
+            Ncrit : int or float
+            Iter : int
 
         Returns
         -------
         dict : string or int or float
-
-        Parameters
-        ----------
-        airfoil_filename : string,\n
-        Re : int or float,\n
-        Ncrit : int or float,\n
-        Iter : int
 
         """
         return self.__parameters
@@ -160,7 +155,7 @@ class Airfoil:
         polar_file = '_xfoil_polar.txt'
 
         coordinates_file = '_xfoil_input_coords.txt'
-        np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
+        np.savetxt(coordinates_file, self.coordinates, fmt='%9.8f')
 
         aseq = [[0, alpha_start, alpha_inc],
                 [0, alpha_stop, alpha_inc]]
@@ -216,14 +211,15 @@ class Airfoil:
             'Cm': self.__polar['CM'].min(),
         }
 
-    def __fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2):
+    @staticmethod
+    def __fit_cl_alpha__(x, x0, x1, a3, b1, b3, c2):
         b2 = 2 * a3 * x1 + b3
         c1 = b2 * x0 - b1 * x0 + c2
         c3 = b2 * x1 + c2 - a3 * x1 ** 2 - b3 * x1
         return np.piecewise(x, [x < x0, (x >= x0) & (x < x1), x > x1],
-                            [lambda x: b1 * x + c1,
-                             lambda x: b2 * x + c2,
-                             lambda x: a3 * x ** 2 + b3 * x + c3],
+                            [lambda xx: b1 * xx + c1,
+                             lambda xx: b2 * xx + c2,
+                             lambda xx: a3 * xx ** 2 + b3 * xx + c3],
                             )
 
     @cleanup
@@ -247,7 +243,7 @@ class Airfoil:
         """
         coordinates_file = '_xfoil_input_coords.txt'
 
-        np.savetxt(coordinates_file, np.array(self.coordinates), fmt='%9.8f')
+        np.savetxt(coordinates_file, self.coordinates, fmt='%9.8f')
 
         cp_vs_x_file = '_xfoil_cpvsx.txt'
 
@@ -272,8 +268,8 @@ class Airfoil:
 
         return Xfoil.read_cp_vs_x(cp_vs_x_file, True)
 
-    @cleanup
     @staticmethod
+    @cleanup
     def interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil):
         """
         Return interpolated airfoil of two input airfoils and fraction.
@@ -308,14 +304,15 @@ class Airfoil:
         options = [[1, 1], [1, 0], [0, 1]]
 
         for option in options:
-            if os.path.exists(output_file): os.remove(output_file)
+            if os.path.exists(output_file):
+                os.remove(output_file)
             with Xfoil() as x:
                 x.run('inte')
                 x.run('f')
-                x.run('./util_loads/airfoil-database/' + \
+                x.run('./util_loads/airfoil-database/' +
                       airfoil1.parameters['airfoil_filename'])
                 x.run('f')
-                x.run('./util_loads/airfoil-database/' + \
+                x.run('./util_loads/airfoil-database/' +
                       airfoil2.parameters['airfoil_filename'])
                 x.run(fraction_of_2nd_airfoil)
                 x.run('')
