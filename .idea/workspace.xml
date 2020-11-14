@@ -21,7 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="489bd6f6-f808-4ae7-9567-43fa3852f214" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util_loads/loadcase.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/loadcase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util_loads/airfoil.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/airfoil.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util_loads/xfoil.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/xfoil.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util_loads/xrotor.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/xrotor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util_loads/xsoftware.py" beforeDir="false" afterPath="$PROJECT_DIR$/util_loads/xsoftware.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xrotor_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/xrotor_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +109,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1605364551364</updated>
-      <workItem from="1605364552618" duration="3569000" />
+      <workItem from="1605364552618" duration="4682000" />
     </task>
     <servers />
   </component>

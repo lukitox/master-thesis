@@ -68,11 +68,6 @@ load_envelope = prop_mf3218.load_envelope['oper']
 
 cpvsx = mh113.cp_vs_x('cl', 1.683)
 
-
-
-
-
-
 # %% Play around
 
 # oper_single_values = Prop_MF3218.loadcases['Max. RPM'].results['oper'][0]

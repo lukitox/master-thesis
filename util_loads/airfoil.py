@@ -273,7 +273,7 @@ class Airfoil:
     def interpolate(airfoil1, airfoil2, fraction_of_2nd_airfoil):
         """
         Return interpolated airfoil of two input airfoils and fraction.
-        This method uses XFOIL's INTE and GDES routines in the background.
+        This method uses XFOILs INTE and GDES routines in the background.
 
         .. code-block:: python
 

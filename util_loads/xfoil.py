@@ -1,36 +1,40 @@
-#%% Import Libraries and Data 
+# %% Import Libraries and Data
 
 # Third-party imports
 import os
 import pandas as pd
 import numpy as np
 
-## Local imports
+# Local imports
 from .xsoftware import Xsoftware
 
-#%%
+
+# %%
+
+
 class Xfoil(Xsoftware):
-    '''
+    """
     The interface class to XFOIL.
-    
+
     XFOIL access works with a context manager:
-    
+
     .. code-block:: python
-    
+
         from util_loads import Xfoil
-        
+
         with Xfoil() as x:
             x.run('aero')
             #...
             x.run('quit')
-    
-    '''
-    
+
+    """
+
     def __init__(self):
+        super().__init__()
         self.input_file = '_xfoil_input.txt'
-        
+
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        '''
+        """
         Parameters
         ----------
         exc_type : TYPE
@@ -44,16 +48,16 @@ class Xfoil(Xsoftware):
         -------
         None.
 
-        '''
+        """
         super().__exit__(exc_type, exc_value, exc_traceback)
         os.system('xfoil < ' + self.input_file)
-    
+
         os.remove(self.input_file)
-        
+
     @staticmethod
     def read_coordinates(filename):
         """
-        Reads an airoil coordinates file and returns content as DataFrame.
+        Reads an airfoil coordinates file and returns content as DataFrame.
 
         Parameters
         ----------
@@ -66,12 +70,12 @@ class Xfoil(Xsoftware):
 
         """
         df = pd.read_fwf(filename,
-                         header = 0,
-                         names=['X','Y'],
+                         header=0,
+                         names=['X', 'Y'],
                          )
-        
+
         return df.dropna()
-    
+
     @staticmethod
     def read_cp_vs_x(filename, norm=False):
         """
@@ -82,7 +86,7 @@ class Xfoil(Xsoftware):
         filename : Str
             Filename/ Path.
         norm : Bool
-            Normize output?
+            Norm output?
 
         Returns
         -------
@@ -90,40 +94,40 @@ class Xfoil(Xsoftware):
 
         """
         df = pd.read_fwf(filename,
-                 header=0,
-                 skiprows=0,
-                 names=['#','x','Cp'],
-                 )
-        df = df.drop(labels=['#'],axis=1)
-        
-        if norm == False:
+                         header=0,
+                         skiprows=0,
+                         names=['#', 'x', 'Cp'],
+                         )
+        df = df.drop(labels=['#'], axis=1)
+
+        if norm is False:
             return df
         else:
-            suction_side = df.iloc[:df['x'].idxmin()+1,:]
-            pressure_side = df.iloc[df['x'].idxmin()+1:,:] 
-            
+            suction_side = df.iloc[:df['x'].idxmin() + 1, :]
+            pressure_side = df.iloc[df['x'].idxmin() + 1:, :]
+
             def norm(dataframe):
-                norm_list = list(np.arange(0,1.01,0.01))
-                empty_frame = pd.DataFrame(norm_list,columns=['x'])
+                norm_list = list(np.arange(0, 1.01, 0.01))
+                empty_frame = pd.DataFrame(norm_list, columns=['x'])
                 empty_frame['Cp'] = np.nan
                 dataframe = dataframe.append(empty_frame)
                 dataframe = dataframe.sort_values('x')
                 dataframe = dataframe.interpolate()
                 dataframe = dataframe.drop_duplicates(keep='first')
-                
+
                 dataframe = dataframe[dataframe['x'].isin(norm_list)]
                 return dataframe
-            
-            norm_suction_side= norm(suction_side)
-            norm_pressure_side= norm(pressure_side)
-            
+
+            norm_suction_side = norm(suction_side)
+            norm_pressure_side = norm(pressure_side)
+
             norm_suction_side.columns = ['x', 'Cp_suc']
             norm_pressure_side.columns = ['x', 'Cp_pres']
-    
+
             norm_suction_side['Cp_pres'] = norm_pressure_side['Cp_pres']
-            
+
             return norm_suction_side
-            
+
     @staticmethod
     def read_polar(filename):
         """
@@ -147,5 +151,5 @@ class Xfoil(Xsoftware):
                                    skiprows=[11])
         tabular_data.sort_values('alpha', inplace=True)
         tabular_data.drop_duplicates(keep='first', inplace=True)
-        
+
         return tabular_data.reset_index()
