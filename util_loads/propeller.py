@@ -97,7 +97,7 @@ class Propeller:
                                 'oper': envelope(oper),
                                 # 'single_values': envelope(single_values),
                                 }
-
+        
     @property
     def loadcases(self):
         """
@@ -129,9 +129,14 @@ class Propeller:
     def parameters(self, parameters):
         self.__parameters = parameters
 
-    def pressure_distribution(self):
+    def pressure_distribution(self, loadcase):
         
-        stations = np.linspace(0.1,1,19)
+        if loadcase == 'envelope':
+            df = self.load_envelope['oper']
+        else:
+            df = self.loadcases[loadcase][1]['oper']
+        
+        stations = list(df['r/R']) # np.linspace(0.1,1,19)
         
         Cp_suc = np.zeros([99, len(stations)])
         Cp_pres = np.zeros([99, len(stations)])
@@ -157,8 +162,8 @@ class Propeller:
                 
                 airfoil.coordinates = coords
                 
-            Cp_suc[:,idx] = airfoil.cp_vs_x('cl', 1)['Cp_suc']
-            Cp_pres[:,idx] = airfoil.cp_vs_x('cl', 1)['Cp_pres']
+            Cp_suc[:,idx] = airfoil.cp_vs_x('cl', df['CL'][idx])['Cp_suc']
+            Cp_pres[:,idx] = airfoil.cp_vs_x('cl', df['CL'][idx])['Cp_pres']
         
         X, Y = np.meshgrid(stations, np.arange(0.01, 1.00, 0.01))
         

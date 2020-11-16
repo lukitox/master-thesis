@@ -128,7 +128,7 @@ class Xfoil(Xsoftware):
             norm_suction_side['Cp_pres'] = norm_pressure_side['Cp_pres']
             #norm_suction_side = norm_suction_side.fillna(0)
 
-            return norm_suction_side
+            return norm_suction_side[:99]
 
     @staticmethod
     def read_polar(filename):

@@ -68,7 +68,7 @@ load_envelope = prop_mf3218.load_envelope['oper']
 
 cpvsx = mh113.cp_vs_x('cl', 1.683)
 
-X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution()
+X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution('envelope')
 
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
