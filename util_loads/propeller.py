@@ -161,9 +161,11 @@ class Propeller:
                                                                         fraction)
                 
                 airfoil.coordinates = coords
-                
-            Cp_suc[:,idx] = airfoil.cp_vs_x('cl', df['CL'][idx])['Cp_suc']
-            Cp_pres[:,idx] = airfoil.cp_vs_x('cl', df['CL'][idx])['Cp_pres']
+            
+            pressures = airfoil.cp_vs_x('cl', df['CL'][idx],[0,0])
+            
+            Cp_suc[:,idx] = pressures['Cp_suc']
+            Cp_pres[:,idx] = pressures['Cp_pres']
         
         X, Y = np.meshgrid(stations, np.arange(0.01, 1.00, 0.01))
         
