@@ -10,9 +10,11 @@ Airfoil -> Propeller: Polar data
 main -> Propeller: Define Propeller geometry
 main -> Loadcase: Define Loadcases
 Loadcase -> Propeller: Loadcase Data
-Propeller -> Xrotor: Geometry, Airfoil polars\nLoadcases
+Propeller -> Xrotor: Geometry, Airfoil polars,\nLoadcases
 Xrotor -> Propeller: Load data
-Propeller -> Propeller: Todo:\ncalculate\nload envelope
+Propeller -> Propeller: Calculate\nload envelope
+Propeller -> Xfoil: C_l vs. r/R,\nAirfoils
+Xfoil -> Propeller: C_p vs. x
 end
 group Optimization
 main -> Femodel: Setup Femodel
