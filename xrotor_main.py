@@ -36,14 +36,23 @@ prop_mf3218.geometry = np.array([[0.17, 0.10, 17],
                                  [1.00, 0.01, 7],
                                  ])
 
-mh113 = Airfoil('mh113.txt', 250000)
-mh113.set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
+mh112 = Airfoil('mh112.txt', 300000)
+mh113 = Airfoil('mh113.txt', 300000)
+mh114 = Airfoil('mh114.txt', 300000)
+mh115 = Airfoil('mh115.txt', 500000)
+mh116 = Airfoil('mh116.txt', 500000)
+mh117 = Airfoil('mh117.txt', 500000)
 
-mh121 = Airfoil('mh121.txt', 500000)
-mh121.set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25)
+prop_mf3218.sections = [[0.15, mh112],
+                        [0.30, mh113],
+                        [0.45, mh114],
+                        [0.60, mh115],
+                        [0.80, mh116],
+                        [1.00, mh117]]
 
-prop_mf3218.add_section(0.5, mh113)
-prop_mf3218.add_section(1.0, mh121)
+for airfoil in prop_mf3218.sections:
+    airfoil[1].set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25) 
+
 
 # %% Instantiate Loadcase
 
@@ -64,11 +73,7 @@ prop_mf3218.calc_loads()
 
 prop_mf3218.set_load_envelope()
 
-load_envelope = prop_mf3218.load_envelope['oper']
-
-cpvsx = mh113.cp_vs_x('cl', 1.683)
-
-X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution('envelope')
+X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution(0)
 
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
@@ -76,7 +81,7 @@ import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 
-ax.plot_surface(X, Y, Cp_pres, cmap='viridis', edgecolor='none')
+ax.plot_surface(X, Y, Cp_suc, cmap='viridis', edgecolor='none')
 ax.set_title('Surface plot')
 plt.show()
 
