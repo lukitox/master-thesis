@@ -68,6 +68,18 @@ load_envelope = prop_mf3218.load_envelope['oper']
 
 cpvsx = mh113.cp_vs_x('cl', 1.683)
 
+X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution()
+
+from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt
+
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+
+ax.plot_surface(X, Y, Cp_pres, cmap='viridis', edgecolor='none')
+ax.set_title('Surface plot')
+plt.show()
+
 # %% Play around
 
 # oper_single_values = Prop_MF3218.loadcases['Max. RPM'].results['oper'][0]

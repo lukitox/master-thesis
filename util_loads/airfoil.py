@@ -16,6 +16,7 @@ from .support import cleanup
 
 # %%
 
+
 class Airfoil:
     """
     The airfoil class.

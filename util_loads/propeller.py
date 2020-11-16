@@ -3,10 +3,12 @@
 # Third-party imports
 import numpy as np
 import pandas as pd
+import bisect
 
 # Local imports
 from .xrotor import Xrotor
 from .support import cleanup
+from .airfoil import Airfoil
 
 #%%
 
@@ -127,6 +129,40 @@ class Propeller:
     def parameters(self, parameters):
         self.__parameters = parameters
 
+    def pressure_distribution(self):
+        
+        stations = np.linspace(0.1,1,19)
+        
+        Cp_suc = np.zeros([99, len(stations)])
+        Cp_pres = np.zeros([99, len(stations)])
+        
+        for idx, section in enumerate(stations):
+            if section <= self.sections[0][0]:
+                airfoil = self.sections[0][1]
+            elif section >= self.sections[len(self.sections)-1][0]:
+                airfoil = self.sections[len(self.sections)-1][1]
+            else:
+                index = bisect.bisect([x[0] for x in self.sections],section)
+                left_section = self.sections[index-1]
+                right_section = self.sections[index]
+                
+                fraction = (section - left_section[0])/ \
+                    (right_section[0] - left_section[0])
+                    
+                airfoil = Airfoil('interpolated', 500000) 
+                
+                coords, profiltropfen, camberline = Airfoil.interpolate(left_section[1],
+                                                                        right_section[1],
+                                                                        fraction)
+                
+                airfoil.coordinates = coords
+                
+            Cp_suc[:,idx] = airfoil.cp_vs_x('cl', 1)['Cp_suc']
+            Cp_pres[:,idx] = airfoil.cp_vs_x('cl', 1)['Cp_pres']
+        
+        X, Y = np.meshgrid(stations, np.arange(0.01, 1.00, 0.01))
+        
+        return X, Y, Cp_suc, Cp_pres
     @property
     def sections(self):
         """

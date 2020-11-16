@@ -107,12 +107,13 @@ class Xfoil(Xsoftware):
             pressure_side = df.iloc[df['x'].idxmin() + 1:, :]
 
             def norm(dataframe):
-                norm_list = list(np.arange(0, 1.01, 0.01))
+                norm_list = list(np.arange(0.01, 1.00, 0.01))
                 empty_frame = pd.DataFrame(norm_list, columns=['x'])
                 empty_frame['Cp'] = np.nan
                 dataframe = dataframe.append(empty_frame)
                 dataframe = dataframe.sort_values('x')
                 dataframe = dataframe.interpolate()
+                dataframe = dataframe.dropna()
                 dataframe = dataframe.drop_duplicates(keep='first')
 
                 dataframe = dataframe[dataframe['x'].isin(norm_list)]
@@ -125,6 +126,7 @@ class Xfoil(Xsoftware):
             norm_pressure_side.columns = ['x', 'Cp_pres']
 
             norm_suction_side['Cp_pres'] = norm_pressure_side['Cp_pres']
+            #norm_suction_side = norm_suction_side.fillna(0)
 
             return norm_suction_side
 
