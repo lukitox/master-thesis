@@ -181,6 +181,10 @@ class Propeller:
 
         """
         return self.__sections
+    
+    @sections.setter
+    def sections(self, array):
+        self.__sections = array
 
     def add_section(self, rR, airfoil):
         self.sections.append([rR, airfoil])
