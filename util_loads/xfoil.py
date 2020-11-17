@@ -51,8 +51,9 @@ class Xfoil(Xsoftware):
 
         """
         super().__exit__(exc_type, exc_value, exc_traceback)
-        
-        run(['xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        run(['Xvfb :1 &'], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        run(['DISPLAY=:1 xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        run(['kill -15 $!'], shell=True, stdout=DEVNULL, stderr=STDOUT)
         #os.system('xfoil < ' + self.input_file)
 
         os.remove(self.input_file)
