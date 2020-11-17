@@ -200,15 +200,13 @@ class Airfoil:
 
         # Todo: hardcoding entfernen
         self.__xrotor_characteristics = {
-            'Zero-lift alpha (deg)': float(
-                -self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] / self.__polar[
-                    'd(Cl)/d(alpha)'].max()),
+            'Zero-lift alpha (deg)': -self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] / self.__polar['d(Cl)/d(alpha)'].max(),
             'd(Cl)/d(alpha)': self.__polar['d(Cl)/d(alpha)'].max() * 180 / 3.1416,
             'd(Cl)/d(alpha)@stall': 0.1,
-            'Maximum Cl': self.__polar['CL'].max()-0.1,
+            'Maximum Cl': self.__polar['CL'].max()-0.2,
             'Minimum Cl': self.__polar[self.__polar['d(Cl)/d(alpha)'] == self.__polar['d(Cl)/d(alpha)'].max()][
                 'fitted CL'].min(),
-            'Cl increment to stall': 0.1,
+            'Cl increment to stall': 0.2,
             'Minimum Cd': self.__polar['CD'].min(),
             'Cl at minimum Cd': self.__polar['CL'][self.__polar.idxmin()['CD']],
             'd(Cd)/d(Cl**2)': self.__polar['d(Cd)/d(Cl**2)'][self.__polar.idxmin()['CD']],
