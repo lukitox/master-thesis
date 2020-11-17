@@ -2,6 +2,7 @@
 
 # Third-party imports
 import os
+from subprocess import DEVNULL, STDOUT, run
 import pandas as pd
 import numpy as np
 
@@ -50,7 +51,9 @@ class Xfoil(Xsoftware):
 
         """
         super().__exit__(exc_type, exc_value, exc_traceback)
-        os.system('xfoil < ' + self.input_file)
+        
+        run(['xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        #os.system('xfoil < ' + self.input_file)
 
         os.remove(self.input_file)
 

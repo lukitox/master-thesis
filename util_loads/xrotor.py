@@ -2,6 +2,7 @@
 
 # Third-party imports
 import os
+from subprocess import DEVNULL, STDOUT, run
 import pandas as pd
 
 # Local imports
@@ -45,7 +46,9 @@ class Xrotor(Xsoftware):
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
         super().__exit__(exc_type, exc_value, exc_traceback)
-        os.system('xrotor < ' + self.input_file)
+        
+        run(['xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        # os.system('xrotor < ' + self.input_file)
         
         os.remove(self.input_file)
     
