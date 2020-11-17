@@ -225,7 +225,7 @@ class Airfoil:
                             )
 
     @cleanup
-    def cp_vs_x(self, mode, value):
+    def cp_vs_x(self, mode, value, xtr=[1,1]):
         """
         Returns the pressure distribution. Available modes:
 
@@ -257,6 +257,8 @@ class Airfoil:
             x.run('oper')
             x.run('vpar')
             x.run('n ' + str(self.__parameters['Ncrit']))
+            x.run(xtr[0])
+            x.run(xtr[1])
             x.run('')
             x.run('visc ' + str(self.__parameters['Re']))
             x.run('iter')
