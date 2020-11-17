@@ -198,14 +198,17 @@ class Airfoil:
         self.__polar['d(Cd)/d(Cl**2)'] = np.gradient(np.gradient(self.__polar['filtered CD'], self.__polar['CL']),
                                                      self.__polar['CL'])
 
+        # Todo: hardcoding entfernen
         self.__xrotor_characteristics = {
             'Zero-lift alpha (deg)': float(
                 -self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] / self.__polar[
                     'd(Cl)/d(alpha)'].max()),
             'd(Cl)/d(alpha)': self.__polar['d(Cl)/d(alpha)'].max() * 180 / 3.1416,
-            'Maximum Cl': self.__polar['CL'].max(),
+            'd(Cl)/d(alpha)@stall': 0.1,
+            'Maximum Cl': self.__polar['CL'].max()-0.1,
             'Minimum Cl': self.__polar[self.__polar['d(Cl)/d(alpha)'] == self.__polar['d(Cl)/d(alpha)'].max()][
                 'fitted CL'].min(),
+            'Cl increment to stall': 0.1,
             'Minimum Cd': self.__polar['CD'].min(),
             'Cl at minimum Cd': self.__polar['CL'][self.__polar.idxmin()['CD']],
             'd(Cd)/d(Cl**2)': self.__polar['d(Cd)/d(Cl**2)'][self.__polar.idxmin()['CD']],
