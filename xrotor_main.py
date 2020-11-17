@@ -85,14 +85,3 @@ ax.plot_surface(X, Y, Cp_suc, cmap='viridis', edgecolor='none')
 ax.set_title('Surface plot')
 plt.show()
 
-# %% Play around
-
-# oper_single_values = Prop_MF3218.loadcases['Max. RPM'].results['oper'][0]
-# oper_tabular_data = Prop_MF3218.loadcases['Max. RPM'].results['oper'][1]
-# bend_tabular_data = Prop_MF3218.loadcases['Max. RPM'].results['bend']
-
-# # print(Prop_MF3218.loadcases)
-# # print(Prop_MF3218)
-
-# bend_tabular_data.plot(x='r/R', y=['Mz', 'Mx'])
-# oper_tabular_data.plot(x='r/R', y=['CL', 'Cd'])
