@@ -26,3 +26,21 @@ def cleanup(func):
         return return_value
 
     return wrapper
+
+# %% Decorator for printing function calls.
+
+def print_call(func):
+    def wrapper(*args, **kwargs):
+        
+        print('### Calling ' + func.__name__ + ' ###')
+        print(f'- args: {args}')
+        print(f'- kwargs: {kwargs}')
+        
+        return_value = func(*args, **kwargs)
+        
+        print(f'- return:\n {return_value}')
+        print(f'### End of {func.__name__}  ###\n')
+        
+        return return_value
+    
+    return wrapper

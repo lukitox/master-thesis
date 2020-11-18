@@ -11,7 +11,7 @@ from scipy.signal import savgol_filter
 
 # Local imports
 from .xfoil import Xfoil
-from .support import cleanup
+from .support import cleanup, print_call
 
 
 # %%
@@ -134,6 +134,7 @@ class Airfoil:
         return self.__polar
 
     @cleanup
+    # @print_call
     def set_polar(self, alpha_start=-20, alpha_stop=20, alpha_inc=0.25):
         """
         Calculate airfoil polar and store as pandas dataframe.
@@ -225,6 +226,7 @@ class Airfoil:
                             )
 
     @cleanup
+    # @print_call
     def cp_vs_x(self, mode, value, xtr=[1,1]):
         """
         Returns the pressure distribution. Available modes:
