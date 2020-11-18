@@ -57,7 +57,7 @@ class Airfoil:
             self.__coordinates = None
 
     def __repr__(self):
-        return str(self.parameters)
+        return 'Airfoil ' + self.__parameters['airfoil_filename']
 
     @property
     def coordinates(self):
