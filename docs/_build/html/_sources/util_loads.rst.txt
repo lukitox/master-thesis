@@ -1,6 +1,13 @@
 util\_loads package
 ===================
 
+
+.. figure:: images/uml/classdiagram.svg
+	:width: 800
+	
+	UML Class Diagram of util\_loads package
+
+
 Parent Class for XFOIL and XROTOR
 ----------------------------------
 
@@ -25,7 +32,7 @@ XROTOR
    :undoc-members:
    :show-inheritance:
 
-util\_loads.airfoil module
+Airfoil
 --------------------------
 
 .. automodule:: util_loads.airfoil
@@ -33,7 +40,7 @@ util\_loads.airfoil module
    :undoc-members:
    :show-inheritance:
 
-util\_loads.loadcase module
+Loadcase
 ---------------------------
 
 .. automodule:: util_loads.loadcase
@@ -41,7 +48,7 @@ util\_loads.loadcase module
    :undoc-members:
    :show-inheritance:
 
-util\_loads.propeller module
+Propeller
 ----------------------------
 
 .. automodule:: util_loads.propeller

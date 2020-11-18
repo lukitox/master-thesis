@@ -1,16 +1,49 @@
 helics-opt Documentation
 ========================
+This software package was created as part of a master's thesis at the Institute of Aircraft Design and Lightweight Structures at the Technical University of Braunschweig.
+It offers an automated design and optimization routine for anisotropic UAV propellers.
 
-.. image:: images/uml/workflow.svg
+.. figure:: images/uml/workflow.svg
 	:width: 800
+	
+	UML Sequence Diagram of the Workflow in helics-opt.
+	
+Requirements
+============
+
+Operating System
+~~~~~~~~~~~~~~~~~
+ - The ``pyansys`` library works best on Linux. The interface to ANSYS is a bit buggy on Windows systems.
+ - This software package was created under CentOS 7.
+ 
+Software
+~~~~~~~~~
+ - ANSYS MAPDL. This Software package was created using Ansys 2019 R1. 
+ - `Xfoil <https://web.mit.edu/drela/Public/web/xfoil/>`_ for the calculation of profile polars. (`CentOS Package <https://centos.pkgs.org/7/epel-x86_64/xfoil-6.99-1.el7.x86_64.rpm.html>`_)
+ - `Xrotor <http://web.mit.edu/drela/Public/web/xrotor/>`_ for the calculationn of propeller loads. (`CentOS Package <https://centos.pkgs.org/7/epel-x86_64/xrotor-7.55-4.el7.x86_64.rpm.html>`_)
+ - Xvfb (X Virtual Frame Buffer), if you want to hide the Xfoil and Xrotor processes. (`CentOS Package <https://centos.pkgs.org/7/centos-x86_64/xorg-x11-server-Xvfb-1.20.4-10.el7.x86_64.rpm.html>`_)
+ 
+Pyhon librarys
+~~~~~~~~~~~~~~
+ - `pyansys <https://akaszynski.github.io/pyansys/>`_ provides the python interface to ANSYS MAPDL.
+ - `pyOpt <http://www.pyopt.org/>`_ provides the optimizer. (`GitHub <https://github.com/madebr/pyOpt>`_)
+ - Numpy
+ - Pandas
+ - Matplotlib
 
 Contents
 ========
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: util_loads Package
    
-   modules
+   util_loads
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: util_mapdl Package
+   
+   util_mapdl
 
 Indices and tables
 ==================

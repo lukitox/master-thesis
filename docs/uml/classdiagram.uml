@@ -31,7 +31,8 @@ class Xsoftware {
 
 class Xfoil {
   +input_file: Str
-  -__init__(self)
+  -__mode: Str
+  -__init__(self, mode='hide': Str)
   -__exit__(self, exc_type, exc_value, exc_traceback)
   +{static}read_coordinates(filename: Str): DataFrame
   +{static}read_cp_vs_x(filename: Str): DataFrame
@@ -41,8 +42,9 @@ class Xfoil {
 class Xrotor {
   +input_file: Str
   -__loadcase: Loadcase
+  -__mode: Str
   -__propeller: Propeller
-  -__init(self, propeller: Propeller, loadcase: Loadcase)
+  -__init(self, propeller: Propeller, loadcase: Loadcase, mode='hide': Str)
   -__exit__(self, exc_type, exc_value, exc_traceback)
   +arbi(self)
   +parse_airfoils(self)

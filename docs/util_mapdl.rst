@@ -1,9 +1,6 @@
 util\_mapdl package
 ===================
 
-Submodules
-----------
-
 util\_mapdl.post\_functions module
 ----------------------------------
 
