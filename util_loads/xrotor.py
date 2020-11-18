@@ -21,7 +21,7 @@ class Xrotor(Xsoftware):
 
         from util_loads import Xrotor
 
-        with Xrotor(propeller= SomeProp, loadcase= 'SomeLoadcase') as x:
+        with Xrotor(propeller= SomeProp, loadcase= 'SomeLoadcase', mode='hide') as x:
             x.run('atmo 0')
             #...
             x.run('quit')
@@ -30,25 +30,36 @@ class Xrotor(Xsoftware):
     ----------
     propeller : Instance of propeller class
         Propeller to take geometry from.
+        
     loadcase : Key of loadcase in propeller instance
         Loadcase to take parameters from and return results to.
-
-    Returns
-    -------
-    None.
+        
+    mode : str, optional
+        Mode to launch Xrotor.  Must be one of the following:
+            
+        - ``'hide'`` Hide popup windows and suppress output to console.
+        - ``'show'`` Show popup windows and output to console.
+            
     """
-    def __init__(self, propeller, loadcase):
+    def __init__(self, propeller, loadcase, mode='hide'):
         super().__init__()
         self.input_file = '_xrotor_input.txt'
         
         self.__propeller = propeller
         self.__loadcase = loadcase
+        self.__mode = mode
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
         super().__exit__(exc_type, exc_value, exc_traceback)
         
-        run(['xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
-        # os.system('xrotor < ' + self.input_file)
+        if self.__mode == 'hide':
+            run(['Xvfb :1 &'], shell=True, stdout=DEVNULL, stderr=STDOUT)
+            run(['DISPLAY=:1 xrotor < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
+            run(['kill -15 $!'], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        elif self.__mode == 'show':
+            os.system('xrotor < ' + self.input_file)
+        else:
+            raise ValueError('Invalid mode %s' % self.__mode)
         
         os.remove(self.input_file)
     

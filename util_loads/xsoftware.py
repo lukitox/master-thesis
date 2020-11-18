@@ -39,10 +39,6 @@ class Xsoftware:
         argument
             XFOIL or XROTOR command. Will be converted to string type.
 
-        Returns
-        -------
-        None.
-
         """
         self.f.write(str(argument) + '\n')
     
@@ -54,10 +50,6 @@ class Xsoftware:
         ----------
         array : np.array or list
             array or list as input.
-
-        Returns
-        -------
-        None.
 
         """
         for rows in list(array):

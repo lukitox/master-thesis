@@ -23,39 +23,38 @@ class Xfoil(Xsoftware):
 
         from util_loads import Xfoil
 
-        with Xfoil() as x:
+        with Xfoil(mode='hide') as x:
             x.run('aero')
             #...
             x.run('quit')
+            
+    Parameters
+    ----------
+    mode : str, optional
+        Mode to launch Xrotor.  Must be one of the following:
+            
+        - ``'hide'`` Hide popup windows and suppress output to console.
+        - ``'show'`` Show popup windows and output to console.
 
     """
 
-    def __init__(self):
+    def __init__(self, mode='hide'):
         super().__init__()
         self.input_file = '_xfoil_input.txt'
+        self.__mode = mode
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """
-        Parameters
-        ----------
-        exc_type : TYPE
-            DESCRIPTION.
-        exc_value : TYPE
-            DESCRIPTION.
-        exc_traceback : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        None.
-
-        """
         super().__exit__(exc_type, exc_value, exc_traceback)
-        run(['Xvfb :1 &'], shell=True, stdout=DEVNULL, stderr=STDOUT)
-        run(['DISPLAY=:1 xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
-        run(['kill -15 $!'], shell=True, stdout=DEVNULL, stderr=STDOUT)
-        #os.system('xfoil < ' + self.input_file)
 
+        if self.__mode == 'hide':
+            run(['Xvfb :1 &'], shell=True, stdout=DEVNULL, stderr=STDOUT)
+            run(['DISPLAY=:1 xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
+            run(['kill -15 $!'], shell=True, stdout=DEVNULL, stderr=STDOUT)
+        elif self.__mode == 'show':
+            os.system('xfoil < ' + self.input_file)
+        else:
+            raise ValueError('Invalid mode %s' % self.__mode)
+        
         os.remove(self.input_file)
 
     @staticmethod
@@ -70,7 +69,7 @@ class Xfoil(Xsoftware):
 
         Returns
         -------
-        DataFrame
+        coordinates : DataFrame
 
         """
         df = pd.read_fwf(filename,
@@ -94,7 +93,7 @@ class Xfoil(Xsoftware):
 
         Returns
         -------
-        DataFrame
+        cp_vs_x : DataFrame
 
         """
         df = pd.read_fwf(filename,
@@ -146,7 +145,8 @@ class Xfoil(Xsoftware):
 
         Returns
         -------
-        DataFrame
+        polar : DataFrame
+            Polar DataFrame.
 
         """
         colspecs = [(1, 8), (10, 17), (20, 27), (30, 37), (39, 46),
