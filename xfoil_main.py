@@ -9,13 +9,13 @@ import scipy.signal
 
 
 # Local imports
-from util_xrotor import util_xrotor as ux
+from util_loads import Xfoil
 
 #%% Generate some xfoil polar
 
 filename = 'mh113_polar.txt'
 
-with ux.xfoil() as x:
+with Xfoil() as x:
     x.run('load ./util_loads/airfoil-database/mh113.txt')
     x.run('pane')
     x.run('oper')
