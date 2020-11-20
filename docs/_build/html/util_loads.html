@@ -257,7 +257,15 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filename</strong> (<em>Str</em>) – Filename/ Path.</p></li>
-<li><p><strong>norm</strong> (<em>Bool</em>) – Norm output?</p></li>
+<li><p><strong>norm</strong> (<em>Bool</em>) – <ul>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">False</span></code> Do not norm the output. X grid points are non-uniform</dt><dd><p>and depend on the airfoils curvature.</p>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code> Norm X grid points are <code class="docutils literal notranslate"><span class="pre">np.arange(0.01,</span> <span class="pre">1.00,</span> <span class="pre">0.01)</span></code></p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -326,14 +334,6 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ARBI   Input arbitrary rotor geometry
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -343,20 +343,12 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.AERO   Display or change airfoil characteristics
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="util_loads.xrotor.Xrotor.read_bend_output">
 <em class="property">static </em><code class="sig-name descname">read_bend_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.read_bend_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads the output file of XROTORs BEND Routine and returns the content as DataFrame</p>
+<dd><p>Reads the output file of XROTORs BEND routine and returns the content as DataFrame</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.BEND   Calculate structural loads and deflections
 </pre></div>
 </div>
@@ -365,7 +357,7 @@
 <dd class="field-odd"><p><strong>filename</strong> (<em>String</em>) – Name of output file of XROTORs bend routine.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p><strong>bend_data</strong></p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>DataFrame</p>
@@ -376,18 +368,18 @@
 <dl class="py method">
 <dt id="util_loads.xrotor.Xrotor.read_oper_output">
 <em class="property">static </em><code class="sig-name descname">read_oper_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.read_oper_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads the output file of XROTORs OPER Routine and returns the content as DataFrames</p>
+<dd><p>Reads the output file of XROTORs OPER routine and returns the content as DataFrames</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.OPER   Calculate off-design operating points
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<em>String</em>) – Name of output file of XROTORs bend routine.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<em>String</em>) – Name of output file of XROTORs oper routine.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><em>DataFrame</em> – Single Values</p></li>
-<li><p><em>DataFrame</em> – Tabular Data</p></li>
+<li><p><strong>single_values</strong> (<em>DataFrame</em>)</p></li>
+<li><p><strong>oper_data</strong> (<em>DataFrame</em>)</p></li>
 </ul>
 </p>
 </dd>
@@ -399,12 +391,10 @@
 </div>
 <div class="section" id="module-util_loads.airfoil">
 <span id="airfoil"></span><h2>Airfoil<a class="headerlink" href="#module-util_loads.airfoil" title="Permalink to this headline">¶</a></h2>
-<p>Airfoil class.</p>
 <dl class="py class">
 <dt id="util_loads.airfoil.Airfoil">
 <em class="property">class </em><code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">Airfoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil_filename</span></em>, <em class="sig-param"><span class="n">re</span></em>, <em class="sig-param"><span class="n">ncrit</span><span class="o">=</span><span class="default_value">9</span></em>, <em class="sig-param"><span class="n">iter_limit</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The airfoil class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -415,17 +405,13 @@ folder, coordinates will be set.</p></li>
 <li><p><strong>iter_limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Viscous-solution iteration limit. The default is 200.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
 </dl>
 <dl class="py method">
 <dt id="util_loads.airfoil.Airfoil.coordinates">
 <em class="property">property </em><code class="sig-name descname">coordinates</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return Dataframe of airfoil coordinates</p>
+<dd><p>The Airfoils coordinates.
+To assign airfoil coordinates, either pass a DataFrame or string path to
+a text file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p></p>
@@ -489,19 +475,20 @@ Iter : int</p>
 <dt id="util_loads.airfoil.Airfoil.xrotor_characteristics">
 <em class="property">property </em><code class="sig-name descname">xrotor_characteristics</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.xrotor_characteristics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns airfoil characteristics dictionary for XROTOR.</p>
-<blockquote>
-<div><p>Zero-lift alpha (deg)
-d(Cl)/d(alpha)
-Maximum Cl
-Minimum Cl
-Minimum Cd
-Cl at minimum Cd
-d(Cd)/d(Cl**2)
-Cm</p>
-</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>dict</strong></p>
+<dd class="field-odd"><p><p><strong>dict</strong> –</p>
+<ul class="simple">
+<li><p>Zero-lift alpha (deg)</p></li>
+<li><p>d(Cl)/d(alpha)</p></li>
+<li><p>Maximum Cl</p></li>
+<li><p>Minimum Cl</p></li>
+<li><p>Minimum Cd</p></li>
+<li><p>Cl at minimum Cd</p></li>
+<li><p>d(Cd)/d(Cl**2)</p></li>
+<li><p>Cm</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>int or float</p>

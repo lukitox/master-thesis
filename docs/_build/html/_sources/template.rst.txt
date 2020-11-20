@@ -1,22 +1,19 @@
 template package
 ================
 
-Submodules
-----------
-
-template.template\_femodel module
+template.template\_main module
 ---------------------------------
 
-.. automodule:: template.template_femodel
+.. automodule:: template.template_main
    :members:
    :private-members:
    :undoc-members:
    :show-inheritance:
 
-template.template\_main module
-------------------------------
+template.template\_femodel module
+----------------------------------
 
-.. automodule:: template.template_main
+.. automodule:: template.template_femodel
    :members:
    :undoc-members:
    :show-inheritance:

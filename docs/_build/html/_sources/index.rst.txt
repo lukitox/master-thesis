@@ -19,14 +19,14 @@ Operating System
 Software
 ~~~~~~~~~
  - ANSYS MAPDL. This Software package was created using Ansys 2019 R1. 
- - `Xfoil <https://web.mit.edu/drela/Public/web/xfoil/>`_ for the calculation of profile polars. (`CentOS Package <https://centos.pkgs.org/7/epel-x86_64/xfoil-6.99-1.el7.x86_64.rpm.html>`_)
- - `Xrotor <http://web.mit.edu/drela/Public/web/xrotor/>`_ for the calculationn of propeller loads. (`CentOS Package <https://centos.pkgs.org/7/epel-x86_64/xrotor-7.55-4.el7.x86_64.rpm.html>`_)
- - Xvfb (X Virtual Frame Buffer), if you want to hide the Xfoil and Xrotor processes. (`CentOS Package <https://centos.pkgs.org/7/centos-x86_64/xorg-x11-server-Xvfb-1.20.4-10.el7.x86_64.rpm.html>`_)
+ - `Xfoil <https://web.mit.edu/drela/Public/web/xfoil/>`_ for the calculation of profile polars. (`Xfoil CentOS Package <https://centos.pkgs.org/7/epel-x86_64/xfoil-6.99-1.el7.x86_64.rpm.html>`_)
+ - `Xrotor <http://web.mit.edu/drela/Public/web/xrotor/>`_ for the calculationn of propeller loads. (`Xrotor CentOS Package <https://centos.pkgs.org/7/epel-x86_64/xrotor-7.55-4.el7.x86_64.rpm.html>`_)
+ - Xvfb (X Virtual Frame Buffer), if you want to hide the Xfoil and Xrotor processes. (`Xvfb CentOS Package <https://centos.pkgs.org/7/centos-x86_64/xorg-x11-server-Xvfb-1.20.4-10.el7.x86_64.rpm.html>`_)
  
 Pyhon librarys
 ~~~~~~~~~~~~~~
  - `pyansys <https://akaszynski.github.io/pyansys/>`_ provides the python interface to ANSYS MAPDL.
- - `pyOpt <http://www.pyopt.org/>`_ provides the optimizer. (`GitHub <https://github.com/madebr/pyOpt>`_)
+ - `pyOpt <http://www.pyopt.org/>`_ provides the optimizer. (`pyOpt GitHub <https://github.com/madebr/pyOpt>`_)
  - Numpy
  - Pandas
  - Matplotlib

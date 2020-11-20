@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>util_loads package &mdash; helics-opt  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="util_mapdl package" href="util_mapdl.html" />
+    <link rel="prev" title="helics-opt Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> helics-opt
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">util_loads Package</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">util_loads package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads.xsoftware">Parent Class for XFOIL and XROTOR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads.xfoil">XFOIL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads.xrotor">XROTOR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads.airfoil">Airfoil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads.loadcase">Loadcase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads.propeller">Propeller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-util_loads">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">util_mapdl Package</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="util_mapdl.html">util_mapdl package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">helics-opt</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>util_loads package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/util_loads.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="util-loads-package">
+<h1>util_loads package<a class="headerlink" href="#util-loads-package" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-default" id="id1">
+<a class="reference internal image-reference" href="_images/classdiagram.svg"><img alt="_images/classdiagram.svg" src="_images/classdiagram.svg" width="800" /></a>
+<p class="caption"><span class="caption-text">UML Class Diagram of util_loads package</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="module-util_loads.xsoftware">
+<span id="parent-class-for-xfoil-and-xrotor"></span><h2>Parent Class for XFOIL and XROTOR<a class="headerlink" href="#module-util_loads.xsoftware" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="util_loads.xsoftware.Xsoftware">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.xsoftware.</code><code class="sig-name descname">Xsoftware</code><a class="headerlink" href="#util_loads.xsoftware.Xsoftware" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parent of xfoil and xrotor class. This class contains all methods, that are common in xrotor and xfoil class.</p>
+<p>The interface is implemented as a Context Manager
+(ref: <a class="reference external" href="https://book.pythontips.com/en/latest/context_managers.html">https://book.pythontips.com/en/latest/context_managers.html</a>).</p>
+<dl class="py method">
+<dt id="util_loads.xsoftware.Xsoftware.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">argument</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xsoftware.Xsoftware.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic method that writes all the commands into the input file and makes a line break after every command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>argument</strong> – XFOIL or XROTOR command. Will be converted to string type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.xsoftware.Xsoftware.run_array">
+<code class="sig-name descname">run_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xsoftware.Xsoftware.run_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a numpy.array or list into the input file. This method is used for the propeller geometry input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>array</strong> (<em>np.array</em><em> or </em><em>list</em>) – array or list as input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util_loads.xfoil">
+<span id="xfoil"></span><h2>XFOIL<a class="headerlink" href="#module-util_loads.xfoil" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="util_loads.xfoil.Xfoil">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.xfoil.</code><code class="sig-name descname">Xfoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'hide'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xfoil.Xfoil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#util_loads.xsoftware.Xsoftware" title="util_loads.xsoftware.Xsoftware"><code class="xref py py-class docutils literal notranslate"><span class="pre">util_loads.xsoftware.Xsoftware</span></code></a></p>
+<p>The interface class to XFOIL.</p>
+<p>XFOIL access works with a context manager:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">util_loads</span> <span class="kn">import</span> <span class="n">Xfoil</span>
+
+<span class="k">with</span> <span class="n">Xfoil</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;hide&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;aero&#39;</span><span class="p">)</span>
+    <span class="c1">#...</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;quit&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Mode to launch Xrotor.  Must be one of the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'hide'</span></code> Hide popup windows and suppress output to console.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'show'</span></code> Show popup windows and output to console.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="util_loads.xfoil.Xfoil.read_coordinates">
+<em class="property">static </em><code class="sig-name descname">read_coordinates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xfoil.Xfoil.read_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads an airfoil coordinates file and returns content as DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>Str</em>) – Filename/ Path.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>coordinates</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.xfoil.Xfoil.read_cp_vs_x">
+<em class="property">static </em><code class="sig-name descname">read_cp_vs_x</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xfoil.Xfoil.read_cp_vs_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a pressure distribution file and returns content as DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>Str</em>) – Filename/ Path.</p></li>
+<li><p><strong>norm</strong> (<em>Bool</em>) – <ul>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">False</span></code> Do not norm the output. X grid points are non-uniform</dt><dd><p>and depend on the airfoils curvature.</p>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code> Norm X grid points are <code class="docutils literal notranslate"><span class="pre">np.arange(0.01,</span> <span class="pre">1.00,</span> <span class="pre">0.01)</span></code></p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>cp_vs_x</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.xfoil.Xfoil.read_polar">
+<em class="property">static </em><code class="sig-name descname">read_polar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xfoil.Xfoil.read_polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a polar output file and returns content as DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>Str</em>) – Filename/ Path.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>polar</strong> – Polar DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util_loads.xrotor">
+<span id="xrotor"></span><h2>XROTOR<a class="headerlink" href="#module-util_loads.xrotor" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="util_loads.xrotor.Xrotor">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.xrotor.</code><code class="sig-name descname">Xrotor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">propeller</span></em>, <em class="sig-param"><span class="n">loadcase</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'hide'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#util_loads.xsoftware.Xsoftware" title="util_loads.xsoftware.Xsoftware"><code class="xref py py-class docutils literal notranslate"><span class="pre">util_loads.xsoftware.Xsoftware</span></code></a></p>
+<p>The interface class to XROTOR.</p>
+<p>XROTOR access works with a context manager:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">util_loads</span> <span class="kn">import</span> <span class="n">Xrotor</span>
+
+<span class="k">with</span> <span class="n">Xrotor</span><span class="p">(</span><span class="n">propeller</span><span class="o">=</span> <span class="n">SomeProp</span><span class="p">,</span> <span class="n">loadcase</span><span class="o">=</span> <span class="s1">&#39;SomeLoadcase&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;hide&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">x</span><span class="p">:</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;atmo 0&#39;</span><span class="p">)</span>
+    <span class="c1">#...</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;quit&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>propeller</strong> (<em>Instance of propeller class</em>) – Propeller to take geometry from.</p></li>
+<li><p><strong>loadcase</strong> (<em>Key of loadcase in propeller instance</em>) – Loadcase to take parameters from and return results to.</p></li>
+<li><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Mode to launch Xrotor.  Must be one of the following:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'hide'</span></code> Hide popup windows and suppress output to console.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'show'</span></code> Show popup windows and output to console.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="util_loads.xrotor.Xrotor.arbi">
+<code class="sig-name descname">arbi</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.arbi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs XROTORs ARBI command and parses the given propeller geometry.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ARBI   Input arbitrary rotor geometry
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.xrotor.Xrotor.parse_airfoils">
+<code class="sig-name descname">parse_airfoils</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.parse_airfoils" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enters XROTORs AERO routine and parses the given propeller airfoil data</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.AERO   Display or change airfoil characteristics
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.xrotor.Xrotor.read_bend_output">
+<em class="property">static </em><code class="sig-name descname">read_bend_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.read_bend_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the output file of XROTORs BEND routine and returns the content as DataFrame</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.BEND   Calculate structural loads and deflections
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>String</em>) – Name of output file of XROTORs bend routine.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bend_data</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.xrotor.Xrotor.read_oper_output">
+<em class="property">static </em><code class="sig-name descname">read_oper_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.read_oper_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the output file of XROTORs OPER routine and returns the content as DataFrames</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.OPER   Calculate off-design operating points
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>String</em>) – Name of output file of XROTORs oper routine.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>single_values</strong> (<em>DataFrame</em>)</p></li>
+<li><p><strong>oper_data</strong> (<em>DataFrame</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util_loads.airfoil">
+<span id="airfoil"></span><h2>Airfoil<a class="headerlink" href="#module-util_loads.airfoil" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="util_loads.airfoil.Airfoil">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.airfoil.</code><code class="sig-name descname">Airfoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">airfoil_filename</span></em>, <em class="sig-param"><span class="n">re</span></em>, <em class="sig-param"><span class="n">ncrit</span><span class="o">=</span><span class="default_value">9</span></em>, <em class="sig-param"><span class="n">iter_limit</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>airfoil_filename</strong> (<em>string</em>) – Name of airfoil. If coordinate file is stored in ‘airfoil-database’
+folder, coordinates will be set.</p></li>
+<li><p><strong>re</strong> (<em>int</em><em> or </em><em>float</em>) – Reynolds number</p></li>
+<li><p><strong>ncrit</strong> (<em>int</em><em> or </em><em>float</em><em>, </em><em>optional</em>) – Ncrit value for XFOIL which affects Transition. The default is 9.</p></li>
+<li><p><strong>iter_limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Viscous-solution iteration limit. The default is 200.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.coordinates">
+<em class="property">property </em><code class="sig-name descname">coordinates</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Airfoils coordinates.
+To assign airfoil coordinates, either pass a DataFrame or string path to
+a text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.cp_vs_x">
+<code class="sig-name descname">cp_vs_x</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil.cp_vs_x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.hello">
+<code class="sig-name descname">hello</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil.hello" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.interpolate">
+<em class="property">static </em><code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.parameters">
+<em class="property">property </em><code class="sig-name descname">parameters</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Return parameters dictionary.</dt><dd><p>airfoil_filename : string
+Re : int or float
+Ncrit : int or float
+Iter : int</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>dict</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string or int or float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.polar">
+<em class="property">property </em><code class="sig-name descname">polar</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Polar Dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.set_polar">
+<code class="sig-name descname">set_polar</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.airfoil.Airfoil.set_polar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.airfoil.Airfoil.xrotor_characteristics">
+<em class="property">property </em><code class="sig-name descname">xrotor_characteristics</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.xrotor_characteristics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns airfoil characteristics dictionary for XROTOR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p><strong>dict</strong> –</p>
+<ul class="simple">
+<li><p>Zero-lift alpha (deg)</p></li>
+<li><p>d(Cl)/d(alpha)</p></li>
+<li><p>Maximum Cl</p></li>
+<li><p>Minimum Cl</p></li>
+<li><p>Minimum Cd</p></li>
+<li><p>Cl at minimum Cd</p></li>
+<li><p>d(Cd)/d(Cl**2)</p></li>
+<li><p>Cm</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int or float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util_loads.loadcase">
+<span id="loadcase"></span><h2>Loadcase<a class="headerlink" href="#module-util_loads.loadcase" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="util_loads.loadcase.Loadcase">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.loadcase.</code><code class="sig-name descname">Loadcase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">flight_speed</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.loadcase.Loadcase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class contains the loadcase Data.</p>
+<dl class="py method">
+<dt id="util_loads.loadcase.Loadcase.data">
+<em class="property">property </em><code class="sig-name descname">data</code><a class="headerlink" href="#util_loads.loadcase.Loadcase.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: List of Loadcase parameters, also used as XRotor input.
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.loadcase.Loadcase.flight_speed">
+<em class="property">property </em><code class="sig-name descname">flight_speed</code><a class="headerlink" href="#util_loads.loadcase.Loadcase.flight_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Flight speed.
+:rtype: Float</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.loadcase.Loadcase.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#util_loads.loadcase.Loadcase.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Loadcase Name.
+:rtype: String</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.loadcase.Loadcase.set_data">
+<code class="sig-name descname">set_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prescribe_type</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">fix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value2</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.loadcase.Loadcase.set_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prescribe_type</strong> (<em>String</em>) – <dl class="simple">
+<dt>Type of Loadcase:</dt><dd><p>’adva’ : Prescribe advance ratio [1]
+‘rpm’ : Prescribe rpm [1/min]
+‘thru’ : Prescribe thrust [N]
+‘torq’ : Prescribe torque [Nm]
+‘powe’ : Prescribe power [W]</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>value</strong> (<em>Float</em>) – Value for given type.</p></li>
+<li><p><strong>fix</strong> (<em>String</em><em>, </em><em>optional</em>) – <dl class="simple">
+<dt>Needed for ‘thru’, ‘torq’, ‘powe’. The default is None.</dt><dd><p>’p’ : Fixed pitch
+‘r’ : Fixed rpm</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>value2</strong> (<em>Float</em><em>, </em><em>optional</em>) – RPM. Needed if ‘fix’ == r. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util_loads.propeller">
+<span id="propeller"></span><h2>Propeller<a class="headerlink" href="#module-util_loads.propeller" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="util_loads.propeller.Propeller">
+<em class="property">class </em><code class="sig-prename descclassname">util_loads.propeller.</code><code class="sig-name descname">Propeller</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number_of_blades</span></em>, <em class="sig-param"><span class="n">tip_radius</span></em>, <em class="sig-param"><span class="n">hub_radius</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.propeller.Propeller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.add_loadcase">
+<code class="sig-name descname">add_loadcase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loadcase</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.propeller.Propeller.add_loadcase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.add_section">
+<code class="sig-name descname">add_section</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rR</span></em>, <em class="sig-param"><span class="n">airfoil</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.propeller.Propeller.add_section" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.calc_loads">
+<code class="sig-name descname">calc_loads</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.propeller.Propeller.calc_loads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.geometry">
+<em class="property">property </em><code class="sig-name descname">geometry</code><a class="headerlink" href="#util_loads.propeller.Propeller.geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Propeller geometry. [r/R, c/R, beta]
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.load_envelope">
+<em class="property">property </em><code class="sig-name descname">load_envelope</code><a class="headerlink" href="#util_loads.propeller.Propeller.load_envelope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.loadcases">
+<em class="property">property </em><code class="sig-name descname">loadcases</code><a class="headerlink" href="#util_loads.propeller.Propeller.loadcases" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Dictionary of loadcases.
+:rtype: Dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.parameters">
+<em class="property">property </em><code class="sig-name descname">parameters</code><a class="headerlink" href="#util_loads.propeller.Propeller.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Propeller Parameters.
+:rtype: Dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.pressure_distribution">
+<code class="sig-name descname">pressure_distribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loadcase</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.propeller.Propeller.pressure_distribution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.sections">
+<em class="property">property </em><code class="sig-name descname">sections</code><a class="headerlink" href="#util_loads.propeller.Propeller.sections" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns: Aifoil sections. [r/R, Airfoil]
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="util_loads.propeller.Propeller.set_load_envelope">
+<code class="sig-name descname">set_load_envelope</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.propeller.Propeller.set_load_envelope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-util_loads">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-util_loads" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="util_mapdl.html" class="btn btn-neutral float-right" title="util_mapdl package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="helics-opt Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Hilbers
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
