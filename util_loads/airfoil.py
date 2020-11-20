@@ -49,7 +49,7 @@ class Airfoil:
         if os.path.exists(airfoil_path):
             self.coordinates = airfoil_path
         else:
-            self.__coordinates = None
+            self.__coordinates = pd.DataFrame()
 
     def __repr__(self):
         return 'Airfoil ' + self.__parameters['airfoil_filename']
