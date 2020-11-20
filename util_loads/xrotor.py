@@ -71,10 +71,6 @@ class Xrotor(Xsoftware):
 
             ARBI   Input arbitrary rotor geometry
 
-        Returns
-        -------
-        None.
-
         """
         self.run('arbi')
         self.run(self.__propeller.parameters['number_of_blades'])
@@ -93,10 +89,6 @@ class Xrotor(Xsoftware):
         .. code-block:: none
 
             .AERO   Display or change airfoil characteristics
-
-        Returns
-        -------
-        None.
 
         """
         for index, section in enumerate(self.__propeller.sections):
@@ -133,7 +125,7 @@ class Xrotor(Xsoftware):
     @staticmethod
     def read_bend_output(filename):
         """
-        Reads the output file of XROTORs BEND Routine and returns the content as DataFrame
+        Reads the output file of XROTORs BEND routine and returns the content as DataFrame
         
         .. code-block:: none
         
@@ -146,7 +138,7 @@ class Xrotor(Xsoftware):
 
         Returns
         -------
-        DataFrame
+        bend_data : DataFrame
 
         """
         colspecs = [(1, 3), (4, 10), (11, 18), (19, 26), (28, 34), (35, 46),
@@ -158,7 +150,7 @@ class Xrotor(Xsoftware):
     @staticmethod
     def read_oper_output(filename):
         """
-        Reads the output file of XROTORs OPER Routine and returns the content as DataFrames
+        Reads the output file of XROTORs OPER routine and returns the content as DataFrames
         
         .. code-block:: none
         
@@ -167,14 +159,12 @@ class Xrotor(Xsoftware):
         Parameters
         ----------
         filename : String
-            Name of output file of XROTORs bend routine.
+            Name of output file of XROTORs oper routine.
 
         Returns
         -------
-        DataFrame
-            Single Values
-        DataFrame 
-            Tabular Data
+        single_values : DataFrame
+        oper_data : DataFrame 
 
         """
         single_values = {}

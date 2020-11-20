@@ -1,4 +1,4 @@
-"""Airfoil class."""
+# """Airfoil class."""
 
 # %% Import Libraries and Data
 
@@ -19,7 +19,6 @@ from .support import cleanup, print_call
 
 class Airfoil:
     """
-    The airfoil class.
 
     Parameters
     ----------
@@ -32,10 +31,6 @@ class Airfoil:
         Ncrit value for XFOIL which affects Transition. The default is 9.
     iter_limit : int, optional
         Viscous-solution iteration limit. The default is 200.
-
-    Returns
-    -------
-    None.
 
     """
 
@@ -62,8 +57,10 @@ class Airfoil:
     @property
     def coordinates(self):
         """
-        Return Dataframe of airfoil coordinates
-
+        The Airfoils coordinates.
+        To assign airfoil coordinates, either pass a DataFrame or string path to
+        a text file.
+        
         Returns
         -------
         DataFrame

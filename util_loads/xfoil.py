@@ -89,7 +89,9 @@ class Xfoil(Xsoftware):
         filename : Str
             Filename/ Path.
         norm : Bool
-            Norm output?
+            - ``False`` Do not norm the output. X grid points are non-uniform
+                and depend on the airfoils curvature.
+            - ``True`` Norm X grid points are ``np.arange(0.01, 1.00, 0.01)``
 
         Returns
         -------
