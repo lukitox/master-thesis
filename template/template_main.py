@@ -17,13 +17,13 @@ from pyOpt import ALPSO
 
 
 # Local imports
-from template_femodel import Femodel
-from util_loads import propeller, airfoil, loadcase
+from template import Femodel
+from util_loads import Propeller, Airfoil, Loadcase
 
 # %% Instantiate Airfoils and assign radial sections
 
-airfoil1 = Airfoil('mh113.txt', Re=250000, Ncrit=9, Iter=200)
-airfoil2 = Airfoil('mh121.txt', Re=500000, Ncrit=9, Iter=200)
+airfoil1 = Airfoil('mh113.txt', re=250000, ncrit=9, iter_limit=200)
+airfoil2 = Airfoil('mh121.txt', re=500000, ncrit=9, iter_limit=200)
 # ...
 
 sections = [# r/R, Airfoil
@@ -38,7 +38,7 @@ for section in sections:
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
-propeller = propeller(number_of_blades=2,
+propeller = Propeller(number_of_blades=2,
                       tip_radius=0.412,
                       hub_radius=0.04,
                       )
@@ -52,26 +52,15 @@ propeller.sections = sections
 
 # %% Instantiate Loadcases
 
-propeller.add_loadcase(name='Max. RPM',
-                       loadcase=loadcase(flight_speed=0.01, rpm=4000))
+propeller.add_loadcase(loadcase=Loadcase(name='Max RPM', flight_speed=0.01))
+# ...
+
+propeller.loadcases[0][0].set_data('rpm',4000)
 # ...
 
 # %% Calculate loads
 
-for name in propeller.loadcases:
-    with ux.xrotor(propeller=propeller, loadcase=name) as x:
-        x.run('atmo 0')  
-        x.arbi()  
-        x.parse_airfoils()
-        x.run('oper')  
-        x.run('rpm ' + propeller.loadcases[name].parameters['rpm'])  # Todo: automatisieren
-        x.write_oper()  
-        x.run('') 
-        x.run('bend')  
-        x.run('eval')  
-        x.write_bend()  
-        x.run('')
-        x.run('quit')
+propeller.calc_loads()
 
 
 # %% Run ANSYS and instantiate FE-Model
