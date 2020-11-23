@@ -160,7 +160,7 @@ class Airfoil:
                 [0, alpha_stop, alpha_inc]]
 
         for sequence in aseq:
-            with Xfoil() as x:
+            with Xfoil(mode='hide') as x:
                 x.run('load ')
                 x.run(coordinates_file)
                 x.run('')

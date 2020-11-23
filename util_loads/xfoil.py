@@ -1,8 +1,6 @@
 # %% Import Libraries and Data
 
 # Third-party imports
-import os
-from subprocess import DEVNULL, STDOUT, run
 import pandas as pd
 import numpy as np
 
@@ -40,22 +38,9 @@ class Xfoil(Xsoftware):
 
     def __init__(self, mode='hide'):
         super().__init__()
+        self.name = 'xfoil'
         self.input_file = '_xfoil_input.txt'
-        self.__mode = mode
-
-    def __exit__(self, exc_type, exc_value, exc_traceback):
-        super().__exit__(exc_type, exc_value, exc_traceback)
-
-        if self.__mode == 'hide':
-            run(['Xvfb :1 &'], shell=True, stdout=DEVNULL, stderr=STDOUT)
-            run(['DISPLAY=:1 xfoil < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
-            run(['kill -15 $!'], shell=True, stdout=DEVNULL, stderr=STDOUT)
-        elif self.__mode == 'show':
-            os.system('xfoil < ' + self.input_file)
-        else:
-            raise ValueError('Invalid mode %s' % self.__mode)
-        
-        os.remove(self.input_file)
+        self.mode = mode
 
     @staticmethod
     def read_coordinates(filename):

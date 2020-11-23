@@ -1,6 +1,9 @@
 #%% Import Libraries and Data 
 
 # Third-party imports
+import os
+import subprocess
+import warnings
 
 # Local imports
 
@@ -18,6 +21,7 @@ class Xsoftware:
 
     def __init__(self):
         self.input_file = None
+        self.name = None
 
     def __enter__(self):
         """Opens a text file, which will serve as input to XFOIL and XROTOR."""
@@ -26,9 +30,37 @@ class Xsoftware:
         return self
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """Closes the input file."""
+        """Closes the input file, and starts the Xfoil/ Xrotor Job. """
         
         self.f.close()
+        
+        if self.mode == 'hide':
+            sp_stdout = subprocess.DEVNULL
+            sp_stderr = subprocess.STDOUT
+        elif self.mode == 'show':
+            sp_stdout = None
+            sp_stderr = None
+        else:
+            raise ValueError('Invalid mode %s' % self.mode)
+
+        # args = ['Xvfb :1 &',
+        #         'DISPLAY=:1 xfoil < ' + self.input_file,
+        #         'kill -15 $!']
+        
+        args = [self.name + ' < ' + self.input_file,]
+        
+        process = subprocess.Popen(args,
+                                   shell=True,
+                                   stdout=sp_stdout,
+                                   stderr=sp_stderr,
+                                   )
+        try: 
+            process.wait(timeout=30)
+        except subprocess.TimeoutExpired:
+            warnings.warn(self.name + ' timed out - killing.',RuntimeWarning)
+            process.kill()
+        
+        os.remove(self.input_file)
         
     def run(self, argument):
         """

@@ -1,8 +1,6 @@
 #%% Import Libraries and Data 
 
 # Third-party imports
-import os
-from subprocess import DEVNULL, STDOUT, run
 import pandas as pd
 
 # Local imports
@@ -43,25 +41,12 @@ class Xrotor(Xsoftware):
     """
     def __init__(self, propeller, loadcase, mode='hide'):
         super().__init__()
+        self.name = 'xrotor'
         self.input_file = '_xrotor_input.txt'
         
         self.__propeller = propeller
         self.__loadcase = loadcase
-        self.__mode = mode
-    
-    def __exit__(self, exc_type, exc_value, exc_traceback):
-        super().__exit__(exc_type, exc_value, exc_traceback)
-        
-        if self.__mode == 'hide':
-            run(['Xvfb :1 &'], shell=True, stdout=DEVNULL, stderr=STDOUT)
-            run(['DISPLAY=:1 xrotor < ' + self.input_file], shell=True, stdout=DEVNULL, stderr=STDOUT)
-            run(['kill -15 $!'], shell=True, stdout=DEVNULL, stderr=STDOUT)
-        elif self.__mode == 'show':
-            os.system('xrotor < ' + self.input_file)
-        else:
-            raise ValueError('Invalid mode %s' % self.__mode)
-        
-        os.remove(self.input_file)
+        self.mode = mode
     
     def arbi(self):
         """
