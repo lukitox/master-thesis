@@ -13,7 +13,6 @@ from scipy.signal import savgol_filter
 from .xfoil import Xfoil
 from .support import cleanup, print_call
 
-
 # %%
 
 
@@ -190,20 +189,32 @@ class Airfoil:
                                np.array(self.__polar['alpha']),
                                np.array(self.__polar['CL']))
 
-        self.__polar['fitted CL'] = self.__fit_cl_alpha__(np.array(self.__polar['alpha']), *popt)
-        self.__polar['d(Cl)/d(alpha)'] = np.gradient(self.__polar['fitted CL'], self.__polar['alpha']).round(5)
-        self.__polar['filtered CD'] = savgol_filter(self.__polar['CD'], window_length=11, polyorder=2)
-        self.__polar['d(Cd)/d(Cl**2)'] = np.gradient(np.gradient(self.__polar['filtered CD'], self.__polar['CL']),
-                                                     self.__polar['CL'])
+        self.__polar['fitted CL'] = \
+            self.__fit_cl_alpha__(np.array(self.__polar['alpha']),
+                                  *popt)
+            
+        self.__polar['d(Cl)/d(alpha)'] = np.gradient(self.__polar['fitted CL'],
+                                                     self.__polar['alpha']).round(5)
+            
+        self.__polar['filtered CD'] = savgol_filter(self.__polar['CD'],
+                                                    window_length=11,
+                                                    polyorder=2)
+            
+        self.__polar['d(Cd)/d(Cl**2)'] = \
+            np.gradient(np.gradient(self.__polar['filtered CD'],
+                                    self.__polar['CL']),
+                        self.__polar['CL'])
 
         # Todo: hardcoding entfernen
         self.__xrotor_characteristics = {
-            'Zero-lift alpha (deg)': -self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] / self.__polar['d(Cl)/d(alpha)'].max(),
+            'Zero-lift alpha (deg)': \
+                -self.__polar['fitted CL'][self.__polar[self.__polar['alpha'] == 0].index.values] \
+                    / self.__polar['d(Cl)/d(alpha)'].max(),
             'd(Cl)/d(alpha)': self.__polar['d(Cl)/d(alpha)'].max() * 180 / 3.1416,
             'd(Cl)/d(alpha)@stall': 0.1,
             'Maximum Cl': self.__polar['CL'].max()-0.2,
-            'Minimum Cl': self.__polar[self.__polar['d(Cl)/d(alpha)'] == self.__polar['d(Cl)/d(alpha)'].max()][
-                'fitted CL'].min(),
+            'Minimum Cl': self.__polar[self.__polar['d(Cl)/d(alpha)'] == \
+                                       self.__polar['d(Cl)/d(alpha)'].max()]['fitted CL'].min(),
             'Cl increment to stall': 0.2,
             'Minimum Cd': self.__polar['CD'].min(),
             'Cl at minimum Cd': self.__polar['CL'][self.__polar.idxmin()['CD']],

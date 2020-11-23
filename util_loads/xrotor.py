@@ -110,7 +110,8 @@ class Xrotor(Xsoftware):
     @staticmethod
     def read_bend_output(filename):
         """
-        Reads the output file of XROTORs BEND routine and returns the content as DataFrame
+        Reads the output file of XROTORs BEND routine and returns the content 
+        as DataFrame
         
         .. code-block:: none
         
@@ -128,14 +129,20 @@ class Xrotor(Xsoftware):
         """
         colspecs = [(1, 3), (4, 10), (11, 18), (19, 26), (28, 34), (35, 46),
                     (48, 59), (61, 72), (74, 85), (87, 98), (100, 111)]
-        tabular_data = pd.read_fwf(filename, colspecs=colspecs, header=[1], skiprows=[2], nrows=29)
-        
+
+        tabular_data = pd.read_fwf(filename,
+                                   colspecs=colspecs,
+                                   header=[1],
+                                   skiprows=[2],
+                                   nrows=29,)
+
         return tabular_data
-    
+
     @staticmethod
     def read_oper_output(filename):
         """
-        Reads the output file of XROTORs OPER routine and returns the content as DataFrames
+        Reads the output file of XROTORs OPER routine and returns the content 
+        as DataFrames.
         
         .. code-block:: none
         
@@ -153,9 +160,18 @@ class Xrotor(Xsoftware):
 
         """
         single_values = {}
-        columns = [[(1, 12), (15, 24)], [(28, 39), (42, 51)], [(54, 65), (69, 78)]]
+        columns = [[(1, 12), (15, 24)],
+                   [(28, 39), (42, 51)],
+                   [(54, 65), (69, 78)]]
+
         for colspec in columns:
-            header = pd.read_fwf(filename, colspecs=colspec, header=0, skiprows=3, nrows=7, index_col=0)
+            header = pd.read_fwf(filename,
+                                 colspecs=colspec,
+                                 header=0,
+                                 skiprows=3,
+                                 nrows=7,
+                                 index_col=0)
+
             header.columns = ['Value']
             header.dropna(subset=['Value'], inplace=True)
             header = header.to_dict()['Value']
@@ -163,6 +179,10 @@ class Xrotor(Xsoftware):
     
         colspecs = [(1, 4), (4, 9), (10, 16), (16, 25), (25, 30), (33, 39),
                     (40, 47), (48, 53), (54, 60), (61, 66), (67, 74)]
-        tabular_data = pd.read_fwf(filename, colspecs=colspecs, header=16)
+        
+        tabular_data = pd.read_fwf(filename,
+                                   colspecs=colspecs,
+                                   header=16)
         
         return single_values, tabular_data
+

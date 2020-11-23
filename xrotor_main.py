@@ -75,7 +75,6 @@ prop_mf3218.set_load_envelope()
 
 X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution(0)
 
-from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 
 fig = plt.figure()

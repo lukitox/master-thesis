@@ -12,7 +12,8 @@ import warnings
 
 class Xsoftware:
     """
-    Parent of xfoil and xrotor class. This class contains all methods, that are common in xrotor and xfoil class.
+    Parent of xfoil and xrotor class. This class contains all methods, 
+    that are common in xrotor and xfoil class.
 
     The interface is implemented as a Context Manager
     (ref: https://book.pythontips.com/en/latest/context_managers.html).
@@ -55,7 +56,7 @@ class Xsoftware:
                                    stderr=sp_stderr,
                                    )
         try: 
-            process.wait(timeout=30)
+            process.wait(timeout=15)
         except subprocess.TimeoutExpired:
             warnings.warn(self.name + ' timed out - killing.',RuntimeWarning)
             process.kill()
@@ -64,7 +65,8 @@ class Xsoftware:
         
     def run(self, argument):
         """
-        Basic method that writes all the commands into the input file and makes a line break after every command.
+        Basic method that writes all the commands into the input file and 
+        makes a line break after every command.
 
         Parameters
         ----------
@@ -76,7 +78,8 @@ class Xsoftware:
     
     def run_array(self, array):
         """
-        Parses a numpy.array or list into the input file. This method is used for the propeller geometry input.
+        Parses a numpy.array or list into the input file. This method is used 
+        for the propeller geometry input.
 
         Parameters
         ----------

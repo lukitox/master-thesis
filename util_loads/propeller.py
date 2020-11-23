@@ -177,6 +177,7 @@ class Propeller:
         X, Y = np.meshgrid(stations, np.arange(0.01, 1.00, 0.01))
         
         return X, Y, Cp_suc, Cp_pres
+
     @property
     def sections(self):
         """
