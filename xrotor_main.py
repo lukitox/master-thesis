@@ -69,11 +69,15 @@ prop_mf3218.add_loadcase(power)
 
 prop_mf3218.calc_loads()
 
-# %% Calc Loads
+# %% Calc Load envelope
 
 prop_mf3218.set_load_envelope()
 
+# %% Calc pressure Distribution
+
 X, Y, Cp_suc, Cp_pres = prop_mf3218.pressure_distribution(0)
+
+# %% Plot
 
 import matplotlib.pyplot as plt
 
