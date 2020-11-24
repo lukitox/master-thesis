@@ -2,6 +2,7 @@
 
 # Third-party imports
 import os
+import signal
 import subprocess
 import warnings
 
@@ -58,7 +59,10 @@ class Xsoftware:
         try: 
             process.wait(timeout=15)
         except subprocess.TimeoutExpired:
-            warnings.warn(self.name + ' timed out - killing.',RuntimeWarning)
+            warnings.warn(self.name + ' timed out - killing ' + \
+                          str(process.pid) + ' and ' + \
+                              str(process.pid+1), RuntimeWarning)
+            os.kill(process.pid+1, signal.SIGKILL)
             process.kill()
         
         os.remove(self.input_file)
