@@ -1,4 +1,4 @@
-class material:
+class Material:
     
     def __init__(self, mapdl, name, number):
         self.mapdl  = mapdl
