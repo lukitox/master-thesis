@@ -107,7 +107,7 @@ optprob.addVar('y1','i',lower=4, upper=100, value=30)
 # ...
 
 # Add objective
-opt_prob.addObj('f')
+optprob.addObj('f')
 
 # Add constraints
 
