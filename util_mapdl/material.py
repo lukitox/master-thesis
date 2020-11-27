@@ -15,7 +15,6 @@ class Material:
         self.__name   = name
         self.__number = number
         self.__path = str(pathlib.Path(__file__).parent.absolute())
-        print(self.__path)
         
     @property
     def name(self):
@@ -61,16 +60,16 @@ class Material:
             
     def load_from_db(self):
         import json
-        with open(self.path+'/material-database/'+str(self.name)+'_mp_.json', 'r') as fp:
+        with open(self.__path+'/material-database/'+str(self.name)+'_mp_.json', 'r') as fp:
             self.mp = json.load(fp)
-        with open(self.path+'/material-database/'+str(self.name)+'_fc_.json', 'r') as fp:
+        with open(self.__path+'/material-database/'+str(self.name)+'_fc_.json', 'r') as fp:
             self.fc = json.load(fp)
         
     def assign_mp(self):
         for x in self.mp:
-            self.mapdl.mp(str(x),self.number,self.mp[x])
+            self.mapdl.mp(str(x),self.__number,self.mp[x])
     
     def assign_fc(self):
         for x in self.fc:
             #mapdl.fc('1','s','xten',286)
-            self.mapdl.fc(self.number,'s',str(x),str(self.fc[x]))
+            self.mapdl.fc(self.__number,'s',str(x),str(self.fc[x]))

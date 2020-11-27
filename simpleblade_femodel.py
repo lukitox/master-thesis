@@ -12,7 +12,7 @@ Author: Lukas Hilbers
 import numpy as np
 
 # Local imports
-from util_mapdl import post_functions, prep_functions
+from util_mapdl import post_functions, Material
 
 # %% 
 
@@ -23,12 +23,18 @@ class Femodel:
     The FE-Model is implemented as a class.
     """
     
-    def __init__(self, mapdl, loads, mesh_density_factor = 1, seltol = 1e-4):
+    def __init__(self, mapdl, propeller, loads, mesh_density_factor = 1, seltol = 1e-4):
         self.mapdl = mapdl
         
-        self.__setup__(mesh_density_factor, seltol, loads)
+        # Materials
+        self.m_flaxpreg = Material(self.mapdl, 'FLAXPREG-T-UD', 1)
+        self.m_flaxpreg.load_from_db()
+        self.m_balsa = Material(self.mapdl, 'balsaholz', 2)
+        self.m_balsa.load_from_db()
         
-    def __setup__(self, mesh_density_factor, seltol, loads):
+        self.__setup__(loads, mesh_density_factor, seltol)
+        
+    def __setup__(self, loads, mesh_density_factor, seltol):
         """
         Setup method. 
         Implement all basic model setup (Geometry, Material Parameters, 
@@ -47,20 +53,44 @@ class Femodel:
         
         # Space for basic parameters and settings
         self.mapdl.seltol(seltol)
+        self.mapdl.et('1','SHELL281')    
+        self.mapdl.keyopt(1,8,1)
 
         # Material Parameters
+        self.m_flaxpreg.assign_mp()
+        self.m_balsa.assign_mp()
         
         # Geometry
+        self.mapdl.k(1,-10,10,0)
+        self.mapdl.k(2,40,10,0)
+        self.mapdl.k(3,-2,400,0)
+        self.mapdl.k(4,8,400,0)
         
+        self.mapdl.a(1,2,4,3)
         # Meshing
+        self.mapdl.lsel('s','line','',1)
+        self.mapdl.lsel('a','line','',3)
+        self.mapdl.lesize('all','','',5)
+        
+        self.mapdl.lsel('s','line','',2)
+        self.mapdl.lsel('a','line','',4)
+        self.mapdl.lesize('all','','',50)
         
         # Assignment of some dummy section
+        self.mapdl.mshkey(1)
+        self.mapdl.mshape(0,'2d')
+        self.mapdl.allsel('all')
         
+        self.mapdl.sectype(100,'shell','','Dummy')
+        self.mapdl.secdata(0.1,1,90.,3)
+        self.mapdl.allsel('all')
+        self.mapdl.amesh('all')      
+    
         # Loads (Todo: here or in __change_design_variables__() method?)
         
         # Write ANSYS Input file (Do not change!)
         self.mapdl.allsel('all')
-        self.mapdl.cdwrite('db', ansys_input_filename, 'cdb')
+        self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
         self.mapdl.finish() # Todo: Dopplung vermeiden
         self.mapdl.clear('nostart')
         
@@ -87,7 +117,7 @@ class Femodel:
         
         # Read ANSYS Input file (Do not change!)
         self.mapdl.prep7()
-        self.mapdl.cdread('db', ansys_input_filename, 'cdb')
+        self.mapdl.cdread('all', ansys_input_filename, 'cdb')
         
         # Vary Geometry
         
@@ -140,6 +170,12 @@ class Femodel:
         """
         self.mapdl.finish()
         self.mapdl.clear('NOSTART')
+        
+    def cdread(self):
+        self.mapdl.prep7()
+        self.mapdl.cdread('all', ansys_input_filename, 'cdb')
+        
+        self.mapdl.open_gui()
         
     def evaluate(self, x):
         """
