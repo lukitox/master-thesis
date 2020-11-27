@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="586px" preserveAspectRatio="none" style="width:1198px;height:586px;" version="1.1" viewBox="0 0 1198 586" width="1198px" zoomAndPan="magnify"><defs><filter height="300%" id="f1u12b1jkbfsgj" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[88dc21422abaffcb7a027364d4b1854c]
+class Femodel--><rect codeLine="8" fill="#FEFECE" filter="url(#f1u12b1jkbfsgj)" height="150.4375" id="Femodel" style="stroke: #A80036; stroke-width: 1.5;" width="746" x="228.25" y="7"/><ellipse cx="570.5" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M573.4688,28.6406 Q572.8906,28.9375 572.25,29.0781 Q571.6094,29.2344 570.9063,29.2344 Q568.4063,29.2344 567.0781,27.5938 Q565.7656,25.9375 565.7656,22.8125 Q565.7656,19.6875 567.0781,18.0313 Q568.4063,16.375 570.9063,16.375 Q571.6094,16.375 572.25,16.5313 Q572.9063,16.6875 573.4688,16.9844 L573.4688,19.7031 Q572.8438,19.125 572.25,18.8594 Q571.6563,18.5781 571.0313,18.5781 Q569.6875,18.5781 569,19.6563 Q568.3125,20.7188 568.3125,22.8125 Q568.3125,24.9063 569,25.9844 Q569.6875,27.0469 571.0313,27.0469 Q571.6563,27.0469 572.25,26.7813 Q572.8438,26.5 573.4688,25.9219 L573.4688,28.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="591" y="27.1543">Femodel</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="229.25" x2="973.25" y1="39" y2="39"/><ellipse cx="239.25" cy="50" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="122" x="248.25" y="53.2104">mapdl: MapdlConsole</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="229.25" x2="973.25" y1="59.8047" y2="59.8047"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="236.25" y="67.8047"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="720" x="248.25" y="74.0151">__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="236.25" y="80.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="421" x="248.25" y="86.8198">__setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="236.25" y="93.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="297" x="248.25" y="99.6245">__change_design_variables__(self, *args, **kwargs)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="236.25" y="106.2188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="83" x="248.25" y="112.4292">__solve__(self)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="236.25" y="119.0234"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="147" x="248.25" y="125.2339">__post_processing__(self)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="236.25" y="131.8281"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="75" x="248.25" y="138.0386">_clear__(self)</text><ellipse cx="239.25" cy="147.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="245" x="248.25" y="150.8433">evaluate(self, x: List): f: List, g: List, h: List</text><!--MD5=[90d32ccc189f11441a6ce7cbb63ad387]
+class Material--><rect codeLine="22" fill="#FEFECE" filter="url(#f1u12b1jkbfsgj)" height="337.7031" id="Material" style="stroke: #A80036; stroke-width: 1.5;" width="365" x="7" y="235"/><ellipse cx="160.25" cy="251" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M163.2188,256.6406 Q162.6406,256.9375 162,257.0781 Q161.3594,257.2344 160.6563,257.2344 Q158.1563,257.2344 156.8281,255.5938 Q155.5156,253.9375 155.5156,250.8125 Q155.5156,247.6875 156.8281,246.0313 Q158.1563,244.375 160.6563,244.375 Q161.3594,244.375 162,244.5313 Q162.6563,244.6875 163.2188,244.9844 L163.2188,247.7031 Q162.5938,247.125 162,246.8594 Q161.4063,246.5781 160.7813,246.5781 Q159.4375,246.5781 158.75,247.6563 Q158.0625,248.7188 158.0625,250.8125 Q158.0625,252.9063 158.75,253.9844 Q159.4375,255.0469 160.7813,255.0469 Q161.4063,255.0469 162,254.7813 Q162.5938,254.5 163.2188,253.9219 L163.2188,256.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="50" x="180.75" y="255.1543">Material</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="371" y1="267" y2="267"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="275"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="51" x="27" y="281.2104">__fc: Dict</text><ellipse cx="18" cy="290.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="122" x="27" y="294.0151">mapdl: MapdlConsole</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="300.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="59" x="27" y="306.8198">__mp: Dict</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="313.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="27" y="319.6245">__name: Str</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="326.2188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="78" x="27" y="332.4292">__number: Int</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="339.0234"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="62" x="27" y="345.2339">__path: Str</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="8" x2="371" y1="351.8281" y2="351.8281"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="359.8281"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="339" x="27" y="366.0386">__init__(self, mapdl: MapdlConsole, name: Str, number: Int)</text><ellipse cx="18" cy="375.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="91" x="27" y="378.8433">assign_mp(self)</text><ellipse cx="18" cy="388.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="83" x="27" y="391.6479">assign_fc(self)</text><ellipse cx="18" cy="401.2422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="135" x="27" y="404.4526">load(self, filename: Str)</text><ellipse cx="18" cy="414.0469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="162" x="27" y="417.2573">read_csv(self, filename: Str)</text><ellipse cx="18" cy="426.8516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="56" x="27" y="430.062">save(self)</text><ellipse cx="18" cy="456.4609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="68" x="27" y="459.6714">fc(self): Dict</text><ellipse cx="18" cy="469.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="76" x="27" y="472.4761">mp(self): Dict</text><ellipse cx="18" cy="482.0703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="86" x="27" y="485.2808">name(self): Str</text><ellipse cx="18" cy="494.875" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="95" x="27" y="498.0854">number(self): Int</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="8" x2="171.5" y1="443.0586" y2="443.0586"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="36" x="171.5" y="446.3667">Getter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="207.5" x2="371" y1="443.0586" y2="443.0586"/><ellipse cx="18" cy="524.4844" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="86" x="27" y="527.6948">fc(self, fc: Dict)</text><ellipse cx="18" cy="537.2891" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="102" x="27" y="540.4995">mp(self, mp: Dict)</text><ellipse cx="18" cy="550.0938" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="126" x="27" y="553.3042">name(self, name: Str)</text><ellipse cx="18" cy="562.8984" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="150" x="27" y="566.1089">number(self, number: Str)</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="8" x2="172" y1="511.082" y2="511.082"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="172" y="514.3901">Setter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="207" x2="371" y1="511.082" y2="511.082"/><!--MD5=[220b5756a1049df4545ee413c2da56c8]
+class MapdlConsole--><rect codeLine="20" fill="#FEFECE" filter="url(#f1u12b1jkbfsgj)" height="48" id="MapdlConsole" style="stroke: #A80036; stroke-width: 1.5;" width="119" x="407" y="380"/><ellipse cx="422" cy="396" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M424.9688,401.6406 Q424.3906,401.9375 423.75,402.0781 Q423.1094,402.2344 422.4063,402.2344 Q419.9063,402.2344 418.5781,400.5938 Q417.2656,398.9375 417.2656,395.8125 Q417.2656,392.6875 418.5781,391.0313 Q419.9063,389.375 422.4063,389.375 Q423.1094,389.375 423.75,389.5313 Q424.4063,389.6875 424.9688,389.9844 L424.9688,392.7031 Q424.3438,392.125 423.75,391.8594 Q423.1563,391.5781 422.5313,391.5781 Q421.1875,391.5781 420.5,392.6563 Q419.8125,393.7188 419.8125,395.8125 Q419.8125,397.9063 420.5,398.9844 Q421.1875,400.0469 422.5313,400.0469 Q423.1563,400.0469 423.75,399.7813 Q424.3438,399.5 424.9688,398.9219 L424.9688,401.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="87" x="436" y="400.1543">MapdlConsole</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="408" x2="525" y1="412" y2="412"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="408" x2="525" y1="420" y2="420"/><!--MD5=[302e80646d9ca9ee328a23acf65327a0]
+class PrepFunctions--><rect codeLine="48" fill="#FEFECE" filter="url(#f1u12b1jkbfsgj)" height="60.8047" id="PrepFunctions" style="stroke: #A80036; stroke-width: 1.5;" width="350" x="561.25" y="373.5"/><ellipse cx="687" cy="389.5" fill="#DA70D6" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M682.7188,383.1094 L685.6406,383.1094 L687.1094,388.5469 L688.5781,383.1094 L691.5156,383.1094 L691.5156,395.5 L689.4063,395.5 L689.4063,385.5781 L688.0938,391 L686.1563,391 L684.8281,385.5781 L684.8281,395.5 L682.7188,395.5 L682.7188,383.1094 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="90" x="707.5" y="393.6543">PrepFunctions</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="562.25" x2="910.25" y1="405.5" y2="405.5"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="562.25" x2="910.25" y1="413.5" y2="413.5"/><ellipse cx="572.25" cy="424.5" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="324" x="581.25" y="427.7104">get_edges(mapdl: MapdlConsole, x: List): le: List, te: List</text><!--MD5=[d6fc879790fa9ab996c263eef134353e]
+class PostFunctions--><rect codeLine="52" fill="#FEFECE" filter="url(#f1u12b1jkbfsgj)" height="60.8047" id="PostFunctions" style="stroke: #A80036; stroke-width: 1.5;" width="237" x="947" y="373.5"/><ellipse cx="1016.75" cy="389.5" fill="#DA70D6" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M1012.4688,383.1094 L1015.3906,383.1094 L1016.8594,388.5469 L1018.3281,383.1094 L1021.2656,383.1094 L1021.2656,395.5 L1019.1563,395.5 L1019.1563,385.5781 L1017.8438,391 L1015.9063,391 L1014.5781,385.5781 L1014.5781,395.5 L1012.4688,395.5 L1012.4688,383.1094 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="89" x="1037.25" y="393.6543">PostFunctions</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="948" x2="1183" y1="405.5" y2="405.5"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="948" x2="1183" y1="413.5" y2="413.5"/><ellipse cx="958" cy="424.5" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="211" x="967" y="427.7104">fc_puck(mapdl: MapdlConsole): I: List</text><!--MD5=[d7f14acd6f99c0ef42196143ca271e75]
+reverse link Femodel to Material--><path codeLine="2" d="M483.777,164.797 C452.692,187.099 419.406,211.579 389.25,235 C383.43,239.52 377.543,244.143 371.622,248.838 " fill="none" id="Femodel-backto-Material" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#FFFFFF" points="494.672,157.005,487.4648,157.2419,484.9115,163.9858,492.1187,163.7489,494.672,157.005" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="474.1655" y="177.5645">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="379.7904" y="238.0095">1..*</text><!--MD5=[c7976f7bdf03601370a1151c75d4ee64]
+reverse link Femodel to MapdlConsole--><path codeLine="3" d="M564.85,169.281 C534.888,240.302 494.464,336.123 476.081,379.696 " fill="none" id="Femodel-backto-MapdlConsole" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#FFFFFF" points="569.939,157.219,563.9213,161.1924,565.2746,168.2754,571.2923,164.302,569.939,157.219" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="557.3646" y="177.4135">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="468.0258" y="369.0108">1</text><!--MD5=[54f3d55e5d857ec877a1f723e8bbceec]
+link Femodel to PrepFunctions--><path codeLine="5" d="M634.619,162.096 C662.517,228.226 700.972,319.379 721.663,368.424 " fill="none" id="Femodel-PrepFunctions" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,3.0;"/><polygon fill="#A80036" points="723.731,373.326,723.9196,363.4789,721.7882,368.7189,716.5482,366.5875,723.731,373.326" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="632.561,157.219,632.375,167.0661,634.5051,161.8256,639.7456,163.9556,632.561,157.219" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="30" x="654.25" y="200.0669">uses</text><!--MD5=[e06edb492ab80ff5be0a4752f1b4a4f4]
+link Femodel to PostFunctions--><path codeLine="6" d="M803.225,159.464 C846.631,180.545 890.698,205.801 928.25,235 C977.356,273.183 1020.16,332.09 1044.33,369.046 " fill="none" id="Femodel-PostFunctions" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,3.0;"/><polygon fill="#A80036" points="1047.19,373.441,1045.6482,363.7136,1044.4691,369.2462,1038.9365,368.0671,1047.19,373.441" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="798.483,157.176,804.8512,164.6891,802.9864,159.3484,808.3271,157.4837,798.483,157.176" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="30" x="881.25" y="200.0669">uses</text><!--MD5=[a2a5e6d50b48c50b6bd71b98048aa376]
+@startuml
+
+Femodel "1" o- - "1..*" Material
+Femodel "1" o- - "1" MapdlConsole
+'Material "1" o- - "1" MapdlConsole
+Femodel <-[dotted]-> PrepFunctions : uses
+Femodel <-[dotted]-> PostFunctions : uses
+
+class Femodel{
+  +mapdl: MapdlConsole
+  - -
+  -__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)
+  - __setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)
+  -__change_design_variables__(self, *args, **kwargs)
+  -__solve__(self)
+  -__post_processing__(self)
+  -_clear__(self)
+  +evaluate(self, x: List): f: List, g: List, h: List
+}
+
+class MapdlConsole{}
+
+class Material{
+  -__fc: Dict
+  +mapdl: MapdlConsole
+  -__mp: Dict
+  -__name: Str
+  -__number: Int
+  -__path: Str
+  - -
+  -__init__(self, mapdl: MapdlConsole, name: Str, number: Int)
+  +assign_mp(self)
+  +assign_fc(self)
+  +load(self, filename: Str)
+  +read_csv(self, filename: Str)
+  +save(self)
+  ..Getter..
+  +fc(self): Dict
+  +mp(self): Dict
+  +name(self): Str
+  +number(self): Int
+  ..Setter..
+  +fc(self, fc: Dict)
+  +mp(self, mp: Dict)
+  +name(self, name: Str)
+  +number(self, number: Str)
+}
+
+class PrepFunctions << (M,orchid) >> {
+  +{static}get_edges(mapdl: MapdlConsole, x: List): le: List, te: List
+}
+
+class PostFunctions << (M,orchid) >> {
+  +{static}fc_puck(mapdl: MapdlConsole): I: List
+}
+
+@enduml
+
+@startuml
+
+Femodel "1" o- - "1..*" Material
+Femodel "1" o- - "1" MapdlConsole
+Femodel <-[dotted]-> PrepFunctions : uses
+Femodel <-[dotted]-> PostFunctions : uses
+
+class Femodel{
+  +mapdl: MapdlConsole
+  - -
+  -__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)
+  - __setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)
+  -__change_design_variables__(self, *args, **kwargs)
+  -__solve__(self)
+  -__post_processing__(self)
+  -_clear__(self)
+  +evaluate(self, x: List): f: List, g: List, h: List
+}
+
+class MapdlConsole{}
+
+class Material{
+  -__fc: Dict
+  +mapdl: MapdlConsole
+  -__mp: Dict
+  -__name: Str
+  -__number: Int
+  -__path: Str
+  - -
+  -__init__(self, mapdl: MapdlConsole, name: Str, number: Int)
+  +assign_mp(self)
+  +assign_fc(self)
+  +load(self, filename: Str)
+  +read_csv(self, filename: Str)
+  +save(self)
+  ..Getter..
+  +fc(self): Dict
+  +mp(self): Dict
+  +name(self): Str
+  +number(self): Int
+  ..Setter..
+  +fc(self, fc: Dict)
+  +mp(self, mp: Dict)
+  +name(self, name: Str)
+  +number(self, number: Str)
+}
+
+class PrepFunctions << (M,orchid) >> {
+  +{static}get_edges(mapdl: MapdlConsole, x: List): le: List, te: List
+}
+
+class PostFunctions << (M,orchid) >> {
+  +{static}fc_puck(mapdl: MapdlConsole): I: List
+}
+
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 17:10:01 CEST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: de
+Country: DE
+--></g></svg>

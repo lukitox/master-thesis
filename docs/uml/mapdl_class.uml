@@ -1,0 +1,57 @@
+@startuml
+
+Femodel "1" o-- "1..*" Material
+Femodel "1" o-- "1" MapdlConsole
+'Material "1" o-- "1" MapdlConsole
+Femodel <-[dotted]-> PrepFunctions : uses
+Femodel <-[dotted]-> PostFunctions : uses
+
+class Femodel{
+  +mapdl: MapdlConsole
+  --
+  -__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)
+  - __setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)
+  -__change_design_variables__(self, *args, **kwargs)
+  -__solve__(self)
+  -__post_processing__(self)
+  -_clear__(self)
+  +evaluate(self, x: List): f: List, g: List, h: List
+}
+
+class MapdlConsole{}
+
+class Material{
+  -__fc: Dict
+  +mapdl: MapdlConsole
+  -__mp: Dict
+  -__name: Str
+  -__number: Int
+  -__path: Str
+  --
+  -__init__(self, mapdl: MapdlConsole, name: Str, number: Int)
+  +assign_mp(self)
+  +assign_fc(self)
+  +load(self, filename: Str)
+  +read_csv(self, filename: Str)
+  +save(self)
+  ..Getter..
+  +fc(self): Dict
+  +mp(self): Dict
+  +name(self): Str
+  +number(self): Int
+  ..Setter..
+  +fc(self, fc: Dict)
+  +mp(self, mp: Dict)
+  +name(self, name: Str)
+  +number(self, number: Str)
+}
+
+class PrepFunctions << (M,orchid) >> {
+  +{static}get_edges(mapdl: MapdlConsole, x: List): le: List, te: List
+}
+
+class PostFunctions << (M,orchid) >> {
+  +{static}fc_puck(mapdl: MapdlConsole): I: List
+}
+
+@enduml

@@ -178,13 +178,15 @@
 <dt id="util_loads.xsoftware.Xsoftware">
 <em class="property">class </em><code class="sig-prename descclassname">util_loads.xsoftware.</code><code class="sig-name descname">Xsoftware</code><a class="headerlink" href="#util_loads.xsoftware.Xsoftware" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Parent of xfoil and xrotor class. This class contains all methods, that are common in xrotor and xfoil class.</p>
+<p>Parent of xfoil and xrotor class. This class contains all methods,
+that are common in xrotor and xfoil class.</p>
 <p>The interface is implemented as a Context Manager
 (ref: <a class="reference external" href="https://book.pythontips.com/en/latest/context_managers.html">https://book.pythontips.com/en/latest/context_managers.html</a>).</p>
 <dl class="py method">
 <dt id="util_loads.xsoftware.Xsoftware.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">argument</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xsoftware.Xsoftware.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Basic method that writes all the commands into the input file and makes a line break after every command.</p>
+<dd><p>Basic method that writes all the commands into the input file and
+makes a line break after every command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>argument</strong> – XFOIL or XROTOR command. Will be converted to string type.</p>
@@ -195,7 +197,8 @@
 <dl class="py method">
 <dt id="util_loads.xsoftware.Xsoftware.run_array">
 <code class="sig-name descname">run_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xsoftware.Xsoftware.run_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses a numpy.array or list into the input file. This method is used for the propeller geometry input.</p>
+<dd><p>Parses a numpy.array or list into the input file. This method is used
+for the propeller geometry input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>array</strong> (<em>np.array</em><em> or </em><em>list</em>) – array or list as input.</p>
@@ -348,7 +351,8 @@
 <dl class="py method">
 <dt id="util_loads.xrotor.Xrotor.read_bend_output">
 <em class="property">static </em><code class="sig-name descname">read_bend_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.read_bend_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads the output file of XROTORs BEND routine and returns the content as DataFrame</p>
+<dd><p>Reads the output file of XROTORs BEND routine and returns the content
+as DataFrame</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.BEND   Calculate structural loads and deflections
 </pre></div>
 </div>
@@ -368,7 +372,8 @@
 <dl class="py method">
 <dt id="util_loads.xrotor.Xrotor.read_oper_output">
 <em class="property">static </em><code class="sig-name descname">read_oper_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util_loads.xrotor.Xrotor.read_oper_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads the output file of XROTORs OPER routine and returns the content as DataFrames</p>
+<dd><p>Reads the output file of XROTORs OPER routine and returns the content
+as DataFrames.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.OPER   Calculate off-design operating points
 </pre></div>
 </div>
@@ -475,20 +480,19 @@ Iter : int</p>
 <dt id="util_loads.airfoil.Airfoil.xrotor_characteristics">
 <em class="property">property </em><code class="sig-name descname">xrotor_characteristics</code><a class="headerlink" href="#util_loads.airfoil.Airfoil.xrotor_characteristics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns airfoil characteristics dictionary for XROTOR.</p>
+<blockquote>
+<div><p>Zero-lift alpha (deg)
+d(Cl)/d(alpha)
+Maximum Cl
+Minimum Cl
+Minimum Cd
+Cl at minimum Cd
+d(Cd)/d(Cl**2)
+Cm</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><p><strong>dict</strong> –</p>
-<ul class="simple">
-<li><p>Zero-lift alpha (deg)</p></li>
-<li><p>d(Cl)/d(alpha)</p></li>
-<li><p>Maximum Cl</p></li>
-<li><p>Minimum Cl</p></li>
-<li><p>Minimum Cd</p></li>
-<li><p>Cl at minimum Cd</p></li>
-<li><p>d(Cd)/d(Cl**2)</p></li>
-<li><p>Cm</p></li>
-</ul>
-</p>
+<dd class="field-odd"><p><strong>dict</strong></p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>int or float</p>
