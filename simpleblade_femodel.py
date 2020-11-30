@@ -175,7 +175,7 @@ class Femodel:
         self.mapdl.prep7()
         self.mapdl.cdread('all', ansys_input_filename, 'cdb')
         
-        self.mapdl.open_gui()
+        # self.mapdl.open_gui()
         
     def evaluate(self, x):
         """
@@ -206,5 +206,78 @@ class Femodel:
         # Calculate objective Function and restrictions
         
         return f, g, h
+    
+    @property
+    def elememt_data(self):
+        return self.__element_data
+    
+    def set_element_data(self):
         
+        data_array = []
+        enum = self.mapdl.mesh.enum
         
+        for element in enum:
+            self.mapdl.get('mp_x','elem',element,'cent','x')
+            self.mapdl.get('mp_y','elem',element,'cent','y')
+            self.mapdl.get('mp_z','elem',element,'cent','z')
+            
+            element_midpoint = np.array([self.mapdl.parameters['mp_x'],
+                                         self.mapdl.parameters['mp_y'],
+                                         self.mapdl.parameters['mp_z']])
+            
+            leading_edge, trailing_edge, chordlength = \
+                self.get_edges(element_midpoint[1])
+                
+            # Orthographic projection to get relative chord length:
+            lambda_ = np.dot(element_midpoint - leading_edge,trailing_edge)/ \
+                np.dot(trailing_edge, trailing_edge)
+                
+            projected_point = leading_edge + lambda_ * trailing_edge
+            
+            relative_chord = np.linalg.norm(projected_point - leading_edge)/ \
+                chordlength
+            
+            data_array.append([element,
+                               element_midpoint[0],
+                               element_midpoint[1],
+                               element_midpoint[2],
+                               relative_chord,
+                               chordlength,
+                               projected_point[0],
+                               projected_point[1],
+                               projected_point[2],
+                               ])
+        
+        self.__element_data = np.array(data_array)
+    
+    def get_edges(self, y):
+        
+        def intersection(lnum):
+            kp_0 =  100000
+            kp_num = 5
+            a_num = 2
+            
+            self.mapdl.prep7()
+            
+            self.mapdl.k(kp_0+1, -1000, y, -1000)
+            self.mapdl.k(kp_0+2, 1000, y, -1000)
+            self.mapdl.k(kp_0+3, 1000, y, 1000)
+            self.mapdl.k(kp_0+4, -1000, y, 1000)
+            
+            self.mapdl.a(kp_0+1, kp_0+2, kp_0+3, kp_0+4)
+                
+            self.mapdl.lina(lnum, a_num)
+            
+            coords = []
+            for axis in ['x','y','z']:
+                self.mapdl.get('c', 'KP', kp_num, 'loc', axis)
+                coords.append(self.mapdl.parameters['c'])
+            
+            self.mapdl.kdele(kp_num)
+            
+            return coords
+    
+        le = np.array(intersection(4))
+        te = np.array(intersection(2))
+        
+        return le, te, np.linalg.norm(te - le)
