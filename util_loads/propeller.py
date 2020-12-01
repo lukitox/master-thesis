@@ -4,10 +4,11 @@
 import numpy as np
 import pandas as pd
 import bisect
+import math
 
 # Local imports
 from .xrotor import Xrotor
-from .support import cleanup
+from .support import cleanup, print_call
 from .airfoil import Airfoil
 
 #%%
@@ -128,6 +129,59 @@ class Propeller:
     @parameters.setter
     def parameters(self, parameters):
         self.__parameters = parameters
+    
+    # @print_call
+    def state(self, rel_chord, rel_radius, loadcase='envelope'):
+        
+        if loadcase == 'envelope':
+            df = self.load_envelope['oper']
+        else:
+            df = self.loadcases[loadcase][1]['oper']
+            
+        df = df.append(pd.Series(name='new', dtype=float))
+        df['r/R']['new'] = rel_radius
+        df = df.sort_values(['r/R'])
+        df = df.interpolate()
+        
+        cl = df['CL']['new']
+        cd = df['Cd']['new']
+        re = df['REx10^3']['new']*1000
+        
+        if math.isnan(cl):
+            cl = df['CL'][0]
+            cd = df['Cd'][0]
+            re = df['REx10^3'][0]*1000
+        
+        if rel_radius <= self.sections[0][0]:
+            airfoil = self.sections[0][1]
+            pressures = airfoil.cp_vs_x('cl', cl)
+            
+        elif rel_radius >=self.sections[len(self.sections)-1][0]:
+            airfoil = self.sections[len(self.sections)-1][1]
+            pressures = airfoil.cp_vs_x('cl', cl)
+            
+        else:
+            index = bisect.bisect([x[0] for x in self.sections],rel_radius)
+            left_section = self.sections[index-1]
+            right_section = self.sections[index]
+            
+            fraction = (rel_radius - left_section[0])/ \
+                (right_section[0] - left_section[0])
+                
+            pressures = left_section[1].cp_vs_x('cl', cl)*(1-fraction)+\
+                right_section[1].cp_vs_x('cl', cl)*(fraction)
+                   
+        pressures = pressures.append(pd.Series(name='new', dtype=float))
+        pressures['x']['new'] = rel_chord
+        pressures = pressures.sort_values(['x'])
+        pressures = pressures.interpolate()
+        
+        return {'Cl': cl,
+                'Cd': cd,
+                'Re': re,
+                'Cp_suc': pressures['Cp_suc']['new'],
+                'Cp_pres': pressures['Cp_pres']['new'],
+                }
 
     def pressure_distribution(self, loadcase):
         
