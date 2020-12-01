@@ -12,13 +12,14 @@ Author: Lukas Hilbers
 import time
 import numpy as np
 import pyansys
-from pyOpt import Optimization
-from pyOpt import ALPSO
+# from pyOpt import Optimization
+# from pyOpt import ALPSO
 
 
 # Local imports
 from simpleblade_femodel import Femodel
 from util_loads import Propeller, Airfoil, Loadcase
+from util_mapdl.prep_functions import get_edges
 
 # %% Instantiate Airfoils and assign radial sections
 
@@ -31,12 +32,12 @@ sections = [# r/R, Airfoil
             [1.00, airfoil2]]
 # ...
 
-# for section in sections:   
-#     section[1].set_polar(alpha_start=-20,
-#                          alpha_stop=20,
-#                          alpha_inc=0.2)
+for section in sections:   
+    section[1].set_polar(alpha_start=-20,
+                          alpha_stop=20,
+                          alpha_inc=0.2)
 
-# # %% Instantiate Propeller and assign geometry and airfoils
+# %% Instantiate Propeller and assign geometry and airfoils
 
 propeller = Propeller(number_of_blades=2,
                       tip_radius=0.412,
@@ -50,18 +51,18 @@ propeller.geometry = np.array([[0.17, 0.10, 17],
 
 propeller.sections = sections
 
-# # %% Instantiate Loadcases
+# %% Instantiate Loadcases
 
-# propeller.add_loadcase(loadcase=Loadcase(name='Max RPM', flight_speed=0.01))
-# # ...
+propeller.add_loadcase(loadcase=Loadcase(name='Max RPM', flight_speed=0.01))
+# ...
 
-# propeller.loadcases[0][0].set_data('rpm',4000)
-# # ...
+propeller.loadcases[0][0].set_data('rpm',4000)
+# ...
 
-# # %% Calculate loads
+# %% Calculate loads
 
-# propeller.calc_loads()
-
+propeller.calc_loads()
+propeller.set_load_envelope()
 
 # %% Run ANSYS and instantiate FE-Model
 
@@ -69,7 +70,7 @@ ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS'
 mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              nproc=4,
                              override=True,
-                             # loglevel='error',
+                             loglevel='error',
                              additional_switches='-smp -d WIN32C',
                              allow_ignore=True,
                              mode='console',
