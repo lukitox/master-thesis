@@ -10,6 +10,7 @@ Author: Lukas Hilbers
 
 # Third-party imports
 import numpy as np
+import pandas as pd
 
 # Local imports
 from util_mapdl import post_functions, Material
@@ -25,6 +26,7 @@ class Femodel:
     
     def __init__(self, mapdl, propeller, loads, mesh_density_factor = 1, seltol = 1e-4):
         self.mapdl = mapdl
+        self.propeller = propeller
         
         # Materials
         self.m_flaxpreg = Material(self.mapdl, 'FLAXPREG-T-UD', 1)
@@ -63,8 +65,8 @@ class Femodel:
         # Geometry
         self.mapdl.k(1,-10,10,0)
         self.mapdl.k(2,40,10,0)
-        self.mapdl.k(3,-2,400,0)
-        self.mapdl.k(4,8,400,0)
+        self.mapdl.k(3,-2,412,0)
+        self.mapdl.k(4,8,412,0)
         
         self.mapdl.a(1,2,4,3)
         # Meshing
@@ -229,13 +231,33 @@ class Femodel:
                 self.get_edges(element_midpoint[1])
                 
             # Orthographic projection to get relative chord length:
-            lambda_ = np.dot(element_midpoint - leading_edge,trailing_edge)/ \
-                np.dot(trailing_edge, trailing_edge)
+            u = trailing_edge - leading_edge     
                 
-            projected_point = leading_edge + lambda_ * trailing_edge
+            lambda_ = np.dot(element_midpoint - leading_edge,u)/ \
+                np.dot(u, u)
+                
+            projected_point = leading_edge + lambda_ * u
             
             relative_chord = np.linalg.norm(projected_point - leading_edge)/ \
                 chordlength
+                
+            # relative Radius
+            relative_radius = element_midpoint[1]/ \
+                (self.propeller.parameters['tip_radius']*1000)
+            
+            # section height
+            coords, profiltropfen, camberline = self.propeller.get_airfoil(relative_radius)
+            
+            profiltropfen = profiltropfen.iloc[:profiltropfen['X'].idxmin(), :]
+            empty_frame = pd.DataFrame([relative_chord], columns=['X'])
+            empty_frame['Y'] = np.nan
+            profiltropfen = profiltropfen.append(empty_frame)
+            profiltropfen = profiltropfen.sort_values('X')
+            profiltropfen = profiltropfen.interpolate()
+            profiltropfen = profiltropfen.dropna()
+            profiltropfen = profiltropfen.drop_duplicates(keep='first')
+            
+            sec_height = 2*np.array(profiltropfen[profiltropfen['X']==relative_chord]['Y'])[0]
             
             data_array.append([element,
                                element_midpoint[0],
@@ -243,9 +265,8 @@ class Femodel:
                                element_midpoint[2],
                                relative_chord,
                                chordlength,
-                               projected_point[0],
-                               projected_point[1],
-                               projected_point[2],
+                               relative_radius,
+                               sec_height,
                                ])
         
         self.__element_data = np.array(data_array)
