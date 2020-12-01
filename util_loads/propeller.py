@@ -194,6 +194,64 @@ class Propeller:
     def sections(self, array):
         self.__sections = array
 
-    def add_section(self, rR, airfoil):
-        self.sections.append([rR, airfoil])
+    def add_section(self, rel_radius, airfoil):
+        """
+        Adds an airfoil section to the propeller.
+
+        Parameters
+        ----------
+        rel_radius : Float
+            Relative radius 0..1.
+        airfoil : Airfoil
+            Instance of Airfoil class.
+
+        """
+        self.sections.append([rel_radius, airfoil])
         self.sections.sort()
+        
+    def get_airfoil(self, rel_radius):
+        """
+        Returns the propellers airfoil coordinates a requested r/R. An 
+        interpolation method runs in the background.
+
+        Parameters
+        ----------
+        rel_radius : Float
+            Relative radius: 0..1.
+
+        Returns
+        -------
+        DataFrame
+            The interpolated airfoil.
+        DataFrame
+            The symmetrical airfoil (Profiltropfen).
+        DataFrame
+            The camber line.
+
+        """
+        
+        if rel_radius <= self.sections[0][0]:
+            airfoil = self.sections[0][1]
+            
+            coords, profiltropfen, camberline = Airfoil.interpolate(airfoil,
+                                                                    airfoil,
+                                                                    0)
+        elif rel_radius >=self.sections[len(self.sections)-1][0]:
+            airfoil = self.sections[len(self.sections)-1][1]
+            
+            coords, profiltropfen, camberline = Airfoil.interpolate(airfoil,
+                                                                    airfoil,
+                                                                    1)            
+        else:
+            index = bisect.bisect([x[0] for x in self.sections],rel_radius)
+            left_section = self.sections[index-1]
+            right_section = self.sections[index]
+            
+            fraction = (rel_radius - left_section[0])/ \
+                (right_section[0] - left_section[0])
+                
+            coords, profiltropfen, camberline = Airfoil.interpolate(left_section[1],
+                                                                    right_section[1],
+                                                                    fraction)
+            
+        return coords, profiltropfen, camberline
