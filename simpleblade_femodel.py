@@ -215,6 +215,8 @@ class Femodel:
     
     def set_element_data(self):
         
+        self.mapdl.prep7()        
+        
         data_array = []
         enum = self.mapdl.mesh.enum
         
@@ -259,6 +261,13 @@ class Femodel:
             
             sec_height = 2*np.array(profiltropfen[profiltropfen['X']==relative_chord]['Y'])[0]
             
+            # element area
+            element_area = self.mapdl.get('a', 'elem', element, 'area')
+            
+            # state
+            
+            state = self.propeller.state(relative_chord, relative_radius)
+            
             data_array.append([element,
                                element_midpoint[0],
                                element_midpoint[1],
@@ -266,10 +275,28 @@ class Femodel:
                                relative_chord,
                                chordlength,
                                relative_radius,
-                               sec_height,
+                               sec_height*chordlength,
+                               element_area,
+                               state['Cp_suc'],
+                               state['Cp_pres'],
                                ])
         
-        self.__element_data = np.array(data_array)
+        data_array = np.array(data_array)
+            
+        df = pd.DataFrame(data_array, index=data_array[:,0], columns=['Element Number',
+                                                                      'Midpoint X',
+                                                                      'Midpoint Y',
+                                                                      'Midpoint Z',
+                                                                      'Relative Chord',
+                                                                      'Chord',
+                                                                      'Relative Radius',
+                                                                      'Element height',
+                                                                      'Element area',
+                                                                      'Cp_suc',
+                                                                      'Cp_pres',
+                                                                      ])
+            
+        self.__element_data = df
     
     def get_edges(self, y):
         
