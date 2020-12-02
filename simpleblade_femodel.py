@@ -119,9 +119,17 @@ class Femodel:
         
         # Read ANSYS Input file (Do not change!)
         self.mapdl.prep7()
-        self.mapdl.cdread('all', ansys_input_filename, 'cdb')
+        # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
         
         # Vary Geometry
+        for element in self.elememt_data['Element Number']:
+            self.mapdl.sectype(element,'shell','','')
+            self.mapdl.secdata(self.elememt_data['Element height'][element],
+                               1, # self.m_flaxpreg.number,
+                               0., 
+                               3)
+            self.mapdl.emodif(element, 'secnum', element)
+        self.mapdl.allsel('all')
         
     def __solve__(self):
         """
