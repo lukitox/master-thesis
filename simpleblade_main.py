@@ -23,19 +23,21 @@ from util_mapdl.prep_functions import get_edges
 
 # %% Instantiate Airfoils and assign radial sections
 
-airfoil1 = Airfoil('mh113.txt', re=250000, ncrit=9, iter_limit=200)
-airfoil2 = Airfoil('mh121.txt', re=500000, ncrit=9, iter_limit=200)
+mh112 = Airfoil('mh112.txt', 300000)
+mh113 = Airfoil('mh113.txt', 300000)
+mh114 = Airfoil('mh114.txt', 300000)
+mh115 = Airfoil('mh115.txt', 500000)
+mh116 = Airfoil('mh116.txt', 500000)
+mh117 = Airfoil('mh117.txt', 500000)
 # ...
 
-sections = [# r/R, Airfoil
-            [0.25, airfoil1],
-            [1.00, airfoil2]]
+sections = [[0.15, mh112],
+            [0.30, mh113],
+            [0.45, mh114],
+            [0.60, mh115],
+            [0.80, mh116],
+            [1.00, mh117]]
 # ...
-
-for section in sections:   
-    section[1].set_polar(alpha_start=-20,
-                          alpha_stop=20,
-                          alpha_inc=0.2)
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
@@ -45,11 +47,30 @@ propeller = Propeller(number_of_blades=2,
                       )
 
 propeller.geometry = np.array([[0.17, 0.10, 17],
-                                [0.52, 0.13, 13],
-                                [1.00, 0.08, 7]])
+                               [0.22, 0.14, 20],
+                               [0.27, 0.16, 18],
+                               [0.32, 0.15, 16],
+                               [0.37, 0.15, 15],
+                               [0.42, 0.14, 14],
+                               [0.47, 0.14, 13],
+                               [0.52, 0.13, 13],
+                               [0.57, 0.13, 12],
+                               [0.62, 0.12, 12],
+                               [0.67, 0.12, 11],
+                               [0.72, 0.11, 11],
+                               [0.77, 0.11, 11],
+                               [0.82, 0.10, 11],
+                               [0.87, 0.10, 10],
+                               [0.92, 0.09, 10],
+                               [0.97, 0.08, 7],
+                               [1.00, 0.01, 7],
+                               ])
 # ...
 
 propeller.sections = sections
+
+for airfoil in propeller.sections:
+    airfoil[1].set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25) 
 
 # %% Instantiate Loadcases
 
@@ -70,7 +91,7 @@ ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS'
 mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              nproc=4,
                              override=True,
-                             loglevel='error',
+                             # loglevel='error',
                              additional_switches='-smp -d WIN32C',
                              allow_ignore=True,
                              mode='console',

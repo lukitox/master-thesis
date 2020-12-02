@@ -72,7 +72,7 @@ class Femodel:
         # Meshing
         self.mapdl.lsel('s','line','',1)
         self.mapdl.lsel('a','line','',3)
-        self.mapdl.lesize('all','','',5)
+        self.mapdl.lesize('all','','',15,-2)
         
         self.mapdl.lsel('s','line','',2)
         self.mapdl.lsel('a','line','',4)
