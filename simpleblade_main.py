@@ -91,7 +91,7 @@ ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS'
 mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              nproc=4,
                              override=True,
-                             # loglevel='error',
+                             loglevel='error',
                              additional_switches='-smp -d WIN32C',
                              allow_ignore=True,
                              mode='console',
@@ -103,6 +103,11 @@ femodel = Femodel(mapdl,
                   propeller = propeller,
                   loads= [], # propeller.loadcases # Todo: Load/ Propeller object
                   )
+
+femodel.cdread()
+femodel.set_element_data()
+femodel.apply_loads()
+
 
 # %% Define Objective function 
 
