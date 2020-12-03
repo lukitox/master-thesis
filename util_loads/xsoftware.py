@@ -49,7 +49,7 @@ class Xsoftware:
         #         'DISPLAY=:1 xfoil < ' + self.input_file,
         #         'kill -15 $!']
         
-        args = [self.name + ' < ' + self.input_file,]
+        args = [self.name + ' < ' + self.input_file,] # 'xvfb-run ' + 
         
         process = subprocess.Popen(args,
                                    shell=True,
