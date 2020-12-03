@@ -136,15 +136,15 @@ class Femodel:
         # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
         
         # Vary Geometry
-        for element in self.elememt_data['Element Number']:
+        for element in self.element_data['Element Number']:
             self.mapdl.sectype(element,'shell','','')
-            self.mapdl.secdata(self.elememt_data['Element height'][element],
+            self.mapdl.secdata(self.element_data['Element height'][element],
                                1, # self.m_flaxpreg.number,
                                0., 
                                3)
             self.mapdl.emodif(element, 'secnum', element)
             
-            self.mapdl.sfe(element,'','pres',1,self.elememt_data['Pressure by Lift'][element])
+            self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
         self.mapdl.allsel('all')
         
     def __solve__(self):
@@ -234,7 +234,7 @@ class Femodel:
         return f, g, h
     
     @property
-    def elememt_data(self):
+    def element_data(self):
         return self.__element_data
     
     def set_element_data(self):
