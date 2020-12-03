@@ -64,10 +64,10 @@ class Femodel:
         self.m_balsa.assign_mp()
         
         # Geometry
-        self.mapdl.k(1,-10,10,0)
-        self.mapdl.k(2,40,10,0)
-        self.mapdl.k(3,-2,412,0)
-        self.mapdl.k(4,8,412,0)
+        self.mapdl.k(1,-18.54,10,26.99)
+        self.mapdl.k(2,55.62,10,0)
+        self.mapdl.k(3,-8.24,412,5.81)
+        self.mapdl.k(4,24.72,412,0)
         
         self.mapdl.k(10,0,10,-10)
         self.mapdl.k(11,0,412,-10)
@@ -143,6 +143,8 @@ class Femodel:
                                0., 
                                3)
             self.mapdl.emodif(element, 'secnum', element)
+            
+            self.mapdl.sfe(element,'','pres',1,self.elememt_data['Pressure by Lift'][element])
         self.mapdl.allsel('all')
         
     def __solve__(self):
@@ -268,6 +270,7 @@ class Femodel:
             # relative Radius
             relative_radius = element_midpoint[1]/ \
                 (self.propeller.parameters['tip_radius']*1000)
+            relative_radius = np.round(relative_radius, 4)
             
             # section height
             coords, profiltropfen, camberline = self.propeller.get_airfoil(relative_radius)
@@ -290,7 +293,7 @@ class Femodel:
             state = self.propeller.state(relative_chord, relative_radius)
             
             # circular velocity
-            f_max = max([i[1]['single_values']['rpm'] for i in self.propeller.loadcases])/60
+            f_max = max([float(i[1]['single_values']['rpm']) for i in self.propeller.loadcases])/60
             v_circ = 2*pi*element_midpoint[1]*f_max
             
             # air density
@@ -298,7 +301,7 @@ class Femodel:
             rho = rho * 1e-12 # convert to tonne/mm^3
             
             # pressure 
-            p = (state['Cp_suc'] + state['Cp_pres']) * (rho/2) * v_circ**2
+            p = -(state['Cp_suc'] - state['Cp_pres']) * (rho/2) * v_circ**2  # Vorzeichen?
             
             # drag
             D = state['Cd'] * element_area * (rho/2) * v_circ**2 
@@ -336,7 +339,7 @@ class Femodel:
                                                                       'Cp_suc',
                                                                       'Cp_pres',
                                                                       'Circular velocity',
-                                                                      'Pressure by lift',
+                                                                      'Pressure by Lift',
                                                                       'Cd',
                                                                       'Drag',
                                                                       ])
