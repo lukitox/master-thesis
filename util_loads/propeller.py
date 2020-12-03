@@ -139,7 +139,8 @@ class Propeller:
             df = self.loadcases[loadcase][1]['oper']
             
         df = df.append(pd.Series(name='new', dtype=float))
-        df['r/R']['new'] = rel_radius
+        # df['r/R']['new'] = rel_radius
+        df.loc['new','r/R'] = rel_radius
         df = df.sort_values(['r/R'])
         df = df.interpolate()
         
