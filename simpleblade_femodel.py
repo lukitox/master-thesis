@@ -11,6 +11,7 @@ Author: Lukas Hilbers
 # Third-party imports
 import numpy as np
 import pandas as pd
+from math import pi
 
 # Local imports
 from util_mapdl import post_functions, Material
@@ -68,7 +69,17 @@ class Femodel:
         self.mapdl.k(3,-2,412,0)
         self.mapdl.k(4,8,412,0)
         
-        self.mapdl.a(1,2,4,3)
+        self.mapdl.k(10,0,10,-10)
+        self.mapdl.k(11,0,412,-10)
+        
+        self.mapdl.larc(1,2,10,200)
+        self.mapdl.l(2,4)
+        self.mapdl.larc(3,4,11,40)
+        self.mapdl.l(3,1)
+        
+        # self.mapdl.a(1,2,4,3)
+        self.mapdl.al(1,2,3,4)
+        
         # Meshing
         self.mapdl.lsel('s','line','',1)
         self.mapdl.lsel('a','line','',3)
@@ -89,6 +100,9 @@ class Femodel:
         self.mapdl.amesh('all')      
     
         # Loads (Todo: here or in __change_design_variables__() method?)
+        
+        self.mapdl.nsel('s','loc','y',10)
+        self.mapdl.d('all','all',0)
         
         # Write ANSYS Input file (Do not change!)
         self.mapdl.allsel('all')
@@ -273,8 +287,21 @@ class Femodel:
             element_area = self.mapdl.get('a', 'elem', element, 'area')
             
             # state
-            
             state = self.propeller.state(relative_chord, relative_radius)
+            
+            # circular velocity
+            f_max = max([i[1]['single_values']['rpm'] for i in self.propeller.loadcases])/60
+            v_circ = 2*pi*element_midpoint[1]*f_max
+            
+            # air density
+            rho = self.propeller.loadcases[0][1]['single_values']['rho(kg/m3)']
+            rho = rho * 1e-12 # convert to tonne/mm^3
+            
+            # pressure 
+            p = (state['Cp_suc'] + state['Cp_pres']) * (rho/2) * v_circ**2
+            
+            # drag
+            D = state['Cd'] * element_area * (rho/2) * v_circ**2 
             
             data_array.append([element,
                                element_midpoint[0],
@@ -282,11 +309,16 @@ class Femodel:
                                element_midpoint[2],
                                relative_chord,
                                chordlength,
+                               # u,
                                relative_radius,
                                sec_height*chordlength,
                                element_area,
                                state['Cp_suc'],
                                state['Cp_pres'],
+                               v_circ,
+                               p,
+                               state['Cd'],
+                               D,
                                ])
         
         data_array = np.array(data_array)
@@ -296,12 +328,17 @@ class Femodel:
                                                                       'Midpoint Y',
                                                                       'Midpoint Z',
                                                                       'Relative Chord',
-                                                                      'Chord',
+                                                                      'Chordlength',
+                                                                      # 'Chord vector',
                                                                       'Relative Radius',
                                                                       'Element height',
                                                                       'Element area',
                                                                       'Cp_suc',
                                                                       'Cp_pres',
+                                                                      'Circular velocity',
+                                                                      'Pressure by lift',
+                                                                      'Cd',
+                                                                      'Drag',
                                                                       ])
             
         self.__element_data = df
