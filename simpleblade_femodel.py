@@ -110,6 +110,28 @@ class Femodel:
         self.mapdl.finish() # Todo: Dopplung vermeiden
         self.mapdl.clear('nostart')
         
+    def apply_loads(self):
+        # Read ANSYS Input file (Do not change!)
+        self.mapdl.prep7()
+        # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
+        
+        self.mapdl.fcum('add')
+        
+        # Vary Geometry
+        for element in self.element_data['Element Number']:            
+            # assign lift
+            self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
+            
+            # assign drag (distributed to the element's nodes)
+            for node in self.mapdl.mesh.elem[int(element-1)][10:]:
+                self.mapdl.f(node,'fx',self.element_chord_vector[int(element-1)][0]*self.element_data['Drag'][element])
+                self.mapdl.f(node,'fz',self.element_chord_vector[int(element-1)][2]*self.element_data['Drag'][element])
+            
+        self.mapdl.allsel('all')
+        self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
+        self.mapdl.finish() # Todo: Dopplung vermeiden
+        self.mapdl.clear('nostart')        
+        
     def __change_design_variables__(self, *args, **kwargs):
         """
         Implement the parameter variation here.
@@ -135,6 +157,8 @@ class Femodel:
         self.mapdl.prep7()
         # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
         
+        self.mapdl.fcum('add')
+        
         # Vary Geometry
         for element in self.element_data['Element Number']:
             self.mapdl.sectype(element,'shell','','')
@@ -144,7 +168,14 @@ class Femodel:
                                3)
             self.mapdl.emodif(element, 'secnum', element)
             
-            self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
+            # # assign lift
+            # self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
+            
+            # # assign drag (distributed to the element's nodes)
+            # for node in self.mapdl.mesh.elem[int(element-1)][10:]:
+            #     self.mapdl.f(node,'fx',self.element_chord_vector[int(element-1)][0]*self.element_data['Drag'][element])
+            #     self.mapdl.f(node,'fz',self.element_chord_vector[int(element-1)][2]*self.element_data['Drag'][element])
+            
         self.mapdl.allsel('all')
         
     def __solve__(self):
@@ -225,7 +256,7 @@ class Femodel:
         
         # Convert input for __change_design_variables__() method
         
-        self.__change_design_variables__(args, kwargs)
+        self.__change_design_variables__()
         self.__solve__()
         f, g, h = self.__post_processing__()
         
@@ -237,11 +268,16 @@ class Femodel:
     def element_data(self):
         return self.__element_data
     
+    @property
+    def element_chord_vector(self):
+        return self.__element_chord_vector
+    
     def set_element_data(self):
         
         self.mapdl.prep7()        
         
         data_array = []
+        chord_vector = [] 
         enum = self.mapdl.mesh.enum
         
         for element in enum:
@@ -257,7 +293,8 @@ class Femodel:
                 self.get_edges(element_midpoint[1])
                 
             # Orthographic projection to get relative chord length:
-            u = trailing_edge - leading_edge     
+            u = trailing_edge - leading_edge
+            u = u/np.linalg.norm(u)
                 
             lambda_ = np.dot(element_midpoint - leading_edge,u)/ \
                 np.dot(u, u)
@@ -312,7 +349,6 @@ class Femodel:
                                element_midpoint[2],
                                relative_chord,
                                chordlength,
-                               # u,
                                relative_radius,
                                sec_height*chordlength,
                                element_area,
@@ -323,6 +359,8 @@ class Femodel:
                                state['Cd'],
                                D,
                                ])
+            
+            chord_vector.append(u)
         
         data_array = np.array(data_array)
             
@@ -332,7 +370,6 @@ class Femodel:
                                                                       'Midpoint Z',
                                                                       'Relative Chord',
                                                                       'Chordlength',
-                                                                      # 'Chord vector',
                                                                       'Relative Radius',
                                                                       'Element height',
                                                                       'Element area',
@@ -345,6 +382,7 @@ class Femodel:
                                                                       ])
             
         self.__element_data = df
+        self.__element_chord_vector = chord_vector
     
     def get_edges(self, y):
         
