@@ -124,8 +124,8 @@ class Femodel:
             
             # assign drag (distributed to the element's nodes)
             for node in self.mapdl.mesh.elem[int(element-1)][10:]:
-                self.mapdl.f(node,'fx',self.element_chord_vector[int(element-1)][0]*self.element_data['Drag'][element])
-                self.mapdl.f(node,'fz',self.element_chord_vector[int(element-1)][2]*self.element_data['Drag'][element])
+                self.mapdl.f(node,'fx',self.element_aoa_vector[int(element-1)][0]*self.element_data['Viscous Drag'][element])
+                self.mapdl.f(node,'fz',self.element_aoa_vector[int(element-1)][2]*self.element_data['Viscous Drag'][element])
             
         self.mapdl.allsel('all')
         self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
@@ -269,6 +269,10 @@ class Femodel:
         return self.__element_data
     
     @property
+    def element_aoa_vector(self):
+        return self.__element_aoa_vector
+    
+    @property
     def element_chord_vector(self):
         return self.__element_chord_vector
     
@@ -278,6 +282,7 @@ class Femodel:
         
         data_array = []
         chord_vector = [] 
+        alpha_vector = []
         enum = self.mapdl.mesh.enum
         
         for element in enum:
@@ -340,15 +345,22 @@ class Femodel:
             # pressure 
             p = -(state['Cp_suc'] - state['Cp_pres']) * (rho/2) * v_circ**2  # Vorzeichen?
             
-            # drag
-            D = state['Cd'] * element_area * (rho/2) * v_circ**2 
-            
             # viscous drag
             nloc = [self.mapdl.get('nloc','node',node,'loc','x') for node in self.mapdl.mesh.elem[element-1][10:]]
             element_len_y = (element_area/ abs(max(nloc)-min(nloc)))/chordlength
             
             c_f = state['Cf']
             c_f_dx = state['Cf'] * element_len_y
+            
+            D_v = c_f_dx*element_area * (rho/2) * v_circ**2 
+            
+            # Angle ot attack
+            alpha = np.deg2rad(state['alpha'])
+            
+            aoa = np.array([1,0,(np.cos(alpha)-u[0])/u[2]])
+            aoa = aoa/np.linalg.norm(aoa)
+            
+            alpha_vector.append(aoa)
             
             data_array.append([element,
                                element_midpoint[0],
@@ -364,9 +376,10 @@ class Femodel:
                                v_circ,
                                p,
                                state['Cd'],
-                               D,
                                c_f,
                                c_f_dx,
+                               D_v,
+                               state['alpha'],
                                ])
             
             chord_vector.append(u)
@@ -387,13 +400,15 @@ class Femodel:
                                                                       'Circular velocity',
                                                                       'Pressure by Lift',
                                                                       'Cd',
-                                                                      'Drag',
                                                                       'Cf',
                                                                       'Cf*dx',
+                                                                      'Viscous Drag',
+                                                                      'alpha',
                                                                       ])
             
         self.__element_data = df
         self.__element_chord_vector = chord_vector
+        self.__element_aoa_vector = alpha_vector
     
     def get_edges(self, y):
         
