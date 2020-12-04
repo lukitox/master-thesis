@@ -154,11 +154,11 @@ class Propeller:
         
         if rel_radius <= self.sections[0][0]:
             airfoil = self.sections[0][1]
-            pressures, cf = airfoil.cp_vs_x('cl', cl)
+            pressures, cf, polar = airfoil.cp_vs_x('cl', cl)
             
         elif rel_radius >=self.sections[len(self.sections)-1][0]:
             airfoil = self.sections[len(self.sections)-1][1]
-            pressures, cf = airfoil.cp_vs_x('cl', cl)
+            pressures, cf, polar = airfoil.cp_vs_x('cl', cl)
             
         else:
             index = bisect.bisect([x[0] for x in self.sections],rel_radius)
@@ -168,12 +168,14 @@ class Propeller:
             fraction = (rel_radius - left_section[0])/ \
                 (right_section[0] - left_section[0])
                 
-            ls_p, ls_cf = left_section[1].cp_vs_x('cl', cl)
-            rs_p, rs_cf = right_section[1].cp_vs_x('cl', cl)
+            ls_p, ls_cf, ls_polar = left_section[1].cp_vs_x('cl', cl)
+            rs_p, rs_cf, rs_polar = right_section[1].cp_vs_x('cl', cl)
                 
             pressures = ls_p*(1-fraction)+rs_p*(fraction)
 
             cf = ls_cf*(1-fraction)+rs_cf*(fraction)
+            
+            polar = ls_polar*(1-fraction)+rs_polar*(fraction)
                    
         pressures = pressures.append(pd.Series(name='new', dtype=float))
         pressures['x']['new'] = rel_chord
@@ -184,9 +186,10 @@ class Propeller:
         cf['x']['new'] = rel_chord
         cf = cf.sort_values(['x'])
         cf = cf.interpolate()        
-        
+                
         return {'Cl': cl,
                 'Cd': cd,
+                'alpha': polar['alpha'][0],
                 'Re': re,
                 'Cp_suc': pressures['Cp_suc']['new'],
                 'Cp_pres': pressures['Cp_pres']['new'],
