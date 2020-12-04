@@ -27,16 +27,16 @@ mh112 = Airfoil('mh112.txt', 300000)
 mh113 = Airfoil('mh113.txt', 300000)
 mh114 = Airfoil('mh114.txt', 300000)
 mh115 = Airfoil('mh115.txt', 500000)
-mh116 = Airfoil('mh116.txt', 500000)
-mh117 = Airfoil('mh117.txt', 500000)
+# mh116 = Airfoil('mh116.txt', 500000)
+# mh117 = Airfoil('mh117.txt', 500000)
 # ...
 
 sections = [[0.15, mh112],
             [0.30, mh113],
             [0.45, mh114],
             [0.60, mh115],
-            [0.80, mh116],
-            [1.00, mh117]]
+            [0.80, mh115],
+            [1.00, mh115]]
 # ...
 
 # %% Instantiate Propeller and assign geometry and airfoils
