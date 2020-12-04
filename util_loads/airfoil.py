@@ -259,6 +259,7 @@ class Airfoil:
 
         cp_vs_x_file = '_xfoil_cpvsx.txt'
         dump_file = '_xfoil_dump.txt'
+        polar_file = '_xfoil_polar.txt'
 
         with Xfoil() as x:
             x.run('load ')
@@ -268,12 +269,16 @@ class Airfoil:
             x.run('oper')
             x.run('vpar')
             x.run('n ' + str(self.__parameters['Ncrit']))
+            x.run('xtr')
             x.run(xtr[0])
             x.run(xtr[1])
             x.run('')
             x.run('visc ' + str(self.__parameters['Re']))
             x.run('iter')
             x.run(str(self.__parameters['Iter']))
+            x.run('pacc')
+            x.run(polar_file)
+            x.run('')
             x.run(mode)
             x.run(value)
             x.run('cpwr')
@@ -282,8 +287,9 @@ class Airfoil:
             x.run(dump_file)
             x.run('')
             x.run('quit')
-
-        return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_dump(dump_file)
+            
+        return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_dump(dump_file),\
+            Xfoil.read_polar(polar_file)
 
     @staticmethod
     @cleanup
