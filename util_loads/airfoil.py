@@ -258,6 +258,7 @@ class Airfoil:
         np.savetxt(coordinates_file, self.coordinates, fmt='%9.8f')
 
         cp_vs_x_file = '_xfoil_cpvsx.txt'
+        dump_file = '_xfoil_dump.txt'
 
         with Xfoil() as x:
             x.run('load ')
@@ -277,10 +278,12 @@ class Airfoil:
             x.run(value)
             x.run('cpwr')
             x.run(cp_vs_x_file)
+            x.run('dump')
+            x.run(dump_file)
             x.run('')
             x.run('quit')
 
-        return Xfoil.read_cp_vs_x(cp_vs_x_file, True)
+        return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_dump(dump_file)
 
     @staticmethod
     @cleanup
