@@ -288,7 +288,7 @@ class Femodel:
             element_midpoint = np.array([self.mapdl.parameters['mp_x'],
                                          self.mapdl.parameters['mp_y'],
                                          self.mapdl.parameters['mp_z']])
-            
+                        
             leading_edge, trailing_edge, chordlength = \
                 self.get_edges(element_midpoint[1])
                 
@@ -343,6 +343,13 @@ class Femodel:
             # drag
             D = state['Cd'] * element_area * (rho/2) * v_circ**2 
             
+            # viscous drag
+            nloc = [self.mapdl.get('nloc','node',node,'loc','x') for node in self.mapdl.mesh.elem[element-1][10:]]
+            element_len_y = (element_area/ abs(max(nloc)-min(nloc)))/chordlength
+            
+            c_f = state['Cf']
+            c_f_dx = state['Cf'] * element_len_y
+            
             data_array.append([element,
                                element_midpoint[0],
                                element_midpoint[1],
@@ -358,6 +365,8 @@ class Femodel:
                                p,
                                state['Cd'],
                                D,
+                               c_f,
+                               c_f_dx,
                                ])
             
             chord_vector.append(u)
@@ -379,6 +388,8 @@ class Femodel:
                                                                       'Pressure by Lift',
                                                                       'Cd',
                                                                       'Drag',
+                                                                      'Cf',
+                                                                      'Cf*dx',
                                                                       ])
             
         self.__element_data = df
