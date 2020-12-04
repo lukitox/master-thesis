@@ -40,7 +40,7 @@ class Xfoil(Xsoftware):
         super().__init__()
         self.name = 'xfoil'
         self.input_file = '_xfoil_input.txt'
-        self.mode = mode
+        self.mode = mode        
 
     @staticmethod
     def read_coordinates(filename):
@@ -96,16 +96,17 @@ class Xfoil(Xsoftware):
             suction_side = df.iloc[:df['x'].idxmin() + 1, :]
             pressure_side = df.iloc[df['x'].idxmin() + 1:, :]
 
-            def norm(dataframe):
+            def norm(dataframe): # Todo: isolieren
                 norm_list = list(np.arange(0.01, 1.00, 0.01))
                 empty_frame = pd.DataFrame(norm_list, columns=['x'])
-                empty_frame['Cp'] = np.nan
+                empty_frame['y'] = np.nan
+                dataframe.columns = ['x', 'y']
                 dataframe = dataframe.append(empty_frame)
                 dataframe = dataframe.sort_values('x')
                 dataframe = dataframe.interpolate()
                 dataframe = dataframe.dropna()
                 dataframe = dataframe.drop_duplicates(keep='first')
-
+            
                 dataframe = dataframe[dataframe['x'].isin(norm_list)]
                 return dataframe
 
@@ -119,7 +120,69 @@ class Xfoil(Xsoftware):
             #norm_suction_side = norm_suction_side.fillna(0)
 
             return norm_suction_side[:99]
+        
+    @staticmethod
+    def read_cf_vs_x(filename):
+        colspecs = [(12, 19), (59, 67)]
+        
+        df = pd.read_fwf(filename,
+                         colspecs=colspecs)
+        
+        df = df[(df != 0).all(1)]
+        
+        suction_side = df.iloc[:df['x'].idxmin() + 1, :]
+        pressure_side = df.iloc[df['x'].idxmin() + 1:, :]
+        
+        def norm(dataframe):
+            norm_list = list(np.arange(0.01, 1.00, 0.01))
+            empty_frame = pd.DataFrame(norm_list, columns=['x'])
+            empty_frame['y'] = np.nan
+            dataframe.columns = ['x', 'y']
+            dataframe = dataframe.append(empty_frame)
+            dataframe = dataframe.sort_values('x')
+            dataframe = dataframe.interpolate()
+            dataframe = dataframe.dropna()
+            dataframe = dataframe.drop_duplicates(keep='first')
+        
+            dataframe = dataframe[dataframe['x'].isin(norm_list)]
+            return dataframe
 
+        norm_suction_side = norm(suction_side)
+        norm_pressure_side = norm(pressure_side)
+        
+        norm_suction_side.columns = ['x', 'Cf']
+        norm_pressure_side.columns = ['x', 'Cf']
+        
+        norm_suction_side['Cf'] = norm_suction_side['Cf'] + norm_pressure_side['Cf']
+        
+        return norm_suction_side
+        
+    @staticmethod
+    def read_dump(filename):
+        """
+        Reads a DUMP file (that includes e.g. the skin friction coefficient
+        'cf') and returns the content as a DataFrame.
+
+        Parameters
+        ----------
+        filename : Str
+            Filename/ Path.
+
+        Returns
+        -------
+        tabular_data : DataFrame
+            DESCRIPTION.
+
+        """
+        colspecs = [(3, 10), (12, 19), (20, 28), (29, 37), (39, 47),
+                    (49, 57), (59, 67), (70, 77), (78, 87), (88, 96),
+                    (97, 105), (106, 114)]
+        
+        tabular_data = pd.read_fwf(filename,
+                                   colspecs=colspecs)
+        
+        return tabular_data
+        
     @staticmethod
     def read_polar(filename):
         """
