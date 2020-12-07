@@ -3,19 +3,35 @@
 Femodel "1" o-- "1..*" Material
 Femodel "1" o-- "1" MapdlConsole
 'Material "1" o-- "1" MapdlConsole
-Femodel <-[dotted]-> PrepFunctions : uses
+'Femodel <-[dotted]-> PrepFunctions : uses
 Femodel <-[dotted]-> PostFunctions : uses
 
 class Femodel{
+  -__element_aoa_vector: np.array
+  -__element_chord_vector: np.array
+  -__element_data: DataFrame
   +mapdl: MapdlConsole
+  -__materials: Dict
+  +propeller: Propeller
   --
-  -__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)
-  - __setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)
+  -__apply_loads__(self)
   -__change_design_variables__(self, *args, **kwargs)
+  -__clear__(self)
+  -__get_edges__(self, y: Float): le: np.array, te: np.array, length: Float
+  -__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)
+  -__setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)
   -__solve__(self)
   -__post_processing__(self)
-  -_clear__(self)
+  +cdread(self)
   +evaluate(self, x: List): f: List, g: List, h: List
+  ..Getter..
+  +element_aoa_vector(self): np.array
+  +element_chord_vevtor(self): np.array
+  +element_data(self): DataFrame
+  +materials(self): Dict
+  ..Setter..
+  +materials(self, materials)
+  
 }
 
 class MapdlConsole{}
@@ -46,9 +62,9 @@ class Material{
   +number(self, number: Str)
 }
 
-class PrepFunctions << (M,orchid) >> {
-  +{static}get_edges(mapdl: MapdlConsole, x: List): le: List, te: List
-}
+'class PrepFunctions << (M,orchid) >> {
+'  +{static}get_edges(mapdl: MapdlConsole, x: List): le: List, te: List
+'}
 
 class PostFunctions << (M,orchid) >> {
   +{static}fc_puck(mapdl: MapdlConsole): I: List
