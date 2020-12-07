@@ -4,6 +4,7 @@
 import os
 import signal
 import subprocess
+import psutil
 import warnings
 
 # Local imports
@@ -44,12 +45,16 @@ class Xsoftware:
             sp_stderr = None
         else:
             raise ValueError('Invalid mode %s' % self.mode)
-
-        # args = ['Xvfb :1 &',
-        #         'DISPLAY=:1 xfoil < ' + self.input_file,
-        #         'kill -15 $!']
         
-        args = [self.name + ' < ' + self.input_file,] # 'xvfb-run ' + 
+        args = ['DISPLAY=:1 ' + self.name + ' < ' + self.input_file,] # 'xvfb-run ' + 
+        
+        # start xvfb server if not running:
+        if not "Xvfb" in (p.name() for p in psutil.process_iter()):
+            subprocess.Popen('Xvfb :1 &',
+                             shell=True,
+                             stdout=sp_stdout,
+                             stderr=sp_stderr,
+                             )
         
         process = subprocess.Popen(args,
                                    shell=True,
