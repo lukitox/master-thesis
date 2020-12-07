@@ -259,16 +259,20 @@ class Femodel:
         # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
         
         self.mapdl.fcum('add')
+        self.mapdl.allsel('all')
         
         # Vary Geometry
+        
+        nodes_per_elem = len(self.mapdl.mesh.elem[1][10:])
+        
         for element in self.element_data['Element Number']:            
             # assign lift
             self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
             
             # assign drag (distributed to the element's nodes)
             for node in self.mapdl.mesh.elem[int(element-1)][10:]:
-                self.mapdl.f(node,'fx',self.element_aoa_vector[int(element-1)][0]*self.element_data['Viscous Drag'][element])
-                self.mapdl.f(node,'fz',self.element_aoa_vector[int(element-1)][2]*self.element_data['Viscous Drag'][element])
+                self.mapdl.f(node,'fx',self.element_aoa_vector[int(element-1)][0]*self.element_data['Viscous Drag'][element]/nodes_per_elem)
+                self.mapdl.f(node,'fz',self.element_aoa_vector[int(element-1)][2]*self.element_data['Viscous Drag'][element]/nodes_per_elem)
             
         self.mapdl.allsel('all')
         self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
