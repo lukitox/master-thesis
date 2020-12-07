@@ -92,7 +92,7 @@ mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              nproc=4,
                              override=True,
                              loglevel='error',
-                             additional_switches='-smp -d WIN32C',
+                             additional_switches='-smp -d X11C',
                              allow_ignore=True,
                              mode='console',
                              )
