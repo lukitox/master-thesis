@@ -14,7 +14,7 @@ import pandas as pd
 from math import pi
 
 # Local imports
-from util_mapdl import post_functions, Material
+from util_mapdl import Material
 
 # %% 
 
@@ -26,18 +26,28 @@ class Femodel:
     """
     
     def __init__(self, mapdl, propeller, loads, mesh_density_factor = 1, seltol = 1e-4):
+        
         self.mapdl = mapdl
         self.propeller = propeller
+        self.__element_data = None
+        self.__element_chord_vector = None
+        self.__element_aoa_vector = None
         
-        # Materials
-        self.m_flaxpreg = Material(self.mapdl, 'FLAXPREG-T-UD', 1)
-        self.m_flaxpreg.load_from_db()
-        self.m_balsa = Material(self.mapdl, 'balsaholz', 2)
-        self.m_balsa.load_from_db()
+        self.__materials = {'flaxpreg': Material(self.mapdl,
+                                                 'FLAXPREG-T-UD',
+                                                 1),
+                            'balsa': Material(self.mapdl,
+                                              'balsaholz',
+                                              2),
+                            }
+        for key in self.__materials:
+            self.__materials[key].load_from_db()
         
-        self.__setup__(loads, mesh_density_factor, seltol)
+        self.__setup__(mesh_density_factor, seltol)
+        self.__calc_element_data__()
+        self.__apply_loads__()
         
-    def __setup__(self, loads, mesh_density_factor, seltol):
+    def __setup__(self, mesh_density_factor, seltol):
         """
         Setup method. 
         Implement all basic model setup (Geometry, Material Parameters, 
@@ -60,9 +70,9 @@ class Femodel:
         self.mapdl.keyopt(1,8,1)
 
         # Material Parameters
-        self.m_flaxpreg.assign_mp()
-        self.m_balsa.assign_mp()
-        
+        for key in self.materials:
+            self.materials[key].assign_mp()
+
         # Geometry
         self.mapdl.k(1,-18.54,10,26.99)
         self.mapdl.k(2,55.62,10,0)
@@ -99,18 +109,151 @@ class Femodel:
         self.mapdl.allsel('all')
         self.mapdl.amesh('all')      
     
-        # Loads (Todo: here or in __change_design_variables__() method?)
-        
+        # Boundary conditions
         self.mapdl.nsel('s','loc','y',10)
         self.mapdl.d('all','all',0)
         
         # Write ANSYS Input file (Do not change!)
-        self.mapdl.allsel('all')
-        self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
-        self.mapdl.finish() # Todo: Dopplung vermeiden
-        self.mapdl.clear('nostart')
+        # self.mapdl.allsel('all')
+        # self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
+        # self.mapdl.finish() # Todo: Dopplung vermeiden
+        # self.mapdl.clear('nostart')
         
-    def apply_loads(self):
+    def __calc_element_data__(self):
+        
+        self.mapdl.prep7()        
+        
+        data_array = []
+        chord_vector = [] 
+        alpha_vector = []
+        enum = self.mapdl.mesh.enum
+        
+        for element in enum:
+            self.mapdl.get('mp_x','elem',element,'cent','x')
+            self.mapdl.get('mp_y','elem',element,'cent','y')
+            self.mapdl.get('mp_z','elem',element,'cent','z')
+            
+            element_midpoint = np.array([self.mapdl.parameters['mp_x'],
+                                         self.mapdl.parameters['mp_y'],
+                                         self.mapdl.parameters['mp_z']])
+                        
+            leading_edge, trailing_edge, chordlength = \
+                self.__get_edges__(element_midpoint[1])
+                
+            # Orthographic projection to get relative chord length:
+            u = trailing_edge - leading_edge
+            u = u/np.linalg.norm(u)
+                
+            lambda_ = np.dot(element_midpoint - leading_edge,u)/ \
+                np.dot(u, u)
+                
+            projected_point = leading_edge + lambda_ * u
+            
+            relative_chord = np.linalg.norm(projected_point - leading_edge)/ \
+                chordlength
+                
+            # relative Radius
+            relative_radius = element_midpoint[1]/ \
+                (self.propeller.parameters['tip_radius']*1000)
+            relative_radius = np.round(relative_radius, 4)
+            
+            # section height
+            coords, profiltropfen, camberline = self.propeller.get_airfoil(relative_radius)
+            
+            profiltropfen = profiltropfen.iloc[:profiltropfen['X'].idxmin(), :]
+            empty_frame = pd.DataFrame([relative_chord], columns=['X'])
+            empty_frame['Y'] = np.nan
+            profiltropfen = profiltropfen.append(empty_frame)
+            profiltropfen = profiltropfen.sort_values('X')
+            profiltropfen = profiltropfen.interpolate()
+            profiltropfen = profiltropfen.dropna()
+            profiltropfen = profiltropfen.drop_duplicates(keep='first')
+            
+            sec_height = 2*np.array(profiltropfen[profiltropfen['X']==relative_chord]['Y'])[0]
+            
+            # element area
+            element_area = self.mapdl.get('a', 'elem', element, 'area')
+            
+            # state
+            state = self.propeller.state(relative_chord, relative_radius)
+            
+            # circular velocity
+            f_max = max([float(i[1]['single_values']['rpm']) for i in self.propeller.loadcases])/60
+            v_circ = 2*pi*element_midpoint[1]*f_max
+            
+            # air density
+            rho = self.propeller.loadcases[0][1]['single_values']['rho(kg/m3)']
+            rho = rho * 1e-12 # convert to tonne/mm^3
+            
+            # pressure 
+            p = -(state['Cp_suc'] - state['Cp_pres']) * (rho/2) * v_circ**2  # Vorzeichen?
+            
+            # viscous drag
+            nloc = [self.mapdl.get('nloc','node',node,'loc','x') for node in self.mapdl.mesh.elem[element-1][10:]]
+            element_len_y = (element_area/ abs(max(nloc)-min(nloc)))/chordlength
+            
+            c_f = state['Cf']
+            c_f_dx = state['Cf'] * element_len_y
+            
+            D_v = c_f_dx*element_area * (rho/2) * v_circ**2 
+            
+            # Angle ot attack
+            alpha = np.deg2rad(state['alpha'])
+            
+            aoa = np.array([1,0,(np.cos(alpha)-u[0])/u[2]])
+            aoa = aoa/np.linalg.norm(aoa)
+            
+            alpha_vector.append(aoa)
+            
+            data_array.append([element,
+                               element_midpoint[0],
+                               element_midpoint[1],
+                               element_midpoint[2],
+                               relative_chord,
+                               chordlength,
+                               relative_radius,
+                               sec_height*chordlength,
+                               element_area,
+                               state['Cp_suc'],
+                               state['Cp_pres'],
+                               v_circ,
+                               p,
+                               state['Cd'],
+                               c_f,
+                               c_f_dx,
+                               D_v,
+                               state['alpha'],
+                               ])
+            
+            chord_vector.append(u)
+        
+        data_array = np.array(data_array)
+            
+        df = pd.DataFrame(data_array, index=data_array[:,0], columns=['Element Number',
+                                                                      'Midpoint X',
+                                                                      'Midpoint Y',
+                                                                      'Midpoint Z',
+                                                                      'Relative Chord',
+                                                                      'Chordlength',
+                                                                      'Relative Radius',
+                                                                      'Element height',
+                                                                      'Element area',
+                                                                      'Cp_suc',
+                                                                      'Cp_pres',
+                                                                      'Circular velocity',
+                                                                      'Pressure by Lift',
+                                                                      'Cd',
+                                                                      'Cf',
+                                                                      'Cf*dx',
+                                                                      'Viscous Drag',
+                                                                      'alpha',
+                                                                      ])
+            
+        self.__element_data = df
+        self.__element_chord_vector = chord_vector
+        self.__element_aoa_vector = alpha_vector        
+        
+    def __apply_loads__(self):
         # Read ANSYS Input file (Do not change!)
         self.mapdl.prep7()
         # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
@@ -276,141 +419,15 @@ class Femodel:
     def element_chord_vector(self):
         return self.__element_chord_vector
     
-    def set_element_data(self):
-        
-        self.mapdl.prep7()        
-        
-        data_array = []
-        chord_vector = [] 
-        alpha_vector = []
-        enum = self.mapdl.mesh.enum
-        
-        for element in enum:
-            self.mapdl.get('mp_x','elem',element,'cent','x')
-            self.mapdl.get('mp_y','elem',element,'cent','y')
-            self.mapdl.get('mp_z','elem',element,'cent','z')
-            
-            element_midpoint = np.array([self.mapdl.parameters['mp_x'],
-                                         self.mapdl.parameters['mp_y'],
-                                         self.mapdl.parameters['mp_z']])
-                        
-            leading_edge, trailing_edge, chordlength = \
-                self.get_edges(element_midpoint[1])
-                
-            # Orthographic projection to get relative chord length:
-            u = trailing_edge - leading_edge
-            u = u/np.linalg.norm(u)
-                
-            lambda_ = np.dot(element_midpoint - leading_edge,u)/ \
-                np.dot(u, u)
-                
-            projected_point = leading_edge + lambda_ * u
-            
-            relative_chord = np.linalg.norm(projected_point - leading_edge)/ \
-                chordlength
-                
-            # relative Radius
-            relative_radius = element_midpoint[1]/ \
-                (self.propeller.parameters['tip_radius']*1000)
-            relative_radius = np.round(relative_radius, 4)
-            
-            # section height
-            coords, profiltropfen, camberline = self.propeller.get_airfoil(relative_radius)
-            
-            profiltropfen = profiltropfen.iloc[:profiltropfen['X'].idxmin(), :]
-            empty_frame = pd.DataFrame([relative_chord], columns=['X'])
-            empty_frame['Y'] = np.nan
-            profiltropfen = profiltropfen.append(empty_frame)
-            profiltropfen = profiltropfen.sort_values('X')
-            profiltropfen = profiltropfen.interpolate()
-            profiltropfen = profiltropfen.dropna()
-            profiltropfen = profiltropfen.drop_duplicates(keep='first')
-            
-            sec_height = 2*np.array(profiltropfen[profiltropfen['X']==relative_chord]['Y'])[0]
-            
-            # element area
-            element_area = self.mapdl.get('a', 'elem', element, 'area')
-            
-            # state
-            state = self.propeller.state(relative_chord, relative_radius)
-            
-            # circular velocity
-            f_max = max([float(i[1]['single_values']['rpm']) for i in self.propeller.loadcases])/60
-            v_circ = 2*pi*element_midpoint[1]*f_max
-            
-            # air density
-            rho = self.propeller.loadcases[0][1]['single_values']['rho(kg/m3)']
-            rho = rho * 1e-12 # convert to tonne/mm^3
-            
-            # pressure 
-            p = -(state['Cp_suc'] - state['Cp_pres']) * (rho/2) * v_circ**2  # Vorzeichen?
-            
-            # viscous drag
-            nloc = [self.mapdl.get('nloc','node',node,'loc','x') for node in self.mapdl.mesh.elem[element-1][10:]]
-            element_len_y = (element_area/ abs(max(nloc)-min(nloc)))/chordlength
-            
-            c_f = state['Cf']
-            c_f_dx = state['Cf'] * element_len_y
-            
-            D_v = c_f_dx*element_area * (rho/2) * v_circ**2 
-            
-            # Angle ot attack
-            alpha = np.deg2rad(state['alpha'])
-            
-            aoa = np.array([1,0,(np.cos(alpha)-u[0])/u[2]])
-            aoa = aoa/np.linalg.norm(aoa)
-            
-            alpha_vector.append(aoa)
-            
-            data_array.append([element,
-                               element_midpoint[0],
-                               element_midpoint[1],
-                               element_midpoint[2],
-                               relative_chord,
-                               chordlength,
-                               relative_radius,
-                               sec_height*chordlength,
-                               element_area,
-                               state['Cp_suc'],
-                               state['Cp_pres'],
-                               v_circ,
-                               p,
-                               state['Cd'],
-                               c_f,
-                               c_f_dx,
-                               D_v,
-                               state['alpha'],
-                               ])
-            
-            chord_vector.append(u)
-        
-        data_array = np.array(data_array)
-            
-        df = pd.DataFrame(data_array, index=data_array[:,0], columns=['Element Number',
-                                                                      'Midpoint X',
-                                                                      'Midpoint Y',
-                                                                      'Midpoint Z',
-                                                                      'Relative Chord',
-                                                                      'Chordlength',
-                                                                      'Relative Radius',
-                                                                      'Element height',
-                                                                      'Element area',
-                                                                      'Cp_suc',
-                                                                      'Cp_pres',
-                                                                      'Circular velocity',
-                                                                      'Pressure by Lift',
-                                                                      'Cd',
-                                                                      'Cf',
-                                                                      'Cf*dx',
-                                                                      'Viscous Drag',
-                                                                      'alpha',
-                                                                      ])
-            
-        self.__element_data = df
-        self.__element_chord_vector = chord_vector
-        self.__element_aoa_vector = alpha_vector
+    @property
+    def materials(self):
+        return self.__materials
     
-    def get_edges(self, y):
+    @materials.setter
+    def materials(self, materials):
+        self.__materials = materials
+    
+    def __get_edges__(self, y):
         
         def intersection(lnum):
             kp_0 =  100000

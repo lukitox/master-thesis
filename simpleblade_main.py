@@ -105,9 +105,6 @@ femodel = Femodel(mapdl,
                   )
 
 femodel.cdread()
-femodel.set_element_data()
-femodel.apply_loads()
-
 
 # %% Define Objective function 
 
