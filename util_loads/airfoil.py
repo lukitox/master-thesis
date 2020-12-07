@@ -288,7 +288,7 @@ class Airfoil:
             x.run('')
             x.run('quit')
             
-        return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_dump(dump_file),\
+        return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_cf_vs_x(dump_file),\
             Xfoil.read_polar(polar_file)
 
     @staticmethod
