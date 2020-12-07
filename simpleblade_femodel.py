@@ -25,7 +25,8 @@ class Femodel:
     The FE-Model is implemented as a class.
     """
     
-    def __init__(self, mapdl, propeller, loads, mesh_density_factor = 1, seltol = 1e-4):
+    def __init__(self, mapdl, propeller, loads, 
+                 mesh_density_factor = 1, seltol = 1e-4):
         
         self.mapdl = mapdl
         self.propeller = propeller
@@ -56,10 +57,6 @@ class Femodel:
         Writes an APDL input file to ANSYS working directory.
         
         Units: tonne,mm,s,N
-
-        Returns
-        -------
-        None.
         
         """
         self.mapdl.prep7() # Enter Preprocessing Routine
@@ -120,15 +117,20 @@ class Femodel:
         # self.mapdl.clear('nostart')
         
     def __calc_element_data__(self):
+        """
+        This method gathers all necessary element data for assigning
+        the loads.
+        
+        """
         
         self.mapdl.prep7()        
         
         data_array = []
         chord_vector = [] 
         alpha_vector = []
-        enum = self.mapdl.mesh.enum
         
-        for element in enum:
+        for element in self.mapdl.mesh.enum:
+            ## Center point of element
             self.mapdl.get('mp_x','elem',element,'cent','x')
             self.mapdl.get('mp_y','elem',element,'cent','y')
             self.mapdl.get('mp_z','elem',element,'cent','z')
@@ -136,32 +138,40 @@ class Femodel:
             element_midpoint = np.array([self.mapdl.parameters['mp_x'],
                                          self.mapdl.parameters['mp_y'],
                                          self.mapdl.parameters['mp_z']])
-                        
+            
+            ## Leading and trailing edge coords:
             leading_edge, trailing_edge, chordlength = \
                 self.__get_edges__(element_midpoint[1])
                 
-            # Orthographic projection to get relative chord length:
-            u = trailing_edge - leading_edge
-            u = u/np.linalg.norm(u)
-                
-            lambda_ = np.dot(element_midpoint - leading_edge,u)/ \
-                np.dot(u, u)
+            ## Orthographic projection to get normalized chord length:
+            # (Der 'element_midpoint' wird auf die Profilsehne projeziert)   
+             
+            # LE-TE = LE + lambda_ * u
+            u = ((trailing_edge - leading_edge)
+                 / np.linalg.norm(trailing_edge - leading_edge))
+            
+            lambda_ = (np.dot(element_midpoint - leading_edge, u)
+                       / np.dot(u, u))
                 
             projected_point = leading_edge + lambda_ * u
             
-            relative_chord = np.linalg.norm(projected_point - leading_edge)/ \
-                chordlength
+            ## Normalized chord length: 
+            rel_chord = (np.linalg.norm(projected_point - leading_edge)
+                              / chordlength)
                 
-            # relative Radius
-            relative_radius = element_midpoint[1]/ \
-                (self.propeller.parameters['tip_radius']*1000)
-            relative_radius = np.round(relative_radius, 4)
+            ## Normalized radial station:
+            rel_radius = (element_midpoint[1]
+                          / (self.propeller.parameters['tip_radius'] * 1000))
+                            
+            ## Element height:
+            # Symmetric airfoil coords:
+            _, profiltropfen, _ = self.propeller.get_airfoil(rel_radius)
             
-            # section height
-            coords, profiltropfen, camberline = self.propeller.get_airfoil(relative_radius)
-            
+            # Use only the top half of the points
             profiltropfen = profiltropfen.iloc[:profiltropfen['X'].idxmin(), :]
-            empty_frame = pd.DataFrame([relative_chord], columns=['X'])
+            
+            # Append rel_chord to the DataFrame and interpolate its value
+            empty_frame = pd.DataFrame([rel_chord], columns=['X'])
             empty_frame['Y'] = np.nan
             profiltropfen = profiltropfen.append(empty_frame)
             profiltropfen = profiltropfen.sort_values('X')
@@ -169,87 +179,105 @@ class Femodel:
             profiltropfen = profiltropfen.dropna()
             profiltropfen = profiltropfen.drop_duplicates(keep='first')
             
-            sec_height = 2*np.array(profiltropfen[profiltropfen['X']==relative_chord]['Y'])[0]
+            # Element height:
+            elem_height = 2 * \
+                np.array(profiltropfen[profiltropfen['X']==rel_chord]['Y'])[0]
             
-            # element area
+            ## Element area:
             element_area = self.mapdl.get('a', 'elem', element, 'area')
             
-            # state
-            state = self.propeller.state(relative_chord, relative_radius)
+            ## Element state (contains: Cl, Cd, alpha, Re, both Cps, Cf):
+            elem_state = self.propeller.state(rel_chord, rel_radius)
             
-            # circular velocity
-            f_max = max([float(i[1]['single_values']['rpm']) for i in self.propeller.loadcases])/60
-            v_circ = 2*pi*element_midpoint[1]*f_max
+            ## Circular velocity of the Elements radial position:
+            # Get the highest rpm in Loadcases
+            f_max = max([float(i[1]['single_values']['rpm']) 
+                         for i in self.propeller.loadcases]) / 60
             
-            # air density
+            v_circ = 2 * pi * element_midpoint[1] * f_max
+            
+            ## Density of Air:
             rho = self.propeller.loadcases[0][1]['single_values']['rho(kg/m3)']
             rho = rho * 1e-12 # convert to tonne/mm^3
             
-            # pressure 
-            p = -(state['Cp_suc'] - state['Cp_pres']) * (rho/2) * v_circ**2  # Vorzeichen?
+            ## Get the elements air pressure:
+            # P = Cp * q
+            elem_pressure = - ((elem_state['Cp_suc'] - elem_state['Cp_pres']) 
+                               * (rho/2) 
+                               * v_circ**2)
             
-            # viscous drag
-            nloc = [self.mapdl.get('nloc','node',node,'loc','x') for node in self.mapdl.mesh.elem[element-1][10:]]
-            element_len_y = (element_area/ abs(max(nloc)-min(nloc)))/chordlength
+            ## Element viscous drag: ### Todo: Bug? x/y vertauschen
+            # Y coordinates of the elements nodes
+            nloc = [self.mapdl.get('nloc','node',node,'loc','y') 
+                    for node in self.mapdl.mesh.elem[element-1][10:]]
+            # Normalized average X dimensions:
+            elem_dx = ((element_area / abs(max(nloc)-min(nloc)))
+                             / chordlength)
             
-            c_f = state['Cf']
-            c_f_dx = state['Cf'] * element_len_y
-            
-            D_v = c_f_dx*element_area * (rho/2) * v_circ**2 
-            
-            # Angle ot attack
-            alpha = np.deg2rad(state['alpha'])
-            
+            # Element viscous drag:
+            visc_drag = ((elem_state['Cf'] * elem_dx)
+                         * element_area
+                         * (rho/2) 
+                         * v_circ**2)
+                        
+            ## Angle ot attack
+            # in rad:
+            alpha = np.deg2rad(elem_state['alpha'])
+            # vectorial:
             aoa = np.array([1,0,(np.cos(alpha)-u[0])/u[2]])
             aoa = aoa/np.linalg.norm(aoa)
             
+            ## Append all the data:
             alpha_vector.append(aoa)
+            
+            chord_vector.append(u)       
             
             data_array.append([int(element),
                                np.round(element_midpoint[0],3),
                                np.round(element_midpoint[1],3),
                                np.round(element_midpoint[2],3),
-                               np.round(relative_chord,3),
+                               np.round(rel_chord,3),
                                np.round(chordlength,3),
-                               relative_radius,
-                               np.round(sec_height*chordlength,3),
+                               np.round(rel_radius,4),
+                               np.round(elem_height*chordlength,3),
                                np.round(element_area,3),
-                               np.round(state['Cp_suc'],3),
-                               np.round(state['Cp_pres'],3),
+                               np.round(elem_state['Cp_suc'],3),
+                               np.round(elem_state['Cp_pres'],3),
                                np.round(v_circ,3),
-                               p,
-                               state['Cl'],
-                               state['Cd'],
-                               c_f,
-                               c_f_dx,
-                               D_v,
-                               state['alpha'],
+                               elem_pressure,
+                               elem_state['Cl'],
+                               elem_state['Cd'],
+                               elem_state['Cf'],
+                               elem_state['Cf'] * elem_dx,
+                               visc_drag,
+                               elem_state['alpha'],
                                ])
             
-            chord_vector.append(u)
         
         data_array = np.array(data_array)
             
-        df = pd.DataFrame(data_array, index=data_array[:,0], columns=['Element Number',
-                                                                      'Midpoint X',
-                                                                      'Midpoint Y',
-                                                                      'Midpoint Z',
-                                                                      'Relative Chord',
-                                                                      'Chordlength',
-                                                                      'Relative Radius',
-                                                                      'Element height',
-                                                                      'Element area',
-                                                                      'Cp_suc',
-                                                                      'Cp_pres',
-                                                                      'Circular velocity',
-                                                                      'Pressure by Lift',
-                                                                      'Cl',
-                                                                      'Cd',
-                                                                      'Cf',
-                                                                      'Cf*dx',
-                                                                      'Viscous Drag',
-                                                                      'alpha',
-                                                                      ])
+        df = pd.DataFrame(data_array,
+                          index=data_array[:,0],
+                          columns=['Element Number',
+                                   'Midpoint X',
+                                   'Midpoint Y',
+                                   'Midpoint Z',
+                                   'Relative Chord',
+                                   'Chordlength',
+                                   'Relative Radius',
+                                   'Element height',
+                                   'Element area',
+                                   'Cp_suc',
+                                   'Cp_pres',
+                                   'Circular velocity',
+                                   'Pressure by Lift',
+                                   'Cl',
+                                   'Cd',
+                                   'Cf',
+                                   'Cf*dx',
+                                   'Viscous Drag',
+                                   'alpha',
+                                   ])
             
         self.__element_data = df
         self.__element_chord_vector = chord_vector
@@ -269,12 +297,21 @@ class Femodel:
         
         for element in self.element_data['Element Number']:            
             # assign lift
-            self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
+            self.mapdl.sfe(element, '', 'pres', 1,
+                           self.element_data['Pressure by Lift'][element])
             
             # assign drag (distributed to the element's nodes)
             for node in self.mapdl.mesh.elem[int(element-1)][10:]:
-                self.mapdl.f(node,'fx',self.element_aoa_vector[int(element-1)][0]*self.element_data['Viscous Drag'][element]/nodes_per_elem)
-                self.mapdl.f(node,'fz',self.element_aoa_vector[int(element-1)][2]*self.element_data['Viscous Drag'][element]/nodes_per_elem)
+                self.mapdl.f(node, 'fx', 
+                             self.element_aoa_vector[int(element-1)][0]
+                             * self.element_data['Viscous Drag'][element]
+                             / nodes_per_elem
+                             )
+                
+                self.mapdl.f(node, 'fz',
+                             self.element_aoa_vector[int(element-1)][2]
+                             * self.element_data['Viscous Drag'][element]
+                             / nodes_per_elem)
             
         self.mapdl.allsel('all')
         self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
@@ -296,18 +333,12 @@ class Femodel:
         **kwargs : TYPE
             DESCRIPTION.
 
-        Returns
-        -------
-        None.
-
         """
         
         # Read ANSYS Input file (Do not change!)
         self.mapdl.prep7()
         # self.mapdl.cdread('all', ansys_input_filename, 'cdb')
-        
-        self.mapdl.fcum('add')
-        
+                
         # Vary Geometry
         for element in self.element_data['Element Number']:
             self.mapdl.sectype(element,'shell','','')
@@ -316,24 +347,12 @@ class Femodel:
                                0., 
                                3)
             self.mapdl.emodif(element, 'secnum', element)
-            
-            # # assign lift
-            # self.mapdl.sfe(element,'','pres',1,self.element_data['Pressure by Lift'][element])
-            
-            # # assign drag (distributed to the element's nodes)
-            # for node in self.mapdl.mesh.elem[int(element-1)][10:]:
-            #     self.mapdl.f(node,'fx',self.element_chord_vector[int(element-1)][0]*self.element_data['Drag'][element])
-            #     self.mapdl.f(node,'fz',self.element_chord_vector[int(element-1)][2]*self.element_data['Drag'][element])
-            
+                        
         self.mapdl.allsel('all')
         
     def __solve__(self):
         """
         Solve the FE-Model. No changes to the code should be necessary.
-
-        Returns
-        -------
-        None.
 
         """
         self.mapdl.run('/SOLU')
@@ -363,17 +382,12 @@ class Femodel:
         
         # Calculate objective and constraint values
         
-        return f, list(g), list(h)
+        return None
+        # return f, list(g), list(h)
         
     def __clear__(self):
-        """
-        Resets ANSYS Session. No changes to the code should be necessary.
-
-        Returns
-        -------
-        None.
-
-        """
+        """Resets the MAPDL Session."""
+        
         self.mapdl.finish()
         self.mapdl.clear('NOSTART')
         
