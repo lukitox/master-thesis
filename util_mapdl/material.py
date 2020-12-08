@@ -25,7 +25,7 @@ class Material:
         self.__name = name
         
     @property
-    def number(self, number):
+    def number(self):
         return self.__number
     
     @number.setter
