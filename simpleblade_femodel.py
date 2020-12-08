@@ -313,6 +313,10 @@ class Femodel:
                              * self.element_data['Viscous Drag'][element]
                              / nodes_per_elem)
             
+        self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
+                                  for i in self.propeller.loadcases]) 
+                              * (2*pi/60)))
+            
         self.mapdl.allsel('all')
         self.mapdl.cdwrite('all', ansys_input_filename, 'cdb')
         self.mapdl.finish() # Todo: Dopplung vermeiden
