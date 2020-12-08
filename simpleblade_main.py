@@ -9,7 +9,6 @@ Author: Lukas Hilbers
 # %% Import Libraries and Data
 
 # Third-party imports
-import time
 import numpy as np
 import pyansys
 # from pyOpt import Optimization
@@ -19,7 +18,6 @@ import pyansys
 # Local imports
 from simpleblade_femodel import Femodel
 from util_loads import Propeller, Airfoil, Loadcase
-from util_mapdl.prep_functions import get_edges
 
 # %% Instantiate Airfoils and assign radial sections
 
@@ -101,10 +99,19 @@ femodel = Femodel(mapdl,
                   mesh_density_factor=1,
                   seltol=1e-4,
                   propeller = propeller,
-                  loads= [], # propeller.loadcases # Todo: Load/ Propeller object
+                  n_sec= 5, # propeller.loadcases # Todo: Load/ Propeller object
                   )
 
 femodel.cdread()
+
+global_vars = [45, -45, 0, 0, 0, -45, 45]
+
+femodel.__change_design_variables__(global_vars,
+                                    [0.74, 0.8, 0.5], 
+                                    [0.74, 0.7, 0.5],
+                                    [0.74, 0.6, 0.5],
+                                    [0.74, 0.5, 0.5],
+                                    [0.74, 0.4, 0.5])
 
 # %% Define Objective function 
 

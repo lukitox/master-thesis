@@ -25,11 +25,12 @@ class Femodel:
     The FE-Model is implemented as a class.
     """
     
-    def __init__(self, mapdl, propeller, loads, 
+    def __init__(self, mapdl, propeller, n_sec, 
                  mesh_density_factor = 1, seltol = 1e-4):
         
         self.mapdl = mapdl
         self.propeller = propeller
+        self.n_sec = n_sec
         self.__element_data = None
         self.__element_chord_vector = None
         self.__element_aoa_vector = None
@@ -71,12 +72,12 @@ class Femodel:
             self.materials[key].assign_mp()
 
         # Geometry
-        self.mapdl.k(1,-18.54,10,26.99)
-        self.mapdl.k(2,55.62,10,0)
+        self.mapdl.k(1,-18.54,40,26.99) # An Tip und Hub radius anpassen?
+        self.mapdl.k(2,55.62,40,0)
         self.mapdl.k(3,-8.24,412,5.81)
         self.mapdl.k(4,24.72,412,0)
         
-        self.mapdl.k(10,0,10,-10)
+        self.mapdl.k(10,0,40,-10)
         self.mapdl.k(11,0,412,-10)
         
         self.mapdl.larc(1,2,10,200)
@@ -142,6 +143,13 @@ class Femodel:
             ## Leading and trailing edge coords:
             leading_edge, trailing_edge, chordlength = \
                 self.__get_edges__(element_midpoint[1])
+                
+            ## Get section of element:
+            n_sec = np.floor(((element_midpoint[1] 
+                              - self.propeller.parameters['hub_radius']*1000)
+                             / ((self.propeller.parameters['tip_radius']
+                                 - self.propeller.parameters['hub_radius'])
+                                * 1000)) * self.n_sec)
                 
             ## Orthographic projection to get normalized chord length:
             # (Der 'element_midpoint' wird auf die Profilsehne projeziert)   
@@ -233,6 +241,7 @@ class Femodel:
             chord_vector.append(u)       
             
             data_array.append([int(element),
+                               int(n_sec),
                                np.round(element_midpoint[0],3),
                                np.round(element_midpoint[1],3),
                                np.round(element_midpoint[2],3),
@@ -259,6 +268,7 @@ class Femodel:
         df = pd.DataFrame(data_array,
                           index=data_array[:,0],
                           columns=['Element Number',
+                                   'Section Number',
                                    'Midpoint X',
                                    'Midpoint Y',
                                    'Midpoint Z',
@@ -322,7 +332,7 @@ class Femodel:
         self.mapdl.finish() # Todo: Dopplung vermeiden
         self.mapdl.clear('nostart')        
         
-    def __change_design_variables__(self, *args, **kwargs):
+    def __change_design_variables__(self, global_vars, *args, **kwargs):
         """
         Implement the parameter variation here.
         
@@ -346,10 +356,46 @@ class Femodel:
         # Vary Geometry
         for element in self.element_data['Element Number']:
             self.mapdl.sectype(element,'shell','','')
-            self.mapdl.secdata(self.element_data['Element height'][element],
-                               1, # self.m_flaxpreg.number,
-                               0., 
-                               3)
+            
+            sec = int(self.element_data['Section Number'][element])
+            el_height = self.element_data['Element height'][element]
+            core = el_height - args[sec][0]
+            
+            if args[sec][0] > el_height:
+                for index in [0,1,5,6]:
+                    self.mapdl.secdata(args[sec][0]/4,
+                                       self.materials['flaxpreg'].number,
+                                       global_vars[index],
+                                       3)
+            else:
+                for index in [0,1]:
+                    self.mapdl.secdata(args[sec][0]/4,
+                                       self.materials['flaxpreg'].number,
+                                       global_vars[index],
+                                       3)
+                self.mapdl.secdata((core
+                                    * args[sec][1] 
+                                    * args[sec][2]),
+                                   self.materials['flaxpreg'].number,
+                                   global_vars[2],
+                                   3)
+                self.mapdl.secdata((core
+                                    * (1 - args[sec][1])),
+                                   self.materials['balsa'].number,
+                                   global_vars[3],
+                                   3)
+                self.mapdl.secdata((core
+                                    * args[sec][1] 
+                                    * (1 - args[sec][2])),
+                                   self.materials['flaxpreg'].number,
+                                   global_vars[2],
+                                   3)
+                for index in [5,6]:
+                    self.mapdl.secdata(args[sec][0]/4,
+                                       self.materials['flaxpreg'].number,
+                                       global_vars[index],
+                                       3)            
+            
             self.mapdl.emodif(element, 'secnum', element)
                         
         self.mapdl.allsel('all')
