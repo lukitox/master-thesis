@@ -1,0 +1,205 @@
+@startuml
+'skinparam monochrome true
+
+Xsoftware <|-- Xfoil
+Xsoftware <|-- Xrotor
+Airfoil <-[dotted]-> Xfoil : uses
+Propeller <-[dotted]-> Xrotor: uses
+Propeller "1" o-- "1..*" Airfoil
+Propeller "1" o-- "1..*" Loadcase
+
+Femodel "1" o-- "1..*" Material
+Femodel "1" o-- "1" MapdlConsole
+'Material "1" o-- "1" MapdlConsole
+'Femodel <-[dotted]-> PrepFunctions : uses
+Femodel <-[dotted]-> PostFunctions : uses
+
+Femodel "1" o-- "1" Propeller
+
+Optimization "1" o-- "1" Femodel
+Optimizer "1" o-- "1" Optimization
+
+DesignSpace "1" o-- "1" Femodel
+DesignSpace "1" o-- "1" Optimization
+
+'NProp .. Loadcase
+'NProp .. Propeller
+
+class Xsoftware {
+  +name: Str
+  +f: Open
+  -__init__(self)
+  -__enter__(self)
+  -__exit__(self, exc_type, exc_value, exc_traceback)
+  +run(self, argument)
+  +run_array(self, array)
+}
+
+class Xfoil {
+  +input_file: Str
+  +name: Str
+  -__mode: Str
+  -__init__(self, mode='hide': Str)
+  +{static}read_coordinates(filename: Str): DataFrame
+  +{static}read_cp_vs_x(filename: Str): DataFrame
+  +{static}read_polar(filename: Str): DataFrame
+}
+
+class Xrotor {
+  +input_file: Str
+  +name: Str
+  -__loadcase: Loadcase
+  -__mode: Str
+  -__propeller: Propeller
+  --
+  -__init__(self, propeller: Propeller, loadcase: Loadcase, mode='hide': Str)
+  +arbi(self)
+  +parse_airfoils(self)
+  +{static}read_bend_output(filename: Str): DataFrame
+  +{static}read_oper_output(filename: Str): DataFrame
+}
+
+class Airfoil{
+  -__coordinates: DataFrame
+  -__parameters: Dict
+  -__polar: DataFrame
+  -__xrotor_characteristics: Dict
+  --
+  -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
+  -{static}__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
+  -__repr__(self): Str
+  +cp_vs_x(self, mode: Str, value: Float): DataFrame
+  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame
+  ..Getter..
+  +coordinates(self): DataFrame
+  +parameters(self): Dict
+  +polar(self): DataFrame
+  +xrotor_characteristics(self): Dict
+  ..Setter..
+  +coordinates(self, coordinates: Str or DataFrame)
+  +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
+  +xrotor_characteristics(self, characteristics: Dict)
+}
+
+class Propeller{
+  -__parameters: Dict
+  -__loadcases: Dict
+  -__load_envelope: Dict
+  -__geometry: List
+  -__sections: List
+  --
+  -__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)
+  -__repr__(self): Str
+  +calc_loads(self)
+  +pressure_distribution(self, loadcase: Loadcase): np.array
+  ..Getter..
+  +geometry(self): List
+  +loadcases(self): Dict
+  +load_envelope(self): Dict
+  +parameters(self): Dict
+  +sections(self): List
+  ..Setter..
+  +add_loadcase(self, name: Str, loadcase: Loadcase)
+  +add_section(self, rR: Float, airfoil: Airfoil)
+  +geometry(self, array: List or np.array)
+  +parameters(self, parameters: Dict)
+  +set_load_envelope(self)
+  
+}
+class Loadcase{
+  -__data = List
+  -__flight_speed: Float
+  -__name: Str
+  --
+  -__init__(self, name: Str, flight_speed: Float)
+  -__repr__(self): Str
+  ..Getter..
+  +data(self): List
+  +flight_speed(self): Float
+  +name(self): Str
+  +results(self): DataFrame, DataFrame
+  ..Setter..
+  +flight_speed(self, flight_speed: Float)
+  +name(self, name: Str)
+  +set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)
+}
+
+class Femodel{
+  -__element_aoa_vector: np.array
+  -__element_chord_vector: np.array
+  -__element_data: DataFrame
+  +mapdl: MapdlConsole
+  -__materials: Dict
+  +propeller: Propeller
+  --
+  -__apply_loads__(self)
+  -__change_design_variables__(self, *args, **kwargs)
+  -__clear__(self)
+  -__get_edges__(self, y: Float): le: np.array, te: np.array, length: Float
+  -__init__(self, mapdl: MapdlConsole, propeller: Propeller, loads: Loadcase, mesh_density_factor = 1: Float, seltol = 1e-4: Float)
+  -__setup__(self, loads: Loadcase, mesh_density_factor: Float, seltol: Float)
+  -__solve__(self)
+  -__post_processing__(self)
+  +cdread(self)
+  +evaluate(self, x: List): f: List, g: List, h: List
+  ..Getter..
+  +element_aoa_vector(self): np.array
+  +element_chord_vevtor(self): np.array
+  +element_data(self): DataFrame
+  +materials(self): Dict
+  ..Setter..
+  +materials(self, materials)
+  
+}
+
+class MapdlConsole{}
+
+class Material{
+  -__fc: Dict
+  +mapdl: MapdlConsole
+  -__mp: Dict
+  -__name: Str
+  -__number: Int
+  -__path: Str
+  --
+  -__init__(self, mapdl: MapdlConsole, name: Str, number: Int)
+  +assign_mp(self)
+  +assign_fc(self)
+  +load(self, filename: Str)
+  +read_csv(self, filename: Str)
+  +save(self)
+  ..Getter..
+  +fc(self): Dict
+  +mp(self): Dict
+  +name(self): Str
+  +number(self): Int
+  ..Setter..
+  +fc(self, fc: Dict)
+  +mp(self, mp: Dict)
+  +name(self, name: Str)
+  +number(self, number: Str)
+}
+
+'class PrepFunctions << (M,orchid) >> {
+'  +{static}get_edges(mapdl: MapdlConsole, x: List): le: List, te: List
+'}
+
+class PostFunctions << (M,orchid) >> {
+  +{static}fc_puck(mapdl: MapdlConsole): I: List
+}
+
+class Optimization{
+  +name: Str
+  +obj_fun: function
+  --
+  -__init__(self, name: Str, obj_fun: function, ...)
+  +addCon(...)
+  +addObj(...)
+  +addVar(...)
+}
+
+class Optimizer{}
+
+class DesignSpace{}
+
+@enduml
