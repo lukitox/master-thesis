@@ -46,7 +46,7 @@ class Xsoftware:
         else:
             raise ValueError('Invalid mode %s' % self.mode)
         
-        args = ['DISPLAY=:1 ' + self.name + ' < ' + self.input_file,] # 'xvfb-run ' + 
+        args = ['DISPLAY=:1 ' + self.name + ' < ' + self.input_file,]
         
         # start xvfb server if not running:
         if not "Xvfb" in (p.name() for p in psutil.process_iter()):

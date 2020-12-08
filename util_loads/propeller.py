@@ -56,7 +56,8 @@ class Propeller:
                 x.run('')  # return
                 x.run('quit')  # Exit program
 
-            result['single_values'], result['oper'] = Xrotor.read_oper_output(oper_file)
+            result['single_values'], result['oper'] = \
+                Xrotor.read_oper_output(oper_file)
             result['bend'] = Xrotor.read_bend_output(bend_file)
 
     @property
@@ -165,8 +166,8 @@ class Propeller:
             left_section = self.sections[index-1]
             right_section = self.sections[index]
             
-            fraction = (rel_radius - left_section[0])/ \
-                (right_section[0] - left_section[0])
+            fraction = ((rel_radius - left_section[0])
+                        / (right_section[0] - left_section[0]))
                 
             ls_p, ls_cf, ls_polar = left_section[1].cp_vs_x('cl', cl)
             rs_p, rs_cf, rs_polar = right_section[1].cp_vs_x('cl', cl)
@@ -235,8 +236,14 @@ class Propeller:
             
             # pressures = airfoil.cp_vs_x('cl', df['CL'][idx],[0,0])
             
-                pressures = left_section[1].cp_vs_x('cl', df['CL'][idx],[1,1])*(1-fraction)+\
-                    right_section[1].cp_vs_x('cl', df['CL'][idx],[1,1])*(fraction)
+                pressures = ((left_section[1].cp_vs_x('cl',
+                                                      df['CL'][idx],
+                                                      [1,1])
+                             * (1-fraction))
+                             + (right_section[1].cp_vs_x('cl',
+                                                         df['CL'][idx],
+                                                         [1,1])
+                                * (fraction)))
             
             Cp_suc[:,idx] = pressures['Cp_suc']
             Cp_pres[:,idx] = pressures['Cp_pres']

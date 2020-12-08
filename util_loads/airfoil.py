@@ -57,8 +57,8 @@ class Airfoil:
     def coordinates(self):
         """
         The Airfoils coordinates.
-        To assign airfoil coordinates, either pass a DataFrame or string path to
-        a text file.
+        To assign airfoil coordinates, either pass a DataFrame or string 
+        path to a text file.
         
         Returns
         -------
