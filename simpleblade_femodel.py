@@ -109,7 +109,7 @@ class Femodel:
         self.mapdl.amesh('all')      
     
         # Boundary conditions
-        self.mapdl.nsel('s','loc','y',10)
+        self.mapdl.nsel('s','loc','y',40)
         self.mapdl.d('all','all',0)
         
         # Write ANSYS Input file (Do not change!)
@@ -414,7 +414,7 @@ class Femodel:
         
     def __post_processing__(self):
         """
-        
+        The post processing routine.
 
         Returns
         -------
@@ -488,15 +488,21 @@ class Femodel:
 
         """
         
+        global_vars = x[:7]
+        
+        args = []
+        for section in range(self.n_sec):
+            x1 = len(global_vars) + section * 3
+            args.append(x[x1:(x1+3)])
+        
         # Convert input for __change_design_variables__() method
-        
-        self.__change_design_variables__()
+        self.cdread()
+        self.__change_design_variables__(global_vars, *args)
         self.__solve__()
-        f, g, h = self.__post_processing__()
-        
-        # Calculate objective Function and restrictions
-        
-        return f, g, h
+        m, I_f, I_m = self.__post_processing__()
+        # self.__clear__()
+                
+        return  m, I_f, I_m 
     
     @property
     def element_data(self):
