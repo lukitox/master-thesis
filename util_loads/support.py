@@ -44,3 +44,18 @@ def print_call(func):
         return return_value
     
     return wrapper
+
+# %% Timer
+
+def timer(func):
+    import time
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        
+        return_value = func(*args, **kwargs)
+        
+        print('### Execution time: ' + str(time.time() - start))
+        
+        return return_value
+    
+    return wrapper
