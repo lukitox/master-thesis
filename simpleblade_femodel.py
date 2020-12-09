@@ -15,6 +15,7 @@ from math import pi
 
 # Local imports
 from util_mapdl import Material
+from util_mapdl.post_functions import fc_puck
 
 # %% 
 
@@ -413,27 +414,47 @@ class Femodel:
         
     def __post_processing__(self):
         """
-        Post-processing routine.
+        
 
         Returns
         -------
-        f : float
-            Value for objective function calculation.
-        g : list
-            Values for inequality constraint calculation.
-        h : list
-            Values for equality constraint calculation.
+        M_tot : float
+            The propeller blade mass in [tonne].
+        I_fib_fail : list
+            The Puck fiber failure criterion.
+        I_mat_fail : TYPE
+            The Puck inter-fiber failure criterion.
 
         """
-        
         self.mapdl.post1() # Enter Post-processing Routine
         
-        # Assign Failure Criteria
+        # Assign Failure Criteria Values
+        for key in self.materials:
+            self.materials[key].assign_fc()        
         
-        # Calculate objective and constraint values
+        self.mapdl.fctyp('dele','all')
+        self.mapdl.fctyp('add','pfib')
+        self.mapdl.fctyp('add','pmat')
         
-        return None
-        # return f, list(g), list(h)
+        I_fib_fail = []
+        I_mat_fail = []
+        
+        # Calculate objective and constraint values        
+        for section in range(self.n_sec):
+            elements = self.element_data[self.element_data['Section Number'] \
+                                         == section]['Element Number']
+            
+            self.mapdl.esel('s', 'elem', '', min(elements), max(elements), 1)
+
+            I_f_loc, I_m_loc = fc_puck(self.mapdl)
+            
+            I_fib_fail.append(I_f_loc)
+            I_mat_fail.append(I_m_loc)
+            
+        self.mapdl.allsel('all')
+        self.mapdl.get('Blade_Mass','elem','0','mtot','z')
+        
+        return self.mapdl.parameters['Blade_Mass'], I_fib_fail, I_mat_fail
         
     def __clear__(self):
         """Resets the MAPDL Session."""
