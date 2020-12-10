@@ -98,7 +98,6 @@ mapdl = pyansys.launch_mapdl(run_location=ansys_path,
 
 femodel = PropellerModel(mapdl,
                          mesh_density_factor=1,
-                         seltol=1e-4,
                          propeller = propeller,
                          n_sec= 5,
                          )
