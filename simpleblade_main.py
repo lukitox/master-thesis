@@ -25,17 +25,12 @@ mh112 = Airfoil('mh112.txt', 300000)
 mh113 = Airfoil('mh113.txt', 300000)
 mh114 = Airfoil('mh114.txt', 300000)
 mh115 = Airfoil('mh115.txt', 500000)
-# mh116 = Airfoil('mh116.txt', 500000)
-# mh117 = Airfoil('mh117.txt', 500000)
-# ...
 
 sections = [[0.15, mh112],
             [0.30, mh113],
             [0.45, mh114],
             [0.60, mh115],
-            [0.80, mh115],
             [1.00, mh115]]
-# ...
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
@@ -102,18 +97,6 @@ femodel = Femodel(mapdl,
                   n_sec= 5,
                   )
 
-# femodel.cdread()
-
-# global_vars = [45, -45, 0, 0, 0, -45, 45]
-
-# femodel.__change_design_variables__(global_vars,
-#                                     [0.74, 0.8, 0.5], 
-#                                     [0.74, 0.7, 0.5],
-#                                     [0.74, 0.6, 0.5],
-#                                     [0.74, 0.5, 0.5],
-#                                     [0.74, 0.4, 0.5])
-import time
-start = time.time()
 m, I_f, I_m = femodel.evaluate([45, -45, 90, 90, 90, -45, 45,
                                 0.74, 0.8, 0.5,
                                 0.74, 0.7, 0.5,
@@ -121,7 +104,6 @@ m, I_f, I_m = femodel.evaluate([45, -45, 90, 90, 90, -45, 45,
                                 0.74, 0.5, 0.5,
                                 0.74, 0.4, 0.5])
 
-stop = time.time()-start
 # %% Define Objective function 
 
 # def objfunc(x):
