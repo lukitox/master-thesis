@@ -78,12 +78,14 @@ class Femodel:
         self.mapdl.k(3,-8.24,412,5.81)
         self.mapdl.k(4,24.72,412,0)
         
-        self.mapdl.k(10,0,40,-10)
-        self.mapdl.k(11,0,412,-10)
+        # self.mapdl.k(10,0,40,-10)
+        # self.mapdl.k(11,0,412,-10)
         
-        self.mapdl.larc(1,2,10,200)
+        self.mapdl.l(1,2)
+        # self.mapdl.larc(1,2,10,200)
         self.mapdl.l(2,4)
-        self.mapdl.larc(3,4,11,40)
+        self.mapdl.l(3,4)
+        # self.mapdl.larc(3,4,11,40)
         self.mapdl.l(3,1)
         
         # self.mapdl.a(1,2,4,3)
@@ -174,7 +176,7 @@ class Femodel:
                             
             ## Element height:
             # Symmetric airfoil coords:
-            _, profiltropfen, _ = self.propeller.get_airfoil(rel_radius)
+            _, profiltropfen, camber = self.propeller.get_airfoil(rel_radius)
             
             # Use only the top half of the points
             profiltropfen = profiltropfen.iloc[:profiltropfen['X'].idxmin(), :]
@@ -188,9 +190,20 @@ class Femodel:
             profiltropfen = profiltropfen.dropna()
             profiltropfen = profiltropfen.drop_duplicates(keep='first')
             
+            # Camberline calculation for SECOFFSET:
+            camber = camber.iloc[:camber['X'].idxmin(), :]
+
+            camber = camber.append(empty_frame)
+            camber = camber.sort_values('X')
+            camber = camber.interpolate()
+            camber = camber.dropna()
+            camber = camber.drop_duplicates(keep='first')
+            
             # Element height:
             elem_height = 2 * \
                 np.array(profiltropfen[profiltropfen['X']==rel_chord]['Y'])[0]
+                
+            secoffset = -1 * np.array(camber[camber['X'] == rel_chord]['Y'])[0]
             
             ## Element area:
             element_area = self.mapdl.get('a', 'elem', element, 'area')
@@ -250,6 +263,7 @@ class Femodel:
                                np.round(chordlength,3),
                                np.round(rel_radius,4),
                                np.round(elem_height*chordlength,3),
+                               np.round(secoffset*chordlength,3),
                                np.round(element_area,3),
                                np.round(elem_state['Cp_suc'],3),
                                np.round(elem_state['Cp_pres'],3),
@@ -264,7 +278,7 @@ class Femodel:
                                ])
             
         
-        data_array = np.array(data_array)
+        data_array = np.array(data_array, dtype=object)
             
         df = pd.DataFrame(data_array,
                           index=data_array[:,0],
@@ -277,6 +291,7 @@ class Femodel:
                                    'Chordlength',
                                    'Relative Radius',
                                    'Element height',
+                                   'Element offset',
                                    'Element area',
                                    'Cp_suc',
                                    'Cp_pres',
@@ -357,6 +372,8 @@ class Femodel:
         # Vary Geometry
         for element in self.element_data['Element Number']:
             self.mapdl.sectype(element,'shell','','')
+            self.mapdl.secoffset('user',
+                                 self.element_data['Element offset'][element])
             
             sec = int(self.element_data['Section Number'][element])
             el_height = self.element_data['Element height'][element]
