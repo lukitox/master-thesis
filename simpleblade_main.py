@@ -16,7 +16,7 @@ import pyansys
 
 
 # Local imports
-from util_loads import Propeller, Airfoil
+from util_loads import Propeller, Airfoil, Loadcase
 from util_mapdl import Material
 from propellermodel import PropellerModel
 
