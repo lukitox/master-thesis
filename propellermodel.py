@@ -1,12 +1,9 @@
 # %% Import Libraries and Data
 
 # Third-party imports
-import numpy as np
-import pandas as pd
 from math import pi
 
 # Local imports
-from util_mapdl import Material
 from util_mapdl.post_functions import fc_puck
 from femodel import Femodel
 
