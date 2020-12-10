@@ -20,8 +20,7 @@ class Femodel:
     
 # %% Private Methods    
     
-    def __init__(self, mapdl, propeller, n_sec, 
-                 mesh_density_factor = 1, seltol = 1e-4):
+    def __init__(self, mapdl, propeller, n_sec, mesh_density_factor = 1):
         
         # Mapdl instance: 
         self.mapdl = mapdl
@@ -37,7 +36,6 @@ class Femodel:
         self.__ansys_input_filename = '_ansys_input_file'
         
         self.__mesh_density_factor = mesh_density_factor
-        self.__seltol = seltol
         
 # %% User-defined private Methods
         
@@ -321,7 +319,14 @@ class Femodel:
         
         self.mapdl.finish()
         self.mapdl.clear('NOSTART')
+        
+    def evaluate():
+        """
+        This method is unique to the examined propelles and therefore has to
+        be implemented in an inheriting class.
 
+        """
+        pass        
 
     def pre_processing(self):
         """
@@ -420,3 +425,18 @@ class Femodel:
         for key in materials:
             self.__materials[key].load_from_db()
             
+    @property
+    def mesh_density_factor(self):
+        """
+        Integer factor to control the mesh density.
+
+        Returns
+        -------
+        mesh_density_factor : int
+
+        """
+        return self.__mesh_density_factor
+            
+    @mesh_density_factor.setter
+    def mesh_density_factor(self, mesh_density_factor):
+        self.__mesh_density_factor = mesh_density_factor

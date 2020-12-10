@@ -34,7 +34,7 @@ class PropellerModel(Femodel):
         self.mapdl.prep7() # Enter Preprocessing Routine
         
         # Space for basic parameters and settings
-        self.mapdl.seltol(self.__seltol)
+        self.mapdl.seltol(1e-4)
         self.mapdl.et('1','SHELL281')    
         self.mapdl.keyopt(1,8,1)
 
@@ -64,11 +64,11 @@ class PropellerModel(Femodel):
         # Meshing
         self.mapdl.lsel('s','line','',1)
         self.mapdl.lsel('a','line','',3)
-        self.mapdl.lesize('all','','',15 * self.__mesh_density_factor, -2)
+        self.mapdl.lesize('all','','',15 * self.mesh_density_factor, -2)
         
         self.mapdl.lsel('s','line','',2)
         self.mapdl.lsel('a','line','',4)
-        self.mapdl.lesize('all','','',45 * self.__mesh_density_factor)
+        self.mapdl.lesize('all','','',45 * self.mesh_density_factor)
         
         # Assignment of some dummy section
         self.mapdl.mshkey(1)
