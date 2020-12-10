@@ -14,12 +14,6 @@ from femodel import Femodel
 
 
 class PropellerModel(Femodel):
-    
-    def __init__(self, mapdl, propeller, n_sec, 
-                 mesh_density_factor = 1, seltol = 1e-4):
-        
-        super().__init__(mapdl, propeller, n_sec, 
-                 mesh_density_factor, seltol)
         
     def __define_and_mesh_geometry__(self):
         """
