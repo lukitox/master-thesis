@@ -329,15 +329,14 @@ class Femodel:
             # assign drag (distributed to the element's nodes)
             for node in self.mapdl.mesh.elem[int(element-1)][10:]:
                 self.mapdl.f(node, 'fx', 
-                             self.element_aoa_vector[int(element-1)][0]
-                             * self.element_data['Viscous Drag'][element]
-                             / nodes_per_elem
-                             )
+                            self.element_aoa_vector[int(element-1)][0]
+                            * self.element_data['Viscous Drag'][element]
+                            / nodes_per_elem)
                 
                 self.mapdl.f(node, 'fz',
-                             self.element_aoa_vector[int(element-1)][2]
-                             * self.element_data['Viscous Drag'][element]
-                             / nodes_per_elem)
+                            self.element_aoa_vector[int(element-1)][2]
+                            * self.element_data['Viscous Drag'][element]
+                            / nodes_per_elem)
             
         self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
                                   for i in self.propeller.loadcases]) 
