@@ -16,8 +16,9 @@ import pyansys
 
 
 # Local imports
-from simpleblade_femodel import Femodel
-from util_loads import Propeller, Airfoil, Loadcase
+from util_loads import Propeller, Airfoil
+from util_mapdl import Material
+from propellermodel import PropellerModel
 
 # %% Instantiate Airfoils and assign radial sections
 
@@ -95,23 +96,23 @@ mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              mode='console',
                              )
 
-femodel = Femodel(mapdl,
-                  mesh_density_factor=1,
-                  seltol=1e-4,
-                  propeller = propeller,
-                  n_sec= 5,
-                  )
+femodel = PropellerModel(mapdl,
+                         mesh_density_factor=1,
+                         seltol=1e-4,
+                         propeller = propeller,
+                         n_sec= 5,
+                         )
 
-# femodel.cdread()
+femodel.materials = {'flaxpreg': Material(mapdl,
+                                          'FLAXPREG-T-UD',
+                                          1),
+                     'balsa': Material(mapdl,
+                                       'balsaholz',
+                                       2),
+                     }
 
-# global_vars = [45, -45, 0, 0, 0, -45, 45]
+femodel.pre_processing()
 
-# femodel.__change_design_variables__(global_vars,
-#                                     [0.74, 0.8, 0.5], 
-#                                     [0.74, 0.7, 0.5],
-#                                     [0.74, 0.6, 0.5],
-#                                     [0.74, 0.5, 0.5],
-#                                     [0.74, 0.4, 0.5])
 import time
 start = time.time()
 m, I_f, I_m = femodel.evaluate([45, -45, 90, 90, 90, -45, 45,
