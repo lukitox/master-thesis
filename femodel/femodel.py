@@ -340,7 +340,7 @@ class Femodel:
         
         self.mapdl.allsel('all')
         self.mapdl.cdwrite('all', self.__ansys_input_filename, 'cdb')
-        self.mapdl.finish() # Todo: Dopplung vermeiden
+        self.mapdl.finish()
         self.mapdl.clear('nostart')
         
     def post_processing(self):
