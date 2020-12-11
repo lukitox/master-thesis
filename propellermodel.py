@@ -2,6 +2,7 @@
 
 # Third-party imports
 from math import pi
+import numpy as np
 
 # Local imports
 from util_mapdl.post_functions import fc_puck
@@ -220,8 +221,9 @@ class PropellerModel(Femodel):
         m, I_f, I_m = self.post_processing()
         self.clear()
         
-                
-        return  m, I_f, I_m 
+        g = list(np.round(np.array(I_f+I_m)-1,3))    
+        
+        return  m*10e6, g, []
         
     def post_processing(self):
         """
