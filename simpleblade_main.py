@@ -14,6 +14,8 @@ import pyansys
 from pyOpt import Optimization
 from pyOpt import ALPSO
 import time
+from mpi4py import MPI
+
 
 # Local imports
 from util_loads import Propeller, Airfoil, Loadcase
@@ -81,38 +83,74 @@ propeller.set_load_envelope()
 
 # %% Run ANSYS and instantiate FE-Model
 
-ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS'
-mapdl = pyansys.launch_mapdl(run_location=ansys_path,
-                             nproc=4,
-                             override=True,
-                             loglevel='error',
-                             additional_switches='-smp -d X11C',
-                             allow_ignore=True,
-                             mode='console',
-                             )
+ansys_path_a = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS_a'
+ansys_path_b = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS_b'
 
-femodel = PropellerModel(mapdl,
-                         mesh_density_factor=1,
-                         propeller = propeller,
-                         n_sec= 20,
-                         )
+mapdl_a = pyansys.launch_mapdl(run_location=ansys_path_a,
+                               nproc=2,
+                               override=True,
+                               loglevel='error',
+                               additional_switches='-smp -d X11C',
+                               allow_ignore=True,
+                               mode='console',
+                               )
 
-femodel.materials = {'flaxpreg': Material(mapdl,
-                                          'FLAXPREG-T-UD',
-                                          1),
-                     'balsa': Material(mapdl,
-                                       'balsaholz',
-                                       2),
+mapdl_b = pyansys.launch_mapdl(run_location=ansys_path_b,
+                               nproc=2,
+                               override=True,
+                               loglevel='error',
+                               additional_switches='-smp -d X11C',
+                               allow_ignore=True,
+                               mode='console',
+                               )
+
+
+femodel_a = PropellerModel(mapdl_a,
+                           mesh_density_factor=1,
+                           propeller = propeller,
+                           n_sec= 20,
+                           )
+
+femodel_b = PropellerModel(mapdl_a,
+                           mesh_density_factor=1,
+                           propeller = propeller,
+                           n_sec= 20,
+                           )
+
+
+femodel_a.materials = {'flaxpreg': Material(mapdl_a, 'FLAXPREG-T-UD', 1),
+                       'balsa': Material(mapdl_a, 'balsaholz', 2),
                      }
 
-femodel.pre_processing()
+femodel_b.materials = {'flaxpreg': Material(mapdl_b, 'FLAXPREG-T-UD', 1),
+                       'balsa': Material(mapdl_b, 'balsaholz', 2),
+                     }
+
+femodel_a.pre_processing()
+
+femodel_b.__define_and_mesh_geometry__()
+femodel_b.element_data = femodel_a.element_data
+femodel_b.__apply_loads__()
+
+mapdl_b.allsel('all')
+mapdl_b.cdwrite('all', '_ansys_input_file', 'cdb')
+mapdl_b.finish()
+mapdl_b.clear('nostart')
 
 
 # %% Define Objective function 
 
 def objfunc(x):
-    f, g, h = femodel.evaluate(x)
     
+    rank = MPI.COMM_WORLD.Get_rank()
+    
+    if rank == 0:
+        f, g, h = femodel_a.evaluate(x)
+    elif rank == 1:
+        f, g, h = femodel_b.evaluate(x)
+    else:
+        raise ValueError('Rank does not exist.')
+        
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
     print(np.round(time.time(),1), objfunc.counter, np.round(np.array(x),2))
@@ -148,7 +186,7 @@ for i in range(20):
     optprob.addCon('gm' + str(i), 'i')
 
 # %% Instantiate Optimizer
-alpso = ALPSO()
+alpso = ALPSO(pll_type='SPM')
 alpso.setOption('fileout',1)
 
 alpso_path = "/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/"
@@ -168,3 +206,6 @@ def hotstart():
     alpso.setOption('filename',filename + '_hotstart')
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0)) # 0 or 1?
+    
+hotstart()
+    
