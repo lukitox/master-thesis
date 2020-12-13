@@ -381,6 +381,10 @@ class Femodel:
         """
         return self.__element_data
     
+    @element_data.setter
+    def element_data(self, element_data):
+        self.__element_data = element_data
+    
     @property
     def element_aoa_vector(self):
         """
