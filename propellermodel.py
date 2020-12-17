@@ -223,7 +223,7 @@ class PropellerModel(Femodel):
         
         g = list(np.round(np.array(I_f+I_m)-1,3))    
         
-        return  m*10e6, g, []
+        return  m*1e6, g, []
         
     def post_processing(self):
         """
