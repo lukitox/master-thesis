@@ -111,7 +111,7 @@ femodel_a = PropellerModel(mapdl_a,
                            n_sec= 20,
                            )
 
-femodel_b = PropellerModel(mapdl_a,
+femodel_b = PropellerModel(mapdl_b,
                            mesh_density_factor=1,
                            propeller = propeller,
                            n_sec= 20,
@@ -128,14 +128,7 @@ femodel_b.materials = {'flaxpreg': Material(mapdl_b, 'FLAXPREG-T-UD', 1),
 
 femodel_a.pre_processing()
 
-femodel_b.__define_and_mesh_geometry__()
-femodel_b.element_data = femodel_a.element_data
-femodel_b.__apply_loads__()
-
-mapdl_b.allsel('all')
-mapdl_b.cdwrite('all', '_ansys_input_file', 'cdb')
-mapdl_b.finish()
-mapdl_b.clear('nostart')
+femodel_b.pre_processing()
 
 
 # %% Define Objective function 

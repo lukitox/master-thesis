@@ -66,10 +66,12 @@ class Material:
             self.fc = json.load(fp)
         
     def assign_mp(self):
+        self.mapdl.prep7()
         for x in self.mp:
             self.mapdl.mp(str(x),self.__number,self.mp[x])
     
     def assign_fc(self):
+        self.mapdl.post1()
         for x in self.fc:
             #mapdl.fc('1','s','xten',286)
             self.mapdl.fc(self.__number,'s',str(x),str(self.fc[x]))
