@@ -22,16 +22,11 @@ from propellermodel import PropellerModel
 
 # %% Instantiate Airfoils and assign radial sections
 
-mh112 = Airfoil('mh112.txt', 300000)
-mh113 = Airfoil('mh113.txt', 300000)
-mh114 = Airfoil('mh114.txt', 300000)
-mh115 = Airfoil('mh115.txt', 500000)
+airfoil = Airfoil('mf3218.xfo', 350000)
 
-sections = [[0.15, mh112],
-            [0.30, mh113],
-            [0.45, mh114],
-            [0.60, mh115],
-            [1.00, mh115]]
+sections = [[0.121, airfoil],
+            [1., airfoil]]
+
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
@@ -40,26 +35,20 @@ propeller = Propeller(number_of_blades=2,
                       hub_radius=0.04,
                       )
 
-propeller.geometry = np.array([[0.17, 0.10, 17],
-                               [0.22, 0.14, 20],
-                               [0.27, 0.16, 18],
-                               [0.32, 0.15, 16],
-                               [0.37, 0.15, 15],
-                               [0.42, 0.14, 14],
-                               [0.47, 0.14, 13],
-                               [0.52, 0.13, 13],
-                               [0.57, 0.13, 12],
-                               [0.62, 0.12, 12],
-                               [0.67, 0.12, 11],
-                               [0.72, 0.11, 11],
-                               [0.77, 0.11, 11],
-                               [0.82, 0.10, 11],
-                               [0.87, 0.10, 10],
-                               [0.92, 0.09, 10],
-                               [0.97, 0.08, 7],
-                               [1.00, 0.01, 7],
+propeller.geometry = np.array([[0.121, 0.078, 0.],
+                               [0.155, 0.100, 5.99],
+                               [0.223, 0.160, 17.97],
+                               [0.345, 0.149, 14.44],
+                               [0.417, 0.142, 12.68],
+                               [0.490, 0.135, 11.18],
+                               [0.563, 0.128, 9.94],
+                               [0.636, 0.121, 8.97],
+                               [0.709, 0.114, 8.26],
+                               [0.782, 0.107, 7.81],
+                               [0.854, 0.100, 7.63],
+                               [0.947, 0.091, 7.5],
+                               [1., 0.066, 7.5],                               
                                ])
-# ...
 
 propeller.sections = sections
 
