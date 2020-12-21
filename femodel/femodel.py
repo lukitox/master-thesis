@@ -266,7 +266,7 @@ class Femodel:
         
         def intersection(lnum):
             kp_0 =  100000
-            kp_num = 5
+            kp_num = 3
             a_num = 2
             
             self.mapdl.prep7()
