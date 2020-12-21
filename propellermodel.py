@@ -35,20 +35,85 @@ class PropellerModel(Femodel):
             self.materials[key].assign_mp()
 
         # Geometry
-        self.mapdl.k(1,-18.54,40,26.99) # An Tip und Hub radius anpassen?
-        self.mapdl.k(2,55.62,40,0)
-        self.mapdl.k(3,-8.24,412,5.81)
-        self.mapdl.k(4,24.72,412,0)
+        self.mapdl.k(1, -6.4, 50, 0)
+        self.mapdl.k(2, 25.6, 50, 0)
+        
+        self.mapdl.k(3, -13.2, 92, 2)
+        self.mapdl.k(4, 49.48, 92, -18.35)
+        
+        # self.mapdl.k(5, -12.24, 142, 2)
+        self.mapdl.k(6, 47.04, 142, -13.26)
+        
+        # self.mapdl.k(7, -11.67, 172, 2)
+        self.mapdl.k(8, 45.26, 172, -10.8)
+        
+        # self.mapdl.k(9, -11.1, 202, 2)
+        self.mapdl.k(10, 43.33, 202, -8.75)
+        
+        # self.mapdl.k(11, -10.52, 232, 2)
+        self.mapdl.k(12, 41.3, 232, -7.08)
+
+        # self.mapdl.k(13, -9.95, 262, 2)
+        self.mapdl.k(14, 39.19, 262, -5.75)
+        
+        # self.mapdl.k(15, -9.37, 292, 2)
+        self.mapdl.k(16, 37.01, 292, -4.73)
+        
+        # self.mapdl.k(17, -8.8, 322, 2)
+        self.mapdl.k(18, 34.79, 322, -3.98)
+        
+        # self.mapdl.k(19, -8.23, 352, 2)
+        self.mapdl.k(20, 32.52, 352, -3.46)
+        
+        self.mapdl.k(21, -7.5, 390, 2)
+        self.mapdl.k(22, 29.58, 390, -2.89)
+        
+        self.mapdl.k(23, 0, 412, 2)
+        self.mapdl.k(24, 26.77, 412, -1.52)
+     
+        # self.mapdl.k(1,-18.54,40,26.99) # An Tip und Hub radius anpassen?
+        # self.mapdl.k(2,55.62,40,0)
+        # self.mapdl.k(3,-8.24,412,5.81)
+        # self.mapdl.k(4,24.72,412,0)
         
         # self.mapdl.k(10,0,40,-10)
         # self.mapdl.k(11,0,412,-10)
         
+        # root side
         self.mapdl.l(1,2)
-        # self.mapdl.larc(1,2,10,200)
+        
+        # trailing edge
         self.mapdl.l(2,4)
-        self.mapdl.l(3,4)
+        self.mapdl.l(4,6)
+        self.mapdl.l(6,8)
+        self.mapdl.l(8,10)
+        self.mapdl.l(10,12)
+        self.mapdl.l(12,14)
+        self.mapdl.l(14,16)
+        self.mapdl.l(16,18)
+        self.mapdl.l(18,20)
+        self.mapdl.l(20,22)
+        self.mapdl.l(22,24)
+        
+        self.mapdl.lsel('s','line','','2','12')
+        self.mapdl.lcomb('all')
+        self.mapdl.allsel('all')
+        
+        # tip side
+        self.mapdl.l(23,24)
+        
+        # leading edge
+        self.mapdl.l(1,3)
+        self.mapdl.l(3,21)
+        self.mapdl.l(21,23)
+        self.mapdl.lsel('s','line','','4','6')
+        self.mapdl.lcomb('all')
+        self.mapdl.allsel('all')
+                
+        # self.mapdl.larc(1,2,10,200)
+        # self.mapdl.l(2,4)
         # self.mapdl.larc(3,4,11,40)
-        self.mapdl.l(3,1)
+        # self.mapdl.l(3,1)
         
         # self.mapdl.a(1,2,4,3)
         self.mapdl.al(1,2,3,4)
