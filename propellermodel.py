@@ -173,9 +173,9 @@ class PropellerModel(Femodel):
                             * self.element_data['Viscous Drag'][element]
                             / nodes_per_elem)
             
-        self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
-                                  for i in self.propeller.loadcases]) 
-                              * (2*pi/60)))
+        # self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
+        #                           for i in self.propeller.loadcases]) 
+        #                       * (2*pi/60)))
         
     def change_design_variables(self, global_vars, *args):
         """
@@ -322,8 +322,12 @@ class PropellerModel(Femodel):
             elements = self.element_data[self.element_data['Section Number'] \
                                          == section]['Element Number']
             
-            self.mapdl.esel('s', 'elem', '', min(elements), max(elements), 1)
-
+            elements = list(elements)
+                
+            self.mapdl.esel('s','elem','',elements[0])
+            for element in elements[1:]:
+                self.mapdl.esel('a','elem','',element)
+            
             I_f_loc, I_m_loc = fc_puck(self.mapdl)
             
             I_fib_fail.append(I_f_loc)
