@@ -138,7 +138,7 @@ class PropellerModel(Femodel):
         self.mapdl.amesh('all')      
     
         # Boundary conditions
-        self.mapdl.nsel('s','loc','y',40)
+        self.mapdl.nsel('s','loc','y',50)
         self.mapdl.d('all','all',0)
         
     def __apply_loads__(self):
