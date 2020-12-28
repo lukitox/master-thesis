@@ -23,10 +23,7 @@ from propellermodel import PropellerModel
 # %% Instantiate Airfoils and assign radial sections
 
 airfoil = Airfoil('mf3218.xfo', 350000)
-
-sections = [[0.121, airfoil],
-            [1., airfoil]]
-
+rectangle = Airfoil('rectangle2.txt',350000)
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
@@ -50,7 +47,13 @@ propeller.geometry = np.array([[0.121, 0.078, 0.],
                                [1., 0.066, 7.5],                               
                                ])
 
-propeller.sections = sections
+propeller.sections = [[0.121, airfoil],
+                      [0.223, airfoil],
+                      [1., airfoil]]
+
+propeller.geometric_sections = [[0.121, rectangle],
+                                [0.223, airfoil],
+                                [1., airfoil]]
 
 for airfoil in propeller.sections:
     airfoil[1].set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25) 
@@ -157,3 +160,37 @@ def hotstart():
     alpso.setOption('filename',filename + '_hotstart')
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0)) # 0 or 1?
+
+# %%
+
+# x = [45,135,90,90,90,135,45,
+#      0.37, 0.5, 0.4,
+#      0.37, 0.5, 0.4,
+#      0.37, 0.45, 0.4,
+#      0.37, 0.45, 0.4,
+#      0.37, 0.4, 0.4,
+#      0.37, 0.4, 0.4,
+#      0.37, 0.35, 0.4,
+#      0.37, 0.35, 0.4,
+#      0.37, 0.3, 0.4,
+#      0.37, 0.3, 0.4,
+#      0.37, 0.25, 0.4,
+#      0.37, 0.25, 0.4,
+#      0.37, 0.2, 0.4,
+#      0.37, 0.2, 0.4,
+#      0.37, 0.15, 0.4,
+#      0.37, 0.15, 0.4,
+#      0.37, 0.1, 0.4,
+#      0.37, 0.1, 0.4,
+#      0.37, 0.05, 0.4,
+#      0.37, 0.01, 0.4,]
+
+# global_vars = x[:7]
+
+# args = []
+# for section in range(20):
+#     x1 = len(global_vars) + section * 3
+#     args.append(x[x1:(x1+3)])
+
+global_vars = [0 for i in range(7)]
+args=[[0.37, 1, 0.5] for i in range(20)]
