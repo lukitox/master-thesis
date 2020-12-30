@@ -70,15 +70,7 @@ class PropellerModel(Femodel):
         
         self.mapdl.k(23, 0, 412, 2)
         self.mapdl.k(24, 26.77, 412, -1.52)
-     
-        # self.mapdl.k(1,-18.54,40,26.99) # An Tip und Hub radius anpassen?
-        # self.mapdl.k(2,55.62,40,0)
-        # self.mapdl.k(3,-8.24,412,5.81)
-        # self.mapdl.k(4,24.72,412,0)
-        
-        # self.mapdl.k(10,0,40,-10)
-        # self.mapdl.k(11,0,412,-10)
-        
+             
         # root side
         self.mapdl.l(1,2)
         
@@ -94,8 +86,8 @@ class PropellerModel(Femodel):
         self.mapdl.l(18,20)
         self.mapdl.l(20,22)
         self.mapdl.l(22,24)
-        
-        self.mapdl.lsel('s','line','','2','12')
+                
+        self.mapdl.lsel('s','line','','3','11')
         self.mapdl.lcomb('all')
         self.mapdl.allsel('all')
         
@@ -106,26 +98,18 @@ class PropellerModel(Femodel):
         self.mapdl.l(1,3)
         self.mapdl.l(3,21)
         self.mapdl.l(21,23)
-        self.mapdl.lsel('s','line','','4','6')
-        self.mapdl.lcomb('all')
-        self.mapdl.allsel('all')
-                
-        # self.mapdl.larc(1,2,10,200)
-        # self.mapdl.l(2,4)
-        # self.mapdl.larc(3,4,11,40)
-        # self.mapdl.l(3,1)
         
-        # self.mapdl.a(1,2,4,3)
-        self.mapdl.al(1,2,3,4)
-        
-        # Meshing
-        self.mapdl.lsel('s','line','',1)
-        self.mapdl.lsel('a','line','',3)
-        self.mapdl.lesize('all','','',15 * self.mesh_density_factor, -2)
-        
-        self.mapdl.lsel('s','line','',2)
-        self.mapdl.lsel('a','line','',4)
-        self.mapdl.lesize('all','','',45 * self.mesh_density_factor)
+        self.mapdl.l(3,4)
+        self.mapdl.l(21,22)
+        self.mapdl.al(1,2,8,5)
+        self.mapdl.al(8,3,9,6)
+        self.mapdl.al(9,12,4,7)
+        self.mapdl.lesize(5,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(1,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(6,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(8,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(7,'','',3 * self.mesh_density_factor)
+        self.mapdl.lesize(9,'','',15 * self.mesh_density_factor, -2)
         
         # Assignment of some dummy section
         self.mapdl.mshkey(1)
@@ -135,12 +119,14 @@ class PropellerModel(Femodel):
         self.mapdl.sectype(100,'shell','','Dummy')
         self.mapdl.secdata(0.1,1,90.,3)
         self.mapdl.allsel('all')
-        self.mapdl.amesh('all')      
-    
+        self.mapdl.amesh('all')     
+        
         # Boundary conditions
         self.mapdl.nsel('s','loc','y',50)
         self.mapdl.d('all','all',0)
         
+        self.mapdl.allsel('all')
+                
     def __apply_loads__(self):
         """
         The Load application.
@@ -173,9 +159,9 @@ class PropellerModel(Femodel):
                             * self.element_data['Viscous Drag'][element]
                             / nodes_per_elem)
             
-        # self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
-        #                           for i in self.propeller.loadcases]) 
-        #                       * (2*pi/60)))
+        self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
+                                  for i in self.propeller.loadcases]) 
+                              * (2*pi/60)))
         
     def change_design_variables(self, global_vars, *args):
         """

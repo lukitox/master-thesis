@@ -266,8 +266,8 @@ class Femodel:
         
         def intersection(lnum):
             kp_0 =  100000
-            kp_num = 3
-            a_num = 2
+            kp_num = 5
+            a_num = 4
             
             self.mapdl.prep7()
             
@@ -288,9 +288,22 @@ class Femodel:
             self.mapdl.kdele(kp_num)
             
             return coords
+        
+        le_lines = [5,6,7]
+        te_lines = [2,3,12]
+        
+        if y <= 92:
+            le_line = le_lines[0]
+            te_line = te_lines[0]
+        elif y <= 390:
+            le_line = le_lines[1]
+            te_line = te_lines[1]     
+        else:
+            le_line = le_lines[2]
+            te_line = te_lines[2]
     
-        le = np.array(intersection(4))
-        te = np.array(intersection(2))
+        le = np.array(intersection(le_line))
+        te = np.array(intersection(te_line))
         
         return le, te, np.linalg.norm(te - le)
         
