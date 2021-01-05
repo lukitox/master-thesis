@@ -168,6 +168,10 @@ class Femodel:
                          * element_area
                          * (rho/2) 
                          * v_circ**2)
+            
+            # Total Drag
+            
+            drag = elem_state['Cd'] * (rho/2) * v_circ**2 * element_area
                         
             ## Angle ot attack
             # in rad:
@@ -201,6 +205,7 @@ class Femodel:
                                elem_state['Cf'],
                                elem_state['Cf'] * elem_dx,
                                visc_drag,
+                               drag,
                                elem_state['alpha'],
                                ])
             
@@ -229,6 +234,7 @@ class Femodel:
                                    'Cf',
                                    'Cf*dx',
                                    'Viscous Drag',
+                                   'Total Drag',
                                    'alpha',
                                    ])
             
