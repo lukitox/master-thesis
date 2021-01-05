@@ -130,7 +130,10 @@ class Femodel:
             elem_height = 2 * \
                 np.array(profiltropfen[profiltropfen['X']==rel_chord]['Y'])[0]
                 
-            secoffset = -1 * np.array(camber[camber['X'] == rel_chord]['Y'])[0]
+            try:    
+                secoffset = -1 * np.array(camber[camber['X'] == rel_chord]['Y'])[0]
+            except:
+                secoffset = 0    
             
             ## Element area:
             element_area = self.mapdl.get('a', 'elem', element, 'area')

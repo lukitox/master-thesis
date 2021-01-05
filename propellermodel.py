@@ -159,9 +159,9 @@ class PropellerModel(Femodel):
                             * self.element_data['Viscous Drag'][element]
                             / nodes_per_elem)
             
-        self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
-                                  for i in self.propeller.loadcases]) 
-                              * (2*pi/60)))
+        # self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
+        #                           for i in self.propeller.loadcases]) 
+        #                       * (2*pi/60)))
         
     def change_design_variables(self, global_vars, *args):
         """
@@ -232,6 +232,66 @@ class PropellerModel(Femodel):
             self.mapdl.emodif(element, 'secnum', element)
                         
         self.mapdl.allsel('all')
+        
+    def convergence_study(self, mesh_density):
+        output = []
+        
+        for factor in mesh_density:
+            self.clear()
+            
+            self.mesh_density_factor = factor
+            
+            print(factor)
+            
+            self.pre_processing()
+            
+            global_vars = [0 for i in range(7)]
+            args=[[0.37, 1, 0.5] for i in range(20)]
+            
+            self.cdread()
+            self.change_design_variables(global_vars, *args)
+            self.__solve__()
+            
+            self.mapdl.post1() # Enter Post-processing Routine
+        
+            # Assign Failure Criteria Values
+            for key in self.materials:
+                self.materials[key].assign_fc()
+                
+            self.mapdl.run('tipnode = NODE(0,412,0)')
+            self.mapdl.get('tipnode_dis_y','NODE','tipnode','U','Y')
+            self.mapdl.get('tipnode_dis_z','NODE','tipnode','U','Z')
+            
+            self.mapdl.run('maxnode = NODE(0,92,0)')
+            
+            self.mapdl.get('maxnode_dis_y','NODE','maxnode','U','Y')
+            self.mapdl.get('maxnode_dis_z','NODE','maxnode','U','Z')
+    
+            # self.mapdl.layer(7)
+            # self.mapdl.nsle('s','corner')
+            # self.mapdl.nsel('r','loc','y',92)
+            # self.mapdl.seltol(0.1)
+            # self.mapdl.nsel('s','loc','x',0)
+            # node = self.mapdl.mesh.nnum[0]
+            # self.mapdl.allsel('all')
+            
+            
+            # self.mapdl.get('maxnode_s_y','NODE',node,'s','Y')
+            
+            self.mapdl.parameters
+            
+            rv = [self.mapdl.parameters['tipnode_dis_y'],
+                  self.mapdl.parameters['tipnode_dis_z'],
+                  self.mapdl.parameters['maxnode_dis_y'],
+                  self.mapdl.parameters['maxnode_dis_z'],
+                  # self.mapdl.parameters['maxnode_s_y'],
+                  ]
+            
+            output.append(rv)
+            
+            print(rv)
+            
+        return output
     
     def evaluate(self, x):
         """
