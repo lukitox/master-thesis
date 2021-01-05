@@ -32,7 +32,8 @@ propeller = Propeller(number_of_blades=2,
                       hub_radius=0.04,
                       )
 
-propeller.geometry = np.array([[0.121, 0.078, 0.],
+propeller.geometry = np.array([[0.10,0.078,0],
+                               [0.121, 0.078, 0.],
                                [0.155, 0.100, 5.99],
                                [0.223, 0.160, 17.97],
                                [0.345, 0.149, 14.44],
@@ -58,7 +59,7 @@ propeller.geometric_sections = [[0.121, rectangle],
 for x in propeller.sections:
     x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
     
-airfoil.xrotor_characteristics['Cm'] = -0.1417
+# airfoil.xrotor_characteristics['Cm'] = -0.1417
 
 # %% Instantiate Loadcases
 
@@ -99,7 +100,9 @@ femodel.materials = {'flaxpreg': Material(mapdl,
                                        2),
                      }
 
-femodel.pre_processing()
+# femodel.pre_processing()
+
+study=femodel.convergence_study([1,2,4,6])
 
 
 # %% Define Objective function 
@@ -194,5 +197,13 @@ def hotstart():
 #     x1 = len(global_vars) + section * 3
 #     args.append(x[x1:(x1+3)])
 
-global_vars = [0 for i in range(7)]
-args=[[0.37, 1, 0.5] for i in range(20)]
+# global_vars = [0 for i in range(7)]
+# args=[[0.37, 1, 0.5] for i in range(20)]
+
+# femodel.cdread()
+# femodel.change_design_variables(global_vars, *args)
+# femodel.__solve__()
+
+# rforce = femodel.reaction_forces()
+
+# mapdl.fsum()
