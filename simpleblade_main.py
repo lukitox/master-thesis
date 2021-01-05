@@ -55,8 +55,10 @@ propeller.geometric_sections = [[0.121, rectangle],
                                 [0.223, airfoil],
                                 [1., airfoil]]
 
-for airfoil in propeller.sections:
-    airfoil[1].set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25) 
+for x in propeller.sections:
+    x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
+    
+airfoil.xrotor_characteristics['Cm'] = -0.1417
 
 # %% Instantiate Loadcases
 
