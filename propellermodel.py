@@ -323,3 +323,22 @@ class PropellerModel(Femodel):
         self.mapdl.get('Blade_Mass','elem','0','mtot','z')
         
         return self.mapdl.parameters['Blade_Mass'], I_fib_fail, I_mat_fail
+    
+    def reaction_forces(self):
+        self.mapdl.post1()
+        
+        # self.mapdl.nsel('s','loc','y',50)
+        # nodes = self.mapdl.mesh.nnum
+        
+        rforces, nnum, dof = self.mapdl.result.nodal_reaction_forces(0)
+        
+        rforces_sorted = [[] for i in range(6)]
+        
+        for idx, x in enumerate(rforces):
+            rforces_sorted[int(dof[idx]-1)].append(x)
+        
+        fsum = []    
+        for x in rforces_sorted:
+            fsum.append(sum(x))
+            
+        return fsum
