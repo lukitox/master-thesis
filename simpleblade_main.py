@@ -100,9 +100,9 @@ femodel.materials = {'flaxpreg': Material(mapdl,
                                        2),
                      }
 
-# femodel.pre_processing()
+femodel.pre_processing()
 
-study=femodel.convergence_study([1,2,4,6])
+# study=femodel.convergence_study([1,2,4,6])
 
 
 # %% Define Objective function 
@@ -197,13 +197,13 @@ def hotstart():
 #     x1 = len(global_vars) + section * 3
 #     args.append(x[x1:(x1+3)])
 
-# global_vars = [0 for i in range(7)]
-# args=[[0.37, 1, 0.5] for i in range(20)]
+global_vars = [0 for i in range(7)]
+args=[[0.37, 1, 0.5] for i in range(20)]
 
-# femodel.cdread()
-# femodel.change_design_variables(global_vars, *args)
-# femodel.__solve__()
+femodel.cdread()
+femodel.change_design_variables(global_vars, *args)
+femodel.__solve__()
 
-# rforce = femodel.reaction_forces()
+rforce = femodel.reaction_forces()
 
-# mapdl.fsum()
+mapdl.fsum()
