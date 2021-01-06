@@ -35,41 +35,41 @@ class PropellerModel(Femodel):
             self.materials[key].assign_mp()
 
         # Geometry
-        self.mapdl.k(1, -6.4, 50, 0)
-        self.mapdl.k(2, 25.6, 50, 0)
+        self.mapdl.k(1, -9.60, 50, 0)
+        self.mapdl.k(2, 22.40, 50, 0)
         
-        self.mapdl.k(3, -13.2, 92, 2)
-        self.mapdl.k(4, 49.48, 92, -18.35)
+        self.mapdl.k(3, -19.80, 92, 2)
+        self.mapdl.k(4, 42.98, 92, -18.35)
         
         # self.mapdl.k(5, -12.24, 142, 2)
-        self.mapdl.k(6, 47.04, 142, -13.26)
+        self.mapdl.k(6, 40.92, 142, -13.26)
         
         # self.mapdl.k(7, -11.67, 172, 2)
-        self.mapdl.k(8, 45.26, 172, -10.8)
+        self.mapdl.k(8, 39.42, 172, -10.8)
         
         # self.mapdl.k(9, -11.1, 202, 2)
-        self.mapdl.k(10, 43.33, 202, -8.75)
+        self.mapdl.k(10, 37.78, 202, -8.75)
         
         # self.mapdl.k(11, -10.52, 232, 2)
-        self.mapdl.k(12, 41.3, 232, -7.08)
+        self.mapdl.k(12, 36.04, 232, -7.08)
 
         # self.mapdl.k(13, -9.95, 262, 2)
-        self.mapdl.k(14, 39.19, 262, -5.75)
+        self.mapdl.k(14, 34.21, 262, -5.75)
         
         # self.mapdl.k(15, -9.37, 292, 2)
-        self.mapdl.k(16, 37.01, 292, -4.73)
+        self.mapdl.k(16, 32.33, 292, -4.73)
         
         # self.mapdl.k(17, -8.8, 322, 2)
-        self.mapdl.k(18, 34.79, 322, -3.98)
+        self.mapdl.k(18, 30.39, 322, -3.98)
         
         # self.mapdl.k(19, -8.23, 352, 2)
-        self.mapdl.k(20, 32.52, 352, -3.46)
+        self.mapdl.k(20, 28.43, 352, -3.46)
         
-        self.mapdl.k(21, -7.5, 390, 2)
-        self.mapdl.k(22, 29.58, 390, -2.89)
+        self.mapdl.k(21, -11.25, 390, 2)
+        self.mapdl.k(22, 25.93, 390, -2.89)
         
-        self.mapdl.k(23, 0, 412, 2)
-        self.mapdl.k(24, 26.77, 412, -1.52)
+        self.mapdl.k(23, -8.10, 412, 2)
+        self.mapdl.k(24, 18.67, 412, -1.52)
              
         # root side
         self.mapdl.l(1,2)
