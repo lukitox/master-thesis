@@ -176,22 +176,26 @@ class PropellerModel(Femodel):
             
             self.mesh_density_factor = factor
             
+            import time
+
             print(factor)
+            print(time.time())
             
             self.pre_processing()
             
             global_vars = [0 for i in range(7)]
             args=[[0.37, 1, 0.5] for i in range(20)]
             
+            
+            begin = time.time()
             self.cdread()
             self.change_design_variables(global_vars, *args)
             self.__solve__()
             
+            mass, I_f, I_m = self.post_processing()
+            runtime = time.time() - begin
+            
             self.mapdl.post1() # Enter Post-processing Routine
-        
-            # Assign Failure Criteria Values
-            for key in self.materials:
-                self.materials[key].assign_fc()
                 
             self.mapdl.run('tipnode = NODE(0,412,0)')
             self.mapdl.get('tipnode_dis_y','NODE','tipnode','U','Y')
@@ -202,24 +206,15 @@ class PropellerModel(Femodel):
             self.mapdl.get('maxnode_dis_y','NODE','maxnode','U','Y')
             self.mapdl.get('maxnode_dis_z','NODE','maxnode','U','Z')
     
-            # self.mapdl.layer(7)
-            # self.mapdl.nsle('s','corner')
-            # self.mapdl.nsel('r','loc','y',92)
-            # self.mapdl.seltol(0.1)
-            # self.mapdl.nsel('s','loc','x',0)
-            # node = self.mapdl.mesh.nnum[0]
-            # self.mapdl.allsel('all')
-            
-            
-            # self.mapdl.get('maxnode_s_y','NODE',node,'s','Y')
-            
-            self.mapdl.parameters
             
             rv = [self.mapdl.parameters['tipnode_dis_y'],
                   self.mapdl.parameters['tipnode_dis_z'],
                   self.mapdl.parameters['maxnode_dis_y'],
                   self.mapdl.parameters['maxnode_dis_z'],
-                  # self.mapdl.parameters['maxnode_s_y'],
+                  mass,
+                  max(I_f),
+                  max(I_m),
+                  runtime,
                   ]
             
             output.append(rv)
