@@ -13,9 +13,9 @@ bend = propeller.loadcases[0][1]['bend']
 
 # %% Biegemoment
 
-bendplot = bend.plot(x='r/R', y='Mz', style='.-')
+bendplot = bend.plot(x='r/R', y='Mz', style='.')
 
-Mz = [[0], [30.21855]]
+Mz = [[0], [25.702]]
 
 plt.plot(Mz[0],Mz[1], axes=bendplot, marker='o')
 
@@ -32,7 +32,7 @@ difference = Mz[1]/Mz_fit[0]
 
 schwenkplot = bend.plot(x='r/R', y='Mx', style='.-')
 
-Mx = [[0], [4.864]]
+Mx = [[0], [3.233]]
 
 plt.plot(Mx[0],Mx[1], axes=schwenkplot, marker='o')
 
