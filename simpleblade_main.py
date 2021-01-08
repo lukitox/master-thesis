@@ -54,8 +54,8 @@ propeller.sections = [[0.121, airfoil],
                       [1., airfoil]]
 
 propeller.geometric_sections = [[0.121, rectangle],
-                                [0.223, airfoil],
-                                [1., airfoil]]
+                                [0.223, airfoildick],
+                                [1., airfoildick]]
 
 for x in propeller.sections:
     x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
@@ -107,106 +107,65 @@ femodel.materials = {'flaxpreg': Material(mapdl,
 
 femodel.pre_processing()
 
-# study=femodel.convergence_study([1,2,4,6])
 
+# %% Define Objective function 
 
-# # %% Define Objective function 
-
-# def objfunc(x):
-#     f, g, h = femodel.evaluate(x)
+def objfunc(x):
+    f, g, h = femodel.evaluate(x)
     
-#     # Print current Function Evaluation for monitoring purpuses
-#     objfunc.counter+= 1
-#     print(np.round(time.time(),1), objfunc.counter, np.round(np.array(x),2))
+    # Print current Function Evaluation for monitoring purpuses
+    objfunc.counter+= 1
+    print(np.round(time.time(),1), objfunc.counter, np.round(np.array(x),2))
     
-#     time.sleep(0.01)
-#     fail = 0
+    time.sleep(0.01)
+    fail = 0
     
-#     return f, g, fail
-# objfunc.counter = 0
+    return f, g, fail
+objfunc.counter = 0
 
-# # %% Instantiate Optimization Problem 
+# %% Instantiate Optimization Problem 
 
-# optprob = Optimization(name='Propeller',
-#                         obj_fun=objfunc
-#                         )
+optprob = Optimization(name='Propeller',
+                        obj_fun=objfunc
+                        )
 
-# # Add variables
-# for i in range(7):                        
-#     optprob.addVar('phi' + str(i), 'c', lower=-100, upper=100)
-# for i in range (20):
-#     optprob.addVar('tpm' + str(i), 'c', lower=0.185 * 2, upper=0.185 * 8)
-#     optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)
-#     optprob.addVar('div' + str(i), 'c', lower=0.1, upper= 0.9)
+# Add variables
+for i in range(7):                        
+    optprob.addVar('phi' + str(i), 'c', lower=-180, upper=180)
+for i in range (20):
+    optprob.addVar('tpm' + str(i), 'c', lower=0., upper=0.185 * 4)
+    optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)
+    optprob.addVar('div' + str(i), 'c', lower=0., upper=1.)
 
-# # Add objective
-# optprob.addObj('f')
+# Add objective
+optprob.addObj('f')
 
-# # Add constraints
-# for i in range(20): 
-#     optprob.addCon('gf' + str(i), 'i')
-# # Add constraints
-# for i in range(20): 
-#     optprob.addCon('gm' + str(i), 'i')
+# Add constraints
+for i in range(20): 
+    optprob.addCon('gf' + str(i), 'i')
+# Add constraints
+for i in range(20): 
+    optprob.addCon('gm' + str(i), 'i')
 
-# # %% Instantiate Optimizer
-# alpso = ALPSO()
-# alpso.setOption('fileout',1)
+# %% Instantiate Optimizer
+alpso = ALPSO()
+alpso.setOption('fileout',1)
 
-# alpso_path = "/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/"
-# filename = 'Simpleblade_Output_ALPSO'
+alpso_path = "/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/"
+filename = 'Simpleblade_Output_ALPSO'
 
-# alpso.setOption('filename', alpso_path+filename)
-# alpso.setOption('SwarmSize', 40)
-# alpso.setOption('stopIters', 5)      
-# alpso.setOption('rinit', 1.)
-# alpso.setOption('itol', 0.01)
+alpso.setOption('filename', alpso_path+filename)
+alpso.setOption('SwarmSize', 40)
+alpso.setOption('stopIters', 5)      
+alpso.setOption('rinit', 1.)
+alpso.setOption('itol', 0.01)
 
-# def coldstart():    
-#     alpso(optprob, store_hst=True)
-#     print(optprob.solution(0))
+def coldstart():    
+    alpso(optprob, store_hst=True)
+    print(optprob.solution(0))
     
-# def hotstart():
-#     alpso.setOption('filename',filename + '_hotstart')
-#     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
-#     print(optprob.solution(0)) # 0 or 1?
-
-# # %%
-
-# # x = [45,135,90,90,90,135,45,
-# #      0.37, 0.5, 0.4,
-# #      0.37, 0.5, 0.4,
-# #      0.37, 0.45, 0.4,
-# #      0.37, 0.45, 0.4,
-# #      0.37, 0.4, 0.4,
-# #      0.37, 0.4, 0.4,
-# #      0.37, 0.35, 0.4,
-# #      0.37, 0.35, 0.4,
-# #      0.37, 0.3, 0.4,
-# #      0.37, 0.3, 0.4,
-# #      0.37, 0.25, 0.4,
-# #      0.37, 0.25, 0.4,
-# #      0.37, 0.2, 0.4,
-# #      0.37, 0.2, 0.4,
-# #      0.37, 0.15, 0.4,
-# #      0.37, 0.15, 0.4,
-# #      0.37, 0.1, 0.4,
-# #      0.37, 0.1, 0.4,
-# #      0.37, 0.05, 0.4,
-# #      0.37, 0.01, 0.4,]
-
-# # global_vars = x[:7]
-
-# # args = []
-# # for section in range(20):
-# #     x1 = len(global_vars) + section * 3
-# #     args.append(x[x1:(x1+3)])
-
-global_vars = [0 for i in range(7)]
-args=[[0.37*2, 1, 0.5] for i in range(20)]
-
-femodel.cdread()
-femodel.change_design_variables(global_vars, *args)
-femodel.__solve__()
-mass,fib,mat=femodel.post_processing()
+def hotstart():
+    alpso.setOption('filename',filename + '_hotstart')
+    alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
+    print(optprob.solution(0)) # 0 or 1?
 
