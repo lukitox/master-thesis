@@ -85,14 +85,16 @@ propeller.loadcases[0][0].set_data('rpm',4000)
 
 # %% Run ANSYS and instantiate FE-Model
 
-ncores = 1
+nproc = 4
 
 ansys_path = ['/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-a/',
-              '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-b/']
+              '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-b/',
+              '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-c/',
+              '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-d/']
 
-jobname = ['job-a', 'job-b']
+jobname = ['job-a', 'job-b', 'job-c', 'job-d']
 
-mapdl = [[], []]
+mapdl = [[] for i in range(nproc)]
 
 mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path[rank],
                                    nproc=1,
@@ -104,7 +106,7 @@ mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path[rank],
                                    mode='console',
                                    )
 
-femodel = [[], []]
+femodel = [[] for i in range(nproc)]
 
 femodel[rank] = PropellerModel(mapdl[rank],
                                mesh_density_factor=1,
