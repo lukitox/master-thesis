@@ -15,6 +15,7 @@ from pyOpt import Optimization
 from pyOpt import ALPSO
 import time
 from mpi4py import MPI
+import pandas as pd
 
 # Local imports
 from util_loads import Propeller, Airfoil, Loadcase
@@ -60,12 +61,12 @@ propeller.geometric_sections = [[0.121, rectangle],
                                 [0.223, airfoildick],
                                 [1., airfoildick]]
 
-for x in propeller.sections:
-    x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
+# for x in propeller.sections:
+#     x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
     
-airfoil.xrotor_characteristics['Cm'] = -0.14
-airfoil.xrotor_characteristics['d(Cl)/d(alpha)'] = 6.28
-airfoil.xrotor_characteristics['Minimum Cl'] = 0.
+# airfoil.xrotor_characteristics['Cm'] = -0.14
+# airfoil.xrotor_characteristics['d(Cl)/d(alpha)'] = 6.28
+# airfoil.xrotor_characteristics['Minimum Cl'] = 0.
 
 
 
@@ -79,12 +80,12 @@ propeller.loadcases[0][0].set_data('rpm',4000)
 
 # %% Calculate loads
 
-propeller.calc_loads()
-propeller.set_load_envelope()
+# propeller.calc_loads()
+# propeller.set_load_envelope()
 
 # %% Run ANSYS and instantiate FE-Model
 
-ncores = 2
+ncores = 1
 
 ansys_path = ['/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-a/',
               '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-b/']
@@ -93,7 +94,7 @@ jobname = ['job-a', 'job-b']
 
 mapdl = [[], []]
 
-mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path,
+mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path[rank],
                                    nproc=1,
                                    override=True,
                                    loglevel='error',
@@ -111,19 +112,15 @@ femodel[rank] = PropellerModel(mapdl[rank],
                                n_sec= 20,
                                )
 
-femodel[rank].materials = {'flaxpreg': Material(mapdl,
-                                          'FLAXPREG-T-UD',
-                                          1),
-                     'balsa': Material(mapdl,
-                                       'balsaholz',
-                                       2),
-                     }
+femodel[rank].materials = {'flaxpreg': Material(mapdl[rank],
+                                                'FLAXPREG-T-UD',
+                                                1),
+                           'balsa': Material(mapdl[rank],
+                                             'balsaholz',
+                                             2),
+                           }
 
-if rank == 0:
-    femodel[rank].pre_processing()
-elif rank ==1:
-    femodel[rank] = femodel[0]
-    femodel[rank].mapdl = mapdl[rank]
+femodel[rank].element_data = pd.read_csv('element_data.csv', index_col=(0))
 
 # %% Define Objective function 
 
@@ -192,4 +189,4 @@ def hotstart():
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0)) # 0 or 1?
 
-# coldstart()
+coldstart()
