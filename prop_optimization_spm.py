@@ -92,7 +92,7 @@ optprob = Optimization(name='Propeller',
                         )
 
 # Add variables
-for i in range(3):                        
+for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
 for i in range (n_sec):
     optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)
