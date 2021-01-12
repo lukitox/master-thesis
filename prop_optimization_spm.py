@@ -19,7 +19,7 @@ import pandas as pd
 
 # Local imports
 from util_mapdl import Material
-from femodel import PropellerModel
+from femodel import Threepartmodel
 
 # %% Run ANSYS and instantiate FE-Model
 
@@ -45,7 +45,7 @@ mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path[rank],
 
 femodel = [[] for i in range(size)]
 
-femodel[rank] = PropellerModel(mapdl[rank],
+femodel[rank] = Threepartmodel(mapdl[rank],
                                mesh_density_factor=1,
                                propeller = [],
                                n_sec= 20,
