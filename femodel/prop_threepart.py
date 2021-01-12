@@ -9,6 +9,7 @@ Author: Lukas Hilbers
 # %% Import Libraries and Data
 
 # Third-party imports
+import numpy as np
 
 # Local imports
 from .propellermodel import PropellerModel
@@ -54,7 +55,6 @@ class Threepartmodel(PropellerModel):
                                   self.materials['flaxpreg'].number,
                                   global_vars[0],
                                   3)           
-                
                 if core > 0:
                     height_balsa = core * (1 - args[sec][0])
                     
@@ -92,3 +92,46 @@ class Threepartmodel(PropellerModel):
                 self.mapdl.emodif(element, 'secnum', element)
                         
         self.mapdl.allsel('all')
+        
+    def evaluate(self, x):
+        """
+        This method translates the rather confusing design variable list 
+        from the optimizer into a more comprehensible format which is passed
+        to the change_design_variables() method.
+        
+        Then, the model is solved, the database is cleared, 
+        and the post-processing results are returned.
+        
+
+        Parameters
+        ----------
+        x : list
+            The design variables list coming from the Optimizer.
+
+        Returns
+        -------
+        M_tot : float
+            The propeller blade mass in [tonne].
+        I_fib_fail : list
+            The Puck fiber failure criterion.
+        I_mat_fail : list
+            The Puck inter-fiber failure criterion.
+        """
+        
+        global_vars = x[:2]
+        
+        args = []
+        for section in range(self.n_sec):
+            x1 = len(global_vars) + section * 2
+            args.append(x[x1:(x1+2)])
+        
+        # Convert input for __change_design_variables__() method
+        self.cdread()
+        self.change_design_variables(global_vars, *args)
+        self.__solve__()
+        m, I_f, I_m = self.post_processing()
+        self.clear()
+        
+        g = list(np.array(I_f+I_m)-1)    
+        
+        return  m*1e6, g, []
