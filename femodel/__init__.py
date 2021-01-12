@@ -4,3 +4,4 @@
 
 # Local imports
 from .femodel import Femodel
+from .propellermodel import PropellerModel

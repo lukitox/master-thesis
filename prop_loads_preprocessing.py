@@ -16,7 +16,7 @@ import pyansys
 # Local imports
 from util_loads import Propeller, Airfoil, Loadcase
 from util_mapdl import Material
-from propellermodel import PropellerModel
+from femodel import PropellerModel
 
 # %% Instantiate Airfoils and assign radial sections
 

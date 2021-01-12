@@ -6,7 +6,7 @@ import numpy as np
 
 # Local imports
 from util_mapdl.post_functions import fc_puck
-from femodel import Femodel
+from .femodel import Femodel
 
 # %%
 

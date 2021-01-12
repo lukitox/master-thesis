@@ -8,7 +8,7 @@ import math
 
 # Local imports
 from .xrotor import Xrotor
-from .support import cleanup, print_call
+from .support import cleanup #, print_call
 from .airfoil import Airfoil
 
 #%%

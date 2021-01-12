@@ -19,7 +19,7 @@ import pandas as pd
 
 # Local imports
 from util_mapdl import Material
-from propellermodel import PropellerModel
+from femodel import PropellerModel
 
 # %% Run ANSYS and instantiate FE-Model
 
