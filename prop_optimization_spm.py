@@ -45,10 +45,12 @@ mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path[rank],
 
 femodel = [[] for i in range(size)]
 
+n_sec = 20
+
 femodel[rank] = Threepartmodel(mapdl[rank],
                                mesh_density_factor=1,
                                propeller = [],
-                               n_sec= 20,
+                               n_sec= n_sec,
                                )
 
 femodel[rank].materials = {'flaxpreg': Material(mapdl[rank],
@@ -101,10 +103,10 @@ for i in range (20):
 optprob.addObj('f')
 
 # Add constraints
-for i in range(20): 
+for i in range(n_sec): 
     optprob.addCon('gf' + str(i), 'i')
 # Add constraints
-for i in range(20): 
+for i in range(n_sec): 
     optprob.addCon('gm' + str(i), 'i')
 
 # %% Instantiate Optimizer
