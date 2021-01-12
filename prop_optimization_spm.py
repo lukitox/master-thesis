@@ -14,47 +14,67 @@ import pyansys
 from pyOpt import Optimization
 from pyOpt import ALPSO
 import time
+from mpi4py import MPI
+import pandas as pd
 
 # Local imports
-from util_loads import Propeller, Airfoil, Loadcase
 from util_mapdl import Material
 from propellermodel import PropellerModel
 
 # %% Run ANSYS and instantiate FE-Model
 
-ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS'
-mapdl = pyansys.launch_mapdl(run_location=ansys_path,
-                             nproc=4,
-                             override=True,
-                             loglevel='error',
-                             additional_switches='-smp -d X11C',
-                             allow_ignore=True,
-                             mode='console',
-                             )
+rank = MPI.COMM_WORLD.Get_rank()
+size = MPI.COMM_WORLD.Get_size()
 
-femodel = PropellerModel(mapdl,
-                         mesh_density_factor=1,
-                         propeller = [],
-                         n_sec= 20,
-                         )
+ansys_path = ['/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-'
+              + str(i) for i in range(size)]
 
-femodel.materials = {'flaxpreg': Material(mapdl,
-                                          'FLAXPREG-T-UD',
-                                          1),
-                     'balsa': Material(mapdl,
-                                       'balsaholz',
-                                       2),
-                     }
+jobname = ['job-' + str(i) for i in range(size)]
 
+mapdl = [[] for i in range(size)]
 
+mapdl[rank] = pyansys.launch_mapdl(run_location=ansys_path[rank],
+                                   nproc=1,
+                                   override=True,
+                                   loglevel='error',
+                                   additional_switches='-smp -d X11C',
+                                   jobname=jobname[rank],
+                                   allow_ignore=True,
+                                   mode='console',
+                                   )
+
+femodel = [[] for i in range(size)]
+
+femodel[rank] = PropellerModel(mapdl[rank],
+                               mesh_density_factor=1,
+                               propeller = [],
+                               n_sec= 20,
+                               )
+
+femodel[rank].materials = {'flaxpreg': Material(mapdl[rank],
+                                                'FLAXPREG-T-UD',
+                                                1),
+                           'balsa': Material(mapdl[rank],
+                                             'balsaholz',
+                                             2),
+                           }
+
+femodel[rank].element_data = pd.read_csv('./mf3218/element_data.csv',
+                                         index_col=(0))
 
 # %% Define Objective function 
 
 def objfunc(x):
-    f, g, h = femodel.evaluate(x)
+    comm = MPI.COMM_WORLD
+    
+    size = comm.Get_size()
+    rank = comm.Get_rank()  
+    
+    f, g, h = femodel[rank].evaluate(x)
     
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
+    print("process "+ str(rank) + " of " + str(size))
     print(np.round(time.time(),1), objfunc.counter, np.round(np.array(x),2))
     
     time.sleep(0.01)
@@ -88,7 +108,7 @@ for i in range(20):
     optprob.addCon('gm' + str(i), 'i')
 
 # %% Instantiate Optimizer
-alpso = ALPSO()
+alpso = ALPSO(pll_type='SPM')
 alpso.setOption('fileout',1)
 
 alpso_path = "/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/"
@@ -109,3 +129,4 @@ def hotstart():
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0)) # 0 or 1?
 
+coldstart()
