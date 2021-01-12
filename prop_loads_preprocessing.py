@@ -75,7 +75,7 @@ propeller.set_load_envelope()
 
 # %% Run ANSYS and instantiate FE-Model
 
-ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ANSYS'
+ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-a'
 mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              nproc=4,
                              override=True,
