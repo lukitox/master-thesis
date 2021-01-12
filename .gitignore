@@ -4,3 +4,5 @@
 /.spyproject
 /__pycache__
 util_mapdl/__pycache__/
+
+.ipynb_checkpoints/
