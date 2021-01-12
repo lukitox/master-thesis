@@ -156,7 +156,7 @@ class PropellerModel(Femodel):
                                     * args[sec][1] 
                                     * (1 - args[sec][2])),
                                    self.materials['flaxpreg'].number,
-                                   global_vars[2],
+                                   global_vars[4],
                                    3)
                 for index in [5,6]:
                     self.mapdl.secdata(args[sec][0]/4,
