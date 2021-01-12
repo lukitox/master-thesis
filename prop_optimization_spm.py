@@ -50,7 +50,7 @@ n_sec = 20
 femodel[rank] = Threepartmodel(mapdl[rank],
                                mesh_density_factor=1,
                                propeller = [],
-                               n_sec= n_sec,
+                               n_sec= 20,
                                )
 
 femodel[rank].materials = {'flaxpreg': Material(mapdl[rank],
@@ -66,6 +66,9 @@ femodel[rank].element_data = pd.read_csv('./mf3218/element_data.csv',
 
 # %% Define Objective function 
 
+np.set_printoptions(formatter={'float': lambda x: format(x, '3.2f')})
+starttime = time.time()
+
 def objfunc(x):
     comm = MPI.COMM_WORLD
     
@@ -77,7 +80,10 @@ def objfunc(x):
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
     print("process "+ str(rank) + " of " + str(size))
-    print(np.round(time.time(),1), objfunc.counter, np.round(np.array(x),2))
+    print(np.round(time.time() - starttime,1), objfunc.counter)
+    print(str(np.round(np.array(x[:2]),2)))    
+    print(str(np.round(np.array(x[2:]),2)))
+    print(np.round(max(g),2))
     
     time.sleep(0.01)
     fail = 0
