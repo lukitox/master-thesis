@@ -22,8 +22,9 @@ from propellermodel import PropellerModel
 
 # %% Instantiate Airfoils and assign radial sections
 
-airfoil = Airfoil('mf3218.xfo', 350000)
-rectangle = Airfoil('rectangle2.txt',350000)
+airfoil = Airfoil('mf3218.xfo', 500000, iter_limit=600)
+airfoildick = Airfoil('mf3218-dick.xfo', 500000, iter_limit=600)
+rectangle = Airfoil('rectangle2.txt',500000)
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
@@ -53,13 +54,17 @@ propeller.sections = [[0.121, airfoil],
                       [1., airfoil]]
 
 propeller.geometric_sections = [[0.121, rectangle],
-                                [0.223, airfoil],
-                                [1., airfoil]]
+                                [0.223, airfoildick],
+                                [1., airfoildick]]
 
 for x in propeller.sections:
     x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
     
-# airfoil.xrotor_characteristics['Cm'] = -0.1417
+airfoil.xrotor_characteristics['Cm'] = -0.14
+airfoil.xrotor_characteristics['d(Cl)/d(alpha)'] = 6.28
+airfoil.xrotor_characteristics['Minimum Cl'] = 0.
+
+
 
 # %% Instantiate Loadcases
 
@@ -102,8 +107,6 @@ femodel.materials = {'flaxpreg': Material(mapdl,
 
 femodel.pre_processing()
 
-# study=femodel.convergence_study([1,2,4,6])
-
 
 # %% Define Objective function 
 
@@ -128,11 +131,11 @@ optprob = Optimization(name='Propeller',
 
 # Add variables
 for i in range(7):                        
-    optprob.addVar('phi' + str(i), 'c', lower=-100, upper=100)
+    optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
 for i in range (20):
-    optprob.addVar('tpm' + str(i), 'c', lower=0.185 * 2, upper=0.185 * 8)
+    optprob.addVar('tpm' + str(i), 'c', lower=0., upper=0.185 * 4)
     optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)
-    optprob.addVar('div' + str(i), 'c', lower=0.1, upper= 0.9)
+    optprob.addVar('div' + str(i), 'c', lower=0., upper=1.)
 
 # Add objective
 optprob.addObj('f')
@@ -166,44 +169,3 @@ def hotstart():
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0)) # 0 or 1?
 
-# %%
-
-# x = [45,135,90,90,90,135,45,
-#      0.37, 0.5, 0.4,
-#      0.37, 0.5, 0.4,
-#      0.37, 0.45, 0.4,
-#      0.37, 0.45, 0.4,
-#      0.37, 0.4, 0.4,
-#      0.37, 0.4, 0.4,
-#      0.37, 0.35, 0.4,
-#      0.37, 0.35, 0.4,
-#      0.37, 0.3, 0.4,
-#      0.37, 0.3, 0.4,
-#      0.37, 0.25, 0.4,
-#      0.37, 0.25, 0.4,
-#      0.37, 0.2, 0.4,
-#      0.37, 0.2, 0.4,
-#      0.37, 0.15, 0.4,
-#      0.37, 0.15, 0.4,
-#      0.37, 0.1, 0.4,
-#      0.37, 0.1, 0.4,
-#      0.37, 0.05, 0.4,
-#      0.37, 0.01, 0.4,]
-
-# global_vars = x[:7]
-
-# args = []
-# for section in range(20):
-#     x1 = len(global_vars) + section * 3
-#     args.append(x[x1:(x1+3)])
-
-global_vars = [0 for i in range(7)]
-args=[[0.37, 1, 0.5] for i in range(20)]
-
-femodel.cdread()
-femodel.change_design_variables(global_vars, *args)
-femodel.__solve__()
-
-rforce = femodel.reaction_forces()
-
-mapdl.fsum()
