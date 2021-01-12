@@ -127,6 +127,6 @@ def coldstart():
 def hotstart():
     alpso.setOption('filename',filename + '_hotstart')
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
-    print(optprob.solution(0)) # 0 or 1?
+    print(optprob.solution(0))
 
 coldstart()
