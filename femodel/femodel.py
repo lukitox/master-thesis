@@ -130,7 +130,10 @@ class Femodel:
             elem_height = 2 * \
                 np.array(profiltropfen[profiltropfen['X']==rel_chord]['Y'])[0]
                 
-            secoffset = -1 * np.array(camber[camber['X'] == rel_chord]['Y'])[0]
+            try:    
+                secoffset = -1 * np.array(camber[camber['X'] == rel_chord]['Y'])[0]
+            except:
+                secoffset = 0    
             
             ## Element area:
             element_area = self.mapdl.get('a', 'elem', element, 'area')
@@ -168,6 +171,10 @@ class Femodel:
                          * element_area
                          * (rho/2) 
                          * v_circ**2)
+            
+            # Total Drag
+            
+            drag = elem_state['Cd'] * (rho/2) * v_circ**2 * element_area
                         
             ## Angle ot attack
             # in rad:
@@ -201,6 +208,7 @@ class Femodel:
                                elem_state['Cf'],
                                elem_state['Cf'] * elem_dx,
                                visc_drag,
+                               drag,
                                elem_state['alpha'],
                                ])
             
@@ -229,6 +237,7 @@ class Femodel:
                                    'Cf',
                                    'Cf*dx',
                                    'Viscous Drag',
+                                   'Total Drag',
                                    'alpha',
                                    ])
             
@@ -267,7 +276,7 @@ class Femodel:
         def intersection(lnum):
             kp_0 =  100000
             kp_num = 5
-            a_num = 2
+            a_num = 4
             
             self.mapdl.prep7()
             
@@ -288,9 +297,22 @@ class Femodel:
             self.mapdl.kdele(kp_num)
             
             return coords
+        
+        le_lines = [5,6,7]
+        te_lines = [2,3,12]
+        
+        if y <= 92:
+            le_line = le_lines[0]
+            te_line = te_lines[0]
+        elif y <= 390:
+            le_line = le_lines[1]
+            te_line = te_lines[1]     
+        else:
+            le_line = le_lines[2]
+            te_line = te_lines[2]
     
-        le = np.array(intersection(4))
-        te = np.array(intersection(2))
+        le = np.array(intersection(le_line))
+        te = np.array(intersection(te_line))
         
         return le, te, np.linalg.norm(te - le)
         

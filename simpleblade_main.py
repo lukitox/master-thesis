@@ -22,16 +22,8 @@ from propellermodel import PropellerModel
 
 # %% Instantiate Airfoils and assign radial sections
 
-mh112 = Airfoil('mh112.txt', 300000)
-mh113 = Airfoil('mh113.txt', 300000)
-mh114 = Airfoil('mh114.txt', 300000)
-mh115 = Airfoil('mh115.txt', 500000)
-
-sections = [[0.15, mh112],
-            [0.30, mh113],
-            [0.45, mh114],
-            [0.60, mh115],
-            [1.00, mh115]]
+airfoil = Airfoil('mf3218.xfo', 350000)
+rectangle = Airfoil('rectangle2.txt',350000)
 
 # %% Instantiate Propeller and assign geometry and airfoils
 
@@ -40,31 +32,34 @@ propeller = Propeller(number_of_blades=2,
                       hub_radius=0.04,
                       )
 
-propeller.geometry = np.array([[0.17, 0.10, 17],
-                               [0.22, 0.14, 20],
-                               [0.27, 0.16, 18],
-                               [0.32, 0.15, 16],
-                               [0.37, 0.15, 15],
-                               [0.42, 0.14, 14],
-                               [0.47, 0.14, 13],
-                               [0.52, 0.13, 13],
-                               [0.57, 0.13, 12],
-                               [0.62, 0.12, 12],
-                               [0.67, 0.12, 11],
-                               [0.72, 0.11, 11],
-                               [0.77, 0.11, 11],
-                               [0.82, 0.10, 11],
-                               [0.87, 0.10, 10],
-                               [0.92, 0.09, 10],
-                               [0.97, 0.08, 7],
-                               [1.00, 0.01, 7],
+propeller.geometry = np.array([[0.10,0.078,0],
+                               [0.121, 0.078, 0.],
+                               [0.155, 0.100, 5.99],
+                               [0.223, 0.160, 17.97],
+                               [0.345, 0.149, 14.44],
+                               [0.417, 0.142, 12.68],
+                               [0.490, 0.135, 11.18],
+                               [0.563, 0.128, 9.94],
+                               [0.636, 0.121, 8.97],
+                               [0.709, 0.114, 8.26],
+                               [0.782, 0.107, 7.81],
+                               [0.854, 0.100, 7.63],
+                               [0.947, 0.091, 7.5],
+                               [1., 0.066, 7.5],                               
                                ])
-# ...
 
-propeller.sections = sections
+propeller.sections = [[0.121, airfoil],
+                      [0.223, airfoil],
+                      [1., airfoil]]
 
-for airfoil in propeller.sections:
-    airfoil[1].set_polar(alpha_start=-20, alpha_stop=20, alpha_inc=0.25) 
+propeller.geometric_sections = [[0.121, rectangle],
+                                [0.223, airfoil],
+                                [1., airfoil]]
+
+for x in propeller.sections:
+    x[1].set_polar(alpha_start=-7, alpha_stop=20, alpha_inc=0.25) 
+    
+# airfoil.xrotor_characteristics['Cm'] = -0.1417
 
 # %% Instantiate Loadcases
 
@@ -106,6 +101,8 @@ femodel.materials = {'flaxpreg': Material(mapdl,
                      }
 
 femodel.pre_processing()
+
+# study=femodel.convergence_study([1,2,4,6])
 
 
 # %% Define Objective function 
@@ -168,3 +165,45 @@ def hotstart():
     alpso.setOption('filename',filename + '_hotstart')
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0)) # 0 or 1?
+
+# %%
+
+# x = [45,135,90,90,90,135,45,
+#      0.37, 0.5, 0.4,
+#      0.37, 0.5, 0.4,
+#      0.37, 0.45, 0.4,
+#      0.37, 0.45, 0.4,
+#      0.37, 0.4, 0.4,
+#      0.37, 0.4, 0.4,
+#      0.37, 0.35, 0.4,
+#      0.37, 0.35, 0.4,
+#      0.37, 0.3, 0.4,
+#      0.37, 0.3, 0.4,
+#      0.37, 0.25, 0.4,
+#      0.37, 0.25, 0.4,
+#      0.37, 0.2, 0.4,
+#      0.37, 0.2, 0.4,
+#      0.37, 0.15, 0.4,
+#      0.37, 0.15, 0.4,
+#      0.37, 0.1, 0.4,
+#      0.37, 0.1, 0.4,
+#      0.37, 0.05, 0.4,
+#      0.37, 0.01, 0.4,]
+
+# global_vars = x[:7]
+
+# args = []
+# for section in range(20):
+#     x1 = len(global_vars) + section * 3
+#     args.append(x[x1:(x1+3)])
+
+global_vars = [0 for i in range(7)]
+args=[[0.37, 1, 0.5] for i in range(20)]
+
+femodel.cdread()
+femodel.change_design_variables(global_vars, *args)
+femodel.__solve__()
+
+rforce = femodel.reaction_forces()
+
+mapdl.fsum()

@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 from scipy.signal import savgol_filter
+import warnings
 
 # Local imports
 from .xfoil import Xfoil
@@ -288,8 +289,17 @@ class Airfoil:
             x.run('')
             x.run('quit')
             
+        polar = Xfoil.read_polar(polar_file)  
+        if polar.empty:
+            polar = polar.append(pd.Series(), ignore_index=True)
+            polar = polar.fillna(0)
+            
+            warnings.warn('Unconverged point: ' + str(self) + ' ' + \
+                          str(mode) + ' ' + str(value) + '. Filling with 0.',
+                          RuntimeWarning)
+                        
         return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_cf_vs_x(dump_file),\
-            Xfoil.read_polar(polar_file)
+            polar
 
     @staticmethod
     @cleanup

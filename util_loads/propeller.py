@@ -267,6 +267,16 @@ class Propeller:
     @sections.setter
     def sections(self, array):
         self.__sections = array
+        
+    @property
+    def geometric_sections(self):
+        
+        return self.__geometric_sections
+    
+    @geometric_sections.setter
+    def geometric_sections(self, array):
+        
+        self.__geometric_sections = array
 
     def add_section(self, rel_radius, airfoil):
         """
@@ -304,22 +314,22 @@ class Propeller:
 
         """
         
-        if rel_radius <= self.sections[0][0]:
-            airfoil = self.sections[0][1]
+        if rel_radius <= self.geometric_sections[0][0]:
+            airfoil = self.geometric_sections[0][1]
             
             coords, profiltropfen, camberline = Airfoil.interpolate(airfoil,
                                                                     airfoil,
                                                                     0)
-        elif rel_radius >=self.sections[len(self.sections)-1][0]:
-            airfoil = self.sections[len(self.sections)-1][1]
+        elif rel_radius >=self.geometric_sections[len(self.geometric_sections)-1][0]:
+            airfoil = self.geometric_sections[len(self.geometric_sections)-1][1]
             
             coords, profiltropfen, camberline = Airfoil.interpolate(airfoil,
                                                                     airfoil,
                                                                     1)            
         else:
-            index = bisect.bisect([x[0] for x in self.sections],rel_radius)
-            left_section = self.sections[index-1]
-            right_section = self.sections[index]
+            index = bisect.bisect([x[0] for x in self.geometric_sections],rel_radius)
+            left_section = self.geometric_sections[index-1]
+            right_section = self.geometric_sections[index]
             
             fraction = (rel_radius - left_section[0])/ \
                 (right_section[0] - left_section[0])

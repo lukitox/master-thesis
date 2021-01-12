@@ -35,32 +35,81 @@ class PropellerModel(Femodel):
             self.materials[key].assign_mp()
 
         # Geometry
-        self.mapdl.k(1,-18.54,40,26.99) # An Tip und Hub radius anpassen?
-        self.mapdl.k(2,55.62,40,0)
-        self.mapdl.k(3,-8.24,412,5.81)
-        self.mapdl.k(4,24.72,412,0)
+        self.mapdl.k(1, -6.4, 50, 0)
+        self.mapdl.k(2, 25.6, 50, 0)
         
-        # self.mapdl.k(10,0,40,-10)
-        # self.mapdl.k(11,0,412,-10)
+        self.mapdl.k(3, -13.2, 92, 2)
+        self.mapdl.k(4, 49.48, 92, -18.35)
         
+        # self.mapdl.k(5, -12.24, 142, 2)
+        self.mapdl.k(6, 47.04, 142, -13.26)
+        
+        # self.mapdl.k(7, -11.67, 172, 2)
+        self.mapdl.k(8, 45.26, 172, -10.8)
+        
+        # self.mapdl.k(9, -11.1, 202, 2)
+        self.mapdl.k(10, 43.33, 202, -8.75)
+        
+        # self.mapdl.k(11, -10.52, 232, 2)
+        self.mapdl.k(12, 41.3, 232, -7.08)
+
+        # self.mapdl.k(13, -9.95, 262, 2)
+        self.mapdl.k(14, 39.19, 262, -5.75)
+        
+        # self.mapdl.k(15, -9.37, 292, 2)
+        self.mapdl.k(16, 37.01, 292, -4.73)
+        
+        # self.mapdl.k(17, -8.8, 322, 2)
+        self.mapdl.k(18, 34.79, 322, -3.98)
+        
+        # self.mapdl.k(19, -8.23, 352, 2)
+        self.mapdl.k(20, 32.52, 352, -3.46)
+        
+        self.mapdl.k(21, -7.5, 390, 2)
+        self.mapdl.k(22, 29.58, 390, -2.89)
+        
+        self.mapdl.k(23, 0, 412, 2)
+        self.mapdl.k(24, 26.77, 412, -1.52)
+             
+        # root side
         self.mapdl.l(1,2)
-        # self.mapdl.larc(1,2,10,200)
+        
+        # trailing edge
         self.mapdl.l(2,4)
+        self.mapdl.l(4,6)
+        self.mapdl.l(6,8)
+        self.mapdl.l(8,10)
+        self.mapdl.l(10,12)
+        self.mapdl.l(12,14)
+        self.mapdl.l(14,16)
+        self.mapdl.l(16,18)
+        self.mapdl.l(18,20)
+        self.mapdl.l(20,22)
+        self.mapdl.l(22,24)
+                
+        self.mapdl.lsel('s','line','','3','11')
+        self.mapdl.lcomb('all')
+        self.mapdl.allsel('all')
+        
+        # tip side
+        self.mapdl.l(23,24)
+        
+        # leading edge
+        self.mapdl.l(1,3)
+        self.mapdl.l(3,21)
+        self.mapdl.l(21,23)
+        
         self.mapdl.l(3,4)
-        # self.mapdl.larc(3,4,11,40)
-        self.mapdl.l(3,1)
-        
-        # self.mapdl.a(1,2,4,3)
-        self.mapdl.al(1,2,3,4)
-        
-        # Meshing
-        self.mapdl.lsel('s','line','',1)
-        self.mapdl.lsel('a','line','',3)
-        self.mapdl.lesize('all','','',15 * self.mesh_density_factor, -2)
-        
-        self.mapdl.lsel('s','line','',2)
-        self.mapdl.lsel('a','line','',4)
-        self.mapdl.lesize('all','','',45 * self.mesh_density_factor)
+        self.mapdl.l(21,22)
+        self.mapdl.al(1,2,8,5)
+        self.mapdl.al(8,3,9,6)
+        self.mapdl.al(9,12,4,7)
+        self.mapdl.lesize(5,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(1,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(6,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(8,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(7,'','',3 * self.mesh_density_factor)
+        self.mapdl.lesize(9,'','',15 * self.mesh_density_factor, -2)
         
         # Assignment of some dummy section
         self.mapdl.mshkey(1)
@@ -70,12 +119,14 @@ class PropellerModel(Femodel):
         self.mapdl.sectype(100,'shell','','Dummy')
         self.mapdl.secdata(0.1,1,90.,3)
         self.mapdl.allsel('all')
-        self.mapdl.amesh('all')      
-    
+        self.mapdl.amesh('all')     
+        
         # Boundary conditions
-        self.mapdl.nsel('s','loc','y',40)
+        self.mapdl.nsel('s','loc','y',50)
         self.mapdl.d('all','all',0)
         
+        self.mapdl.allsel('all')
+                
     def __apply_loads__(self):
         """
         The Load application.
@@ -108,9 +159,9 @@ class PropellerModel(Femodel):
                             * self.element_data['Viscous Drag'][element]
                             / nodes_per_elem)
             
-        self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
-                                  for i in self.propeller.loadcases]) 
-                              * (2*pi/60)))
+        # self.mapdl.omega(0,0,(max([float(i[1]['single_values']['rpm']) 
+        #                           for i in self.propeller.loadcases]) 
+        #                       * (2*pi/60)))
         
     def change_design_variables(self, global_vars, *args):
         """
@@ -181,6 +232,66 @@ class PropellerModel(Femodel):
             self.mapdl.emodif(element, 'secnum', element)
                         
         self.mapdl.allsel('all')
+        
+    def convergence_study(self, mesh_density):
+        output = []
+        
+        for factor in mesh_density:
+            self.clear()
+            
+            self.mesh_density_factor = factor
+            
+            print(factor)
+            
+            self.pre_processing()
+            
+            global_vars = [0 for i in range(7)]
+            args=[[0.37, 1, 0.5] for i in range(20)]
+            
+            self.cdread()
+            self.change_design_variables(global_vars, *args)
+            self.__solve__()
+            
+            self.mapdl.post1() # Enter Post-processing Routine
+        
+            # Assign Failure Criteria Values
+            for key in self.materials:
+                self.materials[key].assign_fc()
+                
+            self.mapdl.run('tipnode = NODE(0,412,0)')
+            self.mapdl.get('tipnode_dis_y','NODE','tipnode','U','Y')
+            self.mapdl.get('tipnode_dis_z','NODE','tipnode','U','Z')
+            
+            self.mapdl.run('maxnode = NODE(0,92,0)')
+            
+            self.mapdl.get('maxnode_dis_y','NODE','maxnode','U','Y')
+            self.mapdl.get('maxnode_dis_z','NODE','maxnode','U','Z')
+    
+            # self.mapdl.layer(7)
+            # self.mapdl.nsle('s','corner')
+            # self.mapdl.nsel('r','loc','y',92)
+            # self.mapdl.seltol(0.1)
+            # self.mapdl.nsel('s','loc','x',0)
+            # node = self.mapdl.mesh.nnum[0]
+            # self.mapdl.allsel('all')
+            
+            
+            # self.mapdl.get('maxnode_s_y','NODE',node,'s','Y')
+            
+            self.mapdl.parameters
+            
+            rv = [self.mapdl.parameters['tipnode_dis_y'],
+                  self.mapdl.parameters['tipnode_dis_z'],
+                  self.mapdl.parameters['maxnode_dis_y'],
+                  self.mapdl.parameters['maxnode_dis_z'],
+                  # self.mapdl.parameters['maxnode_s_y'],
+                  ]
+            
+            output.append(rv)
+            
+            print(rv)
+            
+        return output
     
     def evaluate(self, x):
         """
@@ -257,8 +368,12 @@ class PropellerModel(Femodel):
             elements = self.element_data[self.element_data['Section Number'] \
                                          == section]['Element Number']
             
-            self.mapdl.esel('s', 'elem', '', min(elements), max(elements), 1)
-
+            elements = list(elements)
+                
+            self.mapdl.esel('s','elem','',elements[0])
+            for element in elements[1:]:
+                self.mapdl.esel('a','elem','',element)
+            
             I_f_loc, I_m_loc = fc_puck(self.mapdl)
             
             I_fib_fail.append(I_f_loc)
@@ -268,3 +383,22 @@ class PropellerModel(Femodel):
         self.mapdl.get('Blade_Mass','elem','0','mtot','z')
         
         return self.mapdl.parameters['Blade_Mass'], I_fib_fail, I_mat_fail
+    
+    def reaction_forces(self):
+        self.mapdl.post1()
+        
+        # self.mapdl.nsel('s','loc','y',50)
+        # nodes = self.mapdl.mesh.nnum
+        
+        rforces, nnum, dof = self.mapdl.result.nodal_reaction_forces(0)
+        
+        rforces_sorted = [[] for i in range(6)]
+        
+        for idx, x in enumerate(rforces):
+            rforces_sorted[int(dof[idx]-1)].append(x)
+        
+        fsum = []    
+        for x in rforces_sorted:
+            fsum.append(sum(x))
+            
+        return fsum
