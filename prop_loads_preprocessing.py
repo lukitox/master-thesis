@@ -2,7 +2,7 @@
 Load calculation and FE-preprocessing script of HeLics propeller structural 
 analysis Template.
 
-Created on Nov 06 2020
+Created on Jan 12 2021
 
 Author: Lukas Hilbers
 """
@@ -62,15 +62,11 @@ airfoil.xrotor_characteristics['Cm'] = -0.14
 airfoil.xrotor_characteristics['d(Cl)/d(alpha)'] = 6.28
 airfoil.xrotor_characteristics['Minimum Cl'] = 0.
 
-
-
 # %% Instantiate Loadcases
 
 propeller.add_loadcase(loadcase=Loadcase(name='Max RPM', flight_speed=0.01))
-# ...
 
 propeller.loadcases[0][0].set_data('rpm',4000)
-# ...
 
 # %% Calculate loads
 
@@ -104,3 +100,5 @@ femodel.materials = {'flaxpreg': Material(mapdl,
                      }
 
 femodel.pre_processing()
+
+femodel.element_data.to_csv('element_data.csv')
