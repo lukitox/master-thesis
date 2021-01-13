@@ -87,6 +87,8 @@ def objfunc(x):
             g_beta.append(x[0] - i_sec)
         else:
             raise RuntimeError('This should never happen!')
+            
+    g = list(np.array(g) - 1)
     
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
