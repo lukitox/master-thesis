@@ -105,8 +105,8 @@ optprob = Optimization(name='Propeller',
 for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
 for i in range (n_sec):
-    optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)
-    optprob.addVar('div' + str(i), 'c', lower=0., upper=1.)
+    optprob.addVar('rho' + str(i), 'c', lower=0., upper=1., value=0.5)
+    optprob.addVar('div' + str(i), 'c', lower=0., upper=1., value=0.5)
 
 # Add objective
 optprob.addObj('f')
@@ -130,14 +130,17 @@ alpso.setOption('SwarmSize', 40)
 alpso.setOption('stopIters', 5)      
 alpso.setOption('rinit', 1.)
 alpso.setOption('itol', 0.01)
+alpso.setOption('xinit', 1)
+alpso.setOption('vcrazy', 1e-3)
+
 
 def coldstart():    
     alpso(optprob, store_hst=True)
     print(optprob.solution(0))
     
 def hotstart():
-    alpso.setOption('filename',filename + '_hotstart')
+    alpso.setOption('filename',alpso_path+filename + '_hotstart')
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0))
 
-coldstart()
+hotstart()
