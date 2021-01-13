@@ -78,6 +78,8 @@ def objfunc(x):
     
     f, g, h = femodel[rank].evaluate(x)
     
+    g_beta = list(np.array(g[:20]) - x[0]) + g[20:]
+    
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
     print("process "+ str(rank) + " of " + str(size))
@@ -85,6 +87,7 @@ def objfunc(x):
     print(str(np.round(np.array(x[:2]),2)))    
     print(str(np.round(np.array(x[2:]),2)))
     print(np.round(max(g),2))
+    print(np.round(x,2))
     
     time.sleep(0.01)
     fail = 0
@@ -92,7 +95,7 @@ def objfunc(x):
     if rank == 0 and objfunc.counter % 10 == 0:
         os.system('rm -f /tmp/tmp_*')
     
-    return f, g, fail
+    return x[0], g_beta, fail
 objfunc.counter = 0
 
 # %% Instantiate Optimization Problem 
@@ -102,6 +105,7 @@ optprob = Optimization(name='Propeller',
                         )
 
 # Add variables
+optprob.addVar('beta', 'c')
 for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
 for i in range (n_sec):
