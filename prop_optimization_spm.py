@@ -27,7 +27,7 @@ from femodel import Threepartmodel
 rank = MPI.COMM_WORLD.Get_rank()
 size = MPI.COMM_WORLD.Get_size()
 
-ansys_path = ['/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-'
+ansys_path = ['/home/l.hilbers/Documents/Projects/ansys-'
               + str(i) for i in range(size)]
 
 jobname = ['job-' + str(i) for i in range(size)]
@@ -78,14 +78,14 @@ def objfunc(x):
     
     f, g, h = femodel[rank].evaluate(x)
     
-    g_beta = list(np.array(g[:20]) - x[0]) + g[20:]
+    g_beta = list(abs(np.array(g[:20])) - x[0]) + g[20:]
     
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
     print("process "+ str(rank) + " of " + str(size))
     print(np.round(time.time() - starttime,1), objfunc.counter)
-    print(str(np.round(np.array(x[:2]),2)))    
-    print(str(np.round(np.array(x[2:]),2)))
+    print(str(np.round(np.array(x[:3]),2)))    
+    print(str(np.round(np.array(x[3:]),2)))
     print(np.round(max(g),2))
     print(np.round(x,2))
     
@@ -105,7 +105,7 @@ optprob = Optimization(name='Propeller',
                         )
 
 # Add variables
-optprob.addVar('beta', 'c')
+optprob.addVar('beta', 'c', lower=-20., upper=20.)
 for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
 for i in range (n_sec):
@@ -126,11 +126,11 @@ for i in range(n_sec):
 alpso = ALPSO(pll_type='SPM')
 alpso.setOption('fileout',1)
 
-alpso_path = "/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/"
+alpso_path = '/home/l.hilbers/Documents/Projects/ALPSO/'
 filename = 'Simpleblade_Output_ALPSO'
 
 alpso.setOption('filename', alpso_path+filename)
-alpso.setOption('SwarmSize', 40)
+alpso.setOption('SwarmSize', 84)
 alpso.setOption('stopIters', 5)      
 alpso.setOption('rinit', 1.)
 alpso.setOption('itol', 0.01)
@@ -147,4 +147,4 @@ def hotstart():
     alpso(optprob, store_hst=True, hot_start= alpso_path+filename)
     print(optprob.solution(0))
 
-hotstart()
+coldstart()
