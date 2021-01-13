@@ -77,8 +77,16 @@ def objfunc(x):
     rank = comm.Get_rank()  
     
     f, g, h = femodel[rank].evaluate(x)
-    
-    g_beta = list(abs(np.array(g[:20])) - x[0]) + g[20:]
+        
+    g_beta = []
+    i_ref = 1.
+    for i_sec in g[:n_sec]:
+        if i_sec >= i_ref:
+            g_beta.append(i_sec - x[0])
+        elif i_sec < i_ref: 
+            g_beta.append(x[0] - i_sec)
+        else:
+            raise RuntimeError('This should never happen!')
     
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
@@ -86,8 +94,6 @@ def objfunc(x):
     print(np.round(time.time() - starttime,1), objfunc.counter)
     print(str(np.round(np.array(x[:3]),2)))    
     print(str(np.round(np.array(x[3:]),2)))
-    print(np.round(max(g),2))
-    print(np.round(x,2))
     
     time.sleep(0.01)
     fail = 0
@@ -95,7 +101,7 @@ def objfunc(x):
     if rank == 0 and objfunc.counter % 10 == 0:
         os.system('rm -f /tmp/tmp_*')
     
-    return x[0], g_beta, fail
+    return abs(x[0] - i_ref), g + g_beta, fail
 objfunc.counter = 0
 
 # %% Instantiate Optimization Problem 
@@ -121,6 +127,8 @@ for i in range(n_sec):
 # Add constraints
 for i in range(n_sec): 
     optprob.addCon('gm' + str(i), 'i')
+for i in range(n_sec): 
+    optprob.addCon('g_beta' + str(i), 'i')
 
 # %% Instantiate Optimizer
 alpso = ALPSO(pll_type='SPM')
