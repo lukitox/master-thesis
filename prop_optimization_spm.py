@@ -16,6 +16,7 @@ from pyOpt import ALPSO
 import time
 from mpi4py import MPI
 import pandas as pd
+import os
 
 # Local imports
 from util_mapdl import Material
@@ -87,6 +88,9 @@ def objfunc(x):
     
     time.sleep(0.01)
     fail = 0
+    
+    if rank == 0 and objfunc.counter % 10 == 0:
+        os.system('rm -f /tmp/tmp_*')
     
     return f, g, fail
 objfunc.counter = 0
