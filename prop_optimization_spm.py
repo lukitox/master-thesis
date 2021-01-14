@@ -70,32 +70,29 @@ femodel[rank].element_data = pd.read_csv('./mf3218/element_data.csv',
 np.set_printoptions(formatter={'float': lambda x: format(x, '3.2f')})
 starttime = time.time()
 
+i_ref = 1.
+
+def pnorm(x, p):
+    return (np.abs(x)**p).sum() ** (1./p)
+
 def objfunc(x):
     comm = MPI.COMM_WORLD
     
     size = comm.Get_size()
     rank = comm.Get_rank()  
     
-    f, g, h = femodel[rank].evaluate(x)
-        
-    g_beta = []
-    i_ref = 1.
-    for i_sec in g[:n_sec]:
-        if i_sec >= i_ref:
-            g_beta.append(i_sec - x[0])
-        elif i_sec < i_ref: 
-            g_beta.append(x[0] - i_sec)
-        else:
-            raise RuntimeError('This should never happen!')
-            
-    g = list(np.array(g) - 1)
+    mass, i, h = femodel[rank].evaluate(x)
+    
+    g = list(np.array(i) - i_ref)
+    
+    f = pnorm(np.array(g[:20]), 2)
     
     # Print current Function Evaluation for monitoring purpuses
     objfunc.counter+= 1
     print("process "+ str(rank) + " of " + str(size))
     print(np.round(time.time() - starttime,1), objfunc.counter)
-    print(str(np.round(np.array(x[:3]),2)))    
-    print(str(np.round(np.array(x[3:]),2)))
+    print(str(np.round(np.array(x[:2]),2)))    
+    print(str(np.round(np.array(x[2:]),2)))
     
     time.sleep(0.01)
     fail = 0
@@ -103,7 +100,7 @@ def objfunc(x):
     if rank == 0 and objfunc.counter % 10 == 0:
         os.system('rm -f /tmp/tmp_*')
     
-    return abs(x[0] - i_ref), g + g_beta, fail
+    return f, g, fail
 objfunc.counter = 0
 
 # %% Instantiate Optimization Problem 
@@ -113,7 +110,6 @@ optprob = Optimization(name='Propeller',
                         )
 
 # Add variables
-optprob.addVar('beta', 'c', lower=-20., upper=20.)
 for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
 for i in range (n_sec):
@@ -129,8 +125,6 @@ for i in range(n_sec):
 # Add constraints
 for i in range(n_sec): 
     optprob.addCon('gm' + str(i), 'i')
-for i in range(n_sec): 
-    optprob.addCon('g_beta' + str(i), 'i')
 
 # %% Instantiate Optimizer
 alpso = ALPSO(pll_type='SPM')
@@ -144,8 +138,8 @@ alpso.setOption('SwarmSize', 84)
 alpso.setOption('stopIters', 5)      
 alpso.setOption('rinit', 1.)
 alpso.setOption('itol', 0.01)
-alpso.setOption('xinit', 1)
-alpso.setOption('vcrazy', 1e-3)
+# alpso.setOption('xinit', 1)
+# alpso.setOption('vcrazy', 1e-3)
 
 
 def coldstart():    

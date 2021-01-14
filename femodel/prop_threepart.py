@@ -118,11 +118,11 @@ class Threepartmodel(PropellerModel):
             The Puck inter-fiber failure criterion.
         """
         
-        global_vars = x[1:3]
+        global_vars = x[:2]
         
         args = []
         for section in range(self.n_sec):
-            x1 = 1 + len(global_vars) + section * 2
+            x1 = len(global_vars) + section * 2
             args.append(x[x1:(x1+2)])
         
         # Convert input for __change_design_variables__() method
