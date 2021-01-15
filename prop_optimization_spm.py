@@ -77,8 +77,8 @@ def objfunc(x):
     
     size = comm.Get_size()
     rank = comm.Get_rank()  
-        
-    x.append(tip_vector)
+    
+    x = list(x) + tip_vector
     
     f, g, h = femodel[rank].evaluate(x)
         
