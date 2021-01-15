@@ -299,10 +299,13 @@ class PropellerModel(Femodel):
                                          == section]['Element Number']
             
             elements = list(elements)
-                
-            self.mapdl.esel('s','elem','',elements[0])
-            for element in elements[1:]:
-                self.mapdl.esel('a','elem','',element)
+            
+            elements_to_ignore = [13, 14, 15, 28, 29, 30, 43, 44, 45]
+
+            self.mapdl.esel('none')
+            for element in elements:
+                if not element in elements_to_ignore:
+                    self.mapdl.esel('a','elem','',element)
             
             I_f_loc, I_m_loc = fc_puck(self.mapdl)
             
