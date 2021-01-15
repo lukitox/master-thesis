@@ -75,7 +75,7 @@ class Femodel:
                 self.__get_edges__(element_midpoint[1])
                 
             ## Get section of element:
-            n_sec = np.floor(((element_midpoint[1] 
+            n_sec = np.floor(((np.round(element_midpoint[1],0) 
                               - self.propeller.parameters['hub_radius']*1000)
                              / ((self.propeller.parameters['tip_radius']
                                  - self.propeller.parameters['hub_radius'])
@@ -275,7 +275,7 @@ class Femodel:
         
         def intersection(lnum):
             kp_0 =  100000
-            kp_num = 3
+            kp_num = 9
             a_num = 2
             
             self.mapdl.prep7()
@@ -288,7 +288,7 @@ class Femodel:
             self.mapdl.a(kp_0+1, kp_0+2, kp_0+3, kp_0+4)
                 
             self.mapdl.lina(lnum, a_num)
-            
+                        
             coords = []
             for axis in ['x','y','z']:
                 self.mapdl.get('c', 'KP', kp_num, 'loc', axis)
@@ -298,8 +298,18 @@ class Femodel:
             
             return coords
     
-        le = np.array(intersection(1))
-        te = np.array(intersection(3))
+        if y < 92:
+            le_num = 1
+            te_num = 3
+        elif y < 390:
+            le_num = 5
+            te_num = 7
+        else:
+            le_num = 6
+            te_num = 8
+    
+        le = np.array(intersection(le_num))
+        te = np.array(intersection(te_num))
         
         return le, te, np.linalg.norm(te - le)
         
