@@ -41,11 +41,34 @@ class PropellerModel(Femodel):
         
         self.mapdl.prep7()
         
-        self.mapdl.lesize(1,'','',45 * self.mesh_density_factor)
-        self.mapdl.lesize(3,'','',45 * self.mesh_density_factor)
+        self.mapdl.areverse(1)
+        
+        self.mapdl.ldiv(1,0.117051)
+        self.mapdl.ldiv(5,0.927658)
+        
+        self.mapdl.ldiv(3,0.138621)
+        self.mapdl.ldiv(7,0.930832)
+                
+        self.mapdl.lesize(1,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(3,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(5,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(7,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(6,'','',2 * self.mesh_density_factor)
+        self.mapdl.lesize(8,'','',2 * self.mesh_density_factor)
         self.mapdl.lesize(2,'','',15 * self.mesh_density_factor, -2)
         self.mapdl.lesize(4,'','',15 * self.mesh_density_factor, -2)
-
+                
+        self.mapdl.lsel('s','line','',1)
+        self.mapdl.lsel('a','line','',5)
+        self.mapdl.lsel('a','line','',6)
+        self.mapdl.lccat('all')
+        
+        self.mapdl.lsel('s','line','',3)
+        self.mapdl.lsel('a','line','',7)
+        self.mapdl.lsel('a','line','',8)
+        self.mapdl.lccat('all')
+        self.mapdl.allsel('all')
+                        
         # Assignment of some dummy section
         self.mapdl.mshkey(1)
         self.mapdl.mshape(0,'2d')
@@ -55,6 +78,9 @@ class PropellerModel(Femodel):
         self.mapdl.secdata(0.1,1,90.,3)
         self.mapdl.allsel('all')
         self.mapdl.amesh('all')     
+                
+        self.mapdl.ldele(9)
+        self.mapdl.ldele(10)
         
         # Boundary conditions
         self.mapdl.nsel('s','loc','y',50)
