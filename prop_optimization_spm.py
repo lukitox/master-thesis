@@ -84,7 +84,7 @@ def objfunc(x):
         
     g_beta = []
     i_ref = 1.
-    for i_sec in g[:n_sec]:
+    for i_sec in g[:14]:
         if i_sec >= i_ref:
             g_beta.append(i_sec - x[0])
         elif i_sec < i_ref: 
@@ -133,7 +133,7 @@ for i in range(n_sec):
 # Add constraints
 for i in range(n_sec): 
     optprob.addCon('gm' + str(i), 'i')
-for i in range(n_sec): 
+for i in range(14): 
     optprob.addCon('g_beta' + str(i), 'i')
 
 # %% Instantiate Optimizer
