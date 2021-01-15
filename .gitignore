@@ -4,3 +4,7 @@
 /.spyproject
 /__pycache__
 util_mapdl/__pycache__/
+
+femodel/.ipynb_checkpoints/
+
+.ipynb_checkpoints/
