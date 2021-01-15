@@ -70,11 +70,15 @@ femodel[rank].element_data = pd.read_csv('./mf3218/element_data.csv',
 np.set_printoptions(formatter={'float': lambda x: format(x, '3.2f')})
 starttime = time.time()
 
+tip_vector = [0, 0.5, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0.5]
+
 def objfunc(x):
     comm = MPI.COMM_WORLD
     
     size = comm.Get_size()
     rank = comm.Get_rank()  
+        
+    x.append(tip_vector)
     
     f, g, h = femodel[rank].evaluate(x)
         
@@ -115,8 +119,8 @@ optprob = Optimization(name='Propeller',
 # Add variables
 optprob.addVar('beta', 'c', lower=-20., upper=20.)
 for i in range(2):                        
-    optprob.addVar('phi' + str(i), 'p', lower=0., upper=180.)
-for i in range (n_sec):
+    optprob.addVar('phi' + str(i), 'p', lower=0., upper=180., value=90)
+for i in range (14):
     optprob.addVar('rho' + str(i), 'c', lower=0., upper=1., value=0.5)
     optprob.addVar('div' + str(i), 'c', lower=0., upper=1., value=0.5)
 
@@ -144,8 +148,10 @@ alpso.setOption('SwarmSize', 84)
 alpso.setOption('stopIters', 5)      
 alpso.setOption('rinit', 1.)
 alpso.setOption('itol', 0.01)
-alpso.setOption('xinit', 1)
+# alpso.setOption('xinit', 1)
 alpso.setOption('vcrazy', 1e-3)
+alpso.setOption('stopCriteria', 0)
+
 
 
 def coldstart():    
