@@ -151,7 +151,8 @@ alpso.setOption('itol', 0.01)
 # alpso.setOption('xinit', 1)
 alpso.setOption('vcrazy', 1e-3)
 alpso.setOption('stopCriteria', 0)
-alpso.setOption('c1',3.)
+alpso.setOption('c1',3.5)
+alpso.setOption('c2',0.5)
 
 
 
