@@ -84,7 +84,7 @@ def objfunc(x):
         
     g_beta = []
     i_ref = 1.
-    for i_sec in g[:14]:
+    for i_sec in g[1:14]:
         if i_sec >= i_ref:
             g_beta.append(i_sec - x[0])
         elif i_sec < i_ref: 
@@ -99,7 +99,7 @@ def objfunc(x):
     print("process "+ str(rank) + " of " + str(size))
     print(np.round(time.time() - starttime,1), objfunc.counter)
     print(str(np.round(np.array(x[:3]),2)))    
-    print(str(np.round(np.array(x[3:]),2)))
+    print(str(np.round(np.array(x[3:31]),2)))
     
     time.sleep(0.01)
     fail = 0
@@ -133,7 +133,7 @@ for i in range(n_sec):
 # Add constraints
 for i in range(n_sec): 
     optprob.addCon('gm' + str(i), 'i')
-for i in range(14): 
+for i in range(13): 
     optprob.addCon('g_beta' + str(i), 'i')
 
 # %% Instantiate Optimizer
