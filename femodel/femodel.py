@@ -275,8 +275,8 @@ class Femodel:
         
         def intersection(lnum):
             kp_0 =  100000
-            kp_num = 9
-            a_num = 2
+            kp_num = 7
+            a_num = 1
             
             self.mapdl.prep7()
             
@@ -284,11 +284,11 @@ class Femodel:
             self.mapdl.k(kp_0+2, 1000, y, -1000)
             self.mapdl.k(kp_0+3, 1000, y, 1000)
             self.mapdl.k(kp_0+4, -1000, y, 1000)
-            
+                        
             self.mapdl.a(kp_0+1, kp_0+2, kp_0+3, kp_0+4)
                 
             self.mapdl.lina(lnum, a_num)
-                        
+                                    
             coords = []
             for axis in ['x','y','z']:
                 self.mapdl.get('c', 'KP', kp_num, 'loc', axis)
@@ -300,13 +300,13 @@ class Femodel:
     
         if y < 92:
             le_num = 1
-            te_num = 3
-        elif y < 390:
-            le_num = 5
             te_num = 7
+        elif y < 390:
+            le_num = 2
+            te_num = 3
         else:
-            le_num = 6
-            te_num = 8
+            le_num = 5
+            te_num = 4
     
         le = np.array(intersection(le_num))
         te = np.array(intersection(te_num))

@@ -37,35 +37,35 @@ class PropellerModel(Femodel):
         # Geometry
         
         self.mapdl.aux15()
-        self.mapdl.igesin('model','igs')
-        
+        self.mapdl.igesin('mf3218','igs')
+                
         self.mapdl.prep7()
         
         self.mapdl.areverse(1)
         
-        self.mapdl.ldiv(1,0.117051)
-        self.mapdl.ldiv(5,0.927658)
-        
-        self.mapdl.ldiv(3,0.138621)
-        self.mapdl.ldiv(7,0.930832)
+        self.mapdl.ldiv(5,1-0.117051)
+        self.mapdl.ldiv(5,1-0.927658)
+
+        self.mapdl.ldiv(7,0.138621)
+        self.mapdl.ldiv(3,0.930832)
                 
         self.mapdl.lesize(1,'','',5 * self.mesh_density_factor)
-        self.mapdl.lesize(3,'','',5 * self.mesh_density_factor)
-        self.mapdl.lesize(5,'','',37 * self.mesh_density_factor)
-        self.mapdl.lesize(7,'','',37 * self.mesh_density_factor)
-        self.mapdl.lesize(6,'','',2 * self.mesh_density_factor)
-        self.mapdl.lesize(8,'','',2 * self.mesh_density_factor)
-        self.mapdl.lesize(2,'','',15 * self.mesh_density_factor, -2)
-        self.mapdl.lesize(4,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(7,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(2,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(3,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(5,'','',2 * self.mesh_density_factor)
+        self.mapdl.lesize(4,'','',2 * self.mesh_density_factor)
+        self.mapdl.lesize(6,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(8,'','',15 * self.mesh_density_factor, -2)
                 
         self.mapdl.lsel('s','line','',1)
+        self.mapdl.lsel('a','line','',2)
         self.mapdl.lsel('a','line','',5)
-        self.mapdl.lsel('a','line','',6)
         self.mapdl.lccat('all')
         
-        self.mapdl.lsel('s','line','',3)
-        self.mapdl.lsel('a','line','',7)
-        self.mapdl.lsel('a','line','',8)
+        self.mapdl.lsel('s','line','',7)
+        self.mapdl.lsel('a','line','',3)
+        self.mapdl.lsel('a','line','',4)
         self.mapdl.lccat('all')
         self.mapdl.allsel('all')
                         
