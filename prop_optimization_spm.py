@@ -122,7 +122,7 @@ for i in range(2):
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180., value=90)
 for i in range (14):
     optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)#, value=0.5)
-    optprob.addVar('div' + str(i), 'c', lower=0.45, upper=1., value=0.6)
+    optprob.addVar('div' + str(i), 'c', lower=0.3, upper=0.7, value=0.5)
 
 # Add objective
 optprob.addObj('f')
