@@ -27,7 +27,7 @@ from femodel import Threepartmodel
 rank = MPI.COMM_WORLD.Get_rank()
 size = MPI.COMM_WORLD.Get_size()
 
-ansys_path = ['/home/l.hilbers/Documents/Projects/ansys-'
+ansys_path = ['/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-'
               + str(i) for i in range(size)]
 
 jobname = ['job-' + str(i) for i in range(size)]
@@ -121,8 +121,8 @@ optprob.addVar('beta', 'c', lower=0., upper=1.)
 for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180., value=90)
 for i in range (14):
-    optprob.addVar('rho' + str(i), 'c', lower=0., upper=1., value=0.5)
-    optprob.addVar('div' + str(i), 'c', lower=0., upper=1., value=0.5)
+    optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)#, value=0.5)
+    optprob.addVar('div' + str(i), 'c', lower=0.45, upper=1., value=0.6)
 
 # Add objective
 optprob.addObj('f')
@@ -140,7 +140,7 @@ for i in range(14):
 alpso = ALPSO(pll_type='SPM')
 alpso.setOption('fileout',1)
 
-alpso_path = '/home/l.hilbers/Documents/Projects/ALPSO/'
+alpso_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ALPSO/'
 filename = 'Simpleblade_Output_ALPSO'
 
 alpso.setOption('filename', alpso_path+filename)
@@ -148,12 +148,12 @@ alpso.setOption('SwarmSize', 84)
 alpso.setOption('stopIters', 5)      
 alpso.setOption('rinit', 1.)
 alpso.setOption('itol', 0.01)
-# alpso.setOption('xinit', 1)
+alpso.setOption('xinit', 1)
 alpso.setOption('vcrazy', 1e-3)
 alpso.setOption('stopCriteria', 0)
 alpso.setOption('c1',3.5)
 alpso.setOption('c2',0.5)
-
+alpso.setOption('w2',0.7)
 
 
 def coldstart():    
