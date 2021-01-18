@@ -106,7 +106,7 @@ class PropellerModel(Femodel):
         for element in self.element_data['Element Number']:            
             # assign lift
             self.mapdl.sfe(element, '', 'pres', 1,
-                           self.element_data['Pressure by Lift'][element])
+                           -1 * self.element_data['Pressure by Lift'][element])
             
             # assign drag (distributed to the element's nodes)
             for node in self.mapdl.mesh.elem[int(element-1)][10:]:
