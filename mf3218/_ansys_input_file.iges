@@ -1,5 +1,5 @@
                                                                         S      1
-/COM,ANSYS RELEASE 2020 R1           BUILD 20.1      UP20191203       18S      2
+/COM,ANSYS RELEASE 2020 R1           BUILD 20.1      UP20191203       17S      2
 /NOPR                                                                   S      3
 /PREP7                                                                  S      4
 /TITLE,                                                                 S      5
@@ -44,7 +44,7 @@ IOPTN,YES,FILE                                                          S     43
 /GOPR                                                                   S     44
 !_END_OF_START                                                          S     45
 1H,,1H;,,22H_ansys_input_file.iges,                                     G      1
-5HANSYS,22H  20.1      UP20191203,,,,,,,1.0,2,,,,13H000117.184727,      G      2
+5HANSYS,22H  20.1      UP20191203,,,,,,,1.0,2,,,,13H000118.171236,      G      2
 1.0000E-04,,,,9,,;                                                      G      3
      128       1       0       0       0       0       0       000010001D      1
      128       0       0    5065       0       0       0 SURFACE       0D      2
