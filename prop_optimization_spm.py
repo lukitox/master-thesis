@@ -121,7 +121,7 @@ optprob.addVar('beta', 'c', lower=0., upper=1.)
 for i in range(2):                        
     optprob.addVar('phi' + str(i), 'p', lower=0., upper=180., value=90)
 for i in range (14):
-    optprob.addVar('rho' + str(i), 'c', lower=0., upper=1.)#, value=0.5)
+    optprob.addVar('rho' + str(i), 'c', lower=0., upper=0.8)#, value=0.5)
     optprob.addVar('div' + str(i), 'c', lower=0.3, upper=0.7, value=0.5)
 
 # Add objective
@@ -152,7 +152,7 @@ alpso.setOption('xinit', 1)
 alpso.setOption('vcrazy', 1e-3)
 alpso.setOption('stopCriteria', 0)
 alpso.setOption('c1',3.5)
-alpso.setOption('c2',0.5)
+alpso.setOption('c2',0.3)
 alpso.setOption('w2',0.7)
 
 
