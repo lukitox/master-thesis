@@ -16,7 +16,7 @@ import pyansys
 # Local imports
 from util_loads import Propeller, Airfoil, Loadcase
 from util_mapdl import Material
-from femodel import PropellerModel
+from femodel import Threepartmodel
 
 # %% Instantiate Airfoils and assign radial sections
 
@@ -75,7 +75,7 @@ propeller.set_load_envelope()
 
 # %% Run ANSYS and instantiate FE-Model
 
-ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-a'
+ansys_path = '/home/y0065120/Dokumente/Leichtwerk/Projects/ansys-0'
 mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              nproc=4,
                              override=True,
@@ -85,7 +85,7 @@ mapdl = pyansys.launch_mapdl(run_location=ansys_path,
                              mode='console',
                              )
 
-femodel = PropellerModel(mapdl,
+femodel = Threepartmodel(mapdl,
                          mesh_density_factor=1,
                          propeller = propeller,
                          n_sec= 20,

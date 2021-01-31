@@ -37,15 +37,38 @@ class PropellerModel(Femodel):
         # Geometry
         
         self.mapdl.aux15()
-        self.mapdl.igesin('model','igs')
-        
+        self.mapdl.igesin('mf3218','igs')
+                
         self.mapdl.prep7()
         
-        self.mapdl.lesize(1,'','',45 * self.mesh_density_factor)
-        self.mapdl.lesize(3,'','',45 * self.mesh_density_factor)
-        self.mapdl.lesize(2,'','',15 * self.mesh_density_factor, -2)
-        self.mapdl.lesize(4,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.areverse(1)
+        
+        self.mapdl.ldiv(5,1-0.117051)
+        self.mapdl.ldiv(5,1-0.927658)
 
+        self.mapdl.ldiv(7,0.138621)
+        self.mapdl.ldiv(3,0.930832)
+                
+        self.mapdl.lesize(1,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(7,'','',5 * self.mesh_density_factor)
+        self.mapdl.lesize(2,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(3,'','',37 * self.mesh_density_factor)
+        self.mapdl.lesize(5,'','',2 * self.mesh_density_factor)
+        self.mapdl.lesize(4,'','',2 * self.mesh_density_factor)
+        self.mapdl.lesize(6,'','',15 * self.mesh_density_factor, -2)
+        self.mapdl.lesize(8,'','',15 * self.mesh_density_factor, -2)
+                
+        self.mapdl.lsel('s','line','',1)
+        self.mapdl.lsel('a','line','',2)
+        self.mapdl.lsel('a','line','',5)
+        self.mapdl.lccat('all')
+        
+        self.mapdl.lsel('s','line','',7)
+        self.mapdl.lsel('a','line','',3)
+        self.mapdl.lsel('a','line','',4)
+        self.mapdl.lccat('all')
+        self.mapdl.allsel('all')
+                        
         # Assignment of some dummy section
         self.mapdl.mshkey(1)
         self.mapdl.mshape(0,'2d')
@@ -55,6 +78,9 @@ class PropellerModel(Femodel):
         self.mapdl.secdata(0.1,1,90.,3)
         self.mapdl.allsel('all')
         self.mapdl.amesh('all')     
+                
+        self.mapdl.ldele(9)
+        self.mapdl.ldele(10)
         
         # Boundary conditions
         self.mapdl.nsel('s','loc','y',50)
@@ -80,7 +106,7 @@ class PropellerModel(Femodel):
         for element in self.element_data['Element Number']:            
             # assign lift
             self.mapdl.sfe(element, '', 'pres', 1,
-                           self.element_data['Pressure by Lift'][element])
+                           -1 * self.element_data['Pressure by Lift'][element])
             
             # assign drag (distributed to the element's nodes)
             for node in self.mapdl.mesh.elem[int(element-1)][10:]:
@@ -262,7 +288,7 @@ class PropellerModel(Femodel):
         m, I_f, I_m = self.post_processing()
         self.clear()
         
-        g = list(np.round(np.array(I_f+I_m)-1,3))    
+        g = list(np.array(I_f+I_m)-1)    
         
         return  m*1e6, g, []
         
@@ -299,10 +325,13 @@ class PropellerModel(Femodel):
                                          == section]['Element Number']
             
             elements = list(elements)
-                
-            self.mapdl.esel('s','elem','',elements[0])
-            for element in elements[1:]:
-                self.mapdl.esel('a','elem','',element)
+            
+            elements_to_ignore = [13, 14, 15, 28, 29, 30, 43, 44, 45]
+
+            self.mapdl.esel('none')
+            for element in elements:
+                if not element in elements_to_ignore:
+                    self.mapdl.esel('a','elem','',element)
             
             I_f_loc, I_m_loc = fc_puck(self.mapdl)
             
