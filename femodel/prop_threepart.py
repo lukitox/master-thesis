@@ -38,6 +38,11 @@ class Threepartmodel(PropellerModel):
         
         # Read ANSYS Input file (Do not change!)
         self.mapdl.prep7()
+        
+        # # Angular acceleration
+        # omega_z = self.mapdl.get('w_3', 'elem', 0, 'ior', 'z')
+        # self.mapdl.domega('','',-6540/(2 * 1.363))
+        # print('domega: ' + str(omega_z))
                 
         # Vary Geometry
         for element in self.element_data['Element Number']:
