@@ -326,7 +326,7 @@ class PropellerModel(Femodel):
             
             elements = list(elements)
             
-            elements_to_ignore = [13, 14, 15, 28, 29, 30, 43, 44, 45]
+            elements_to_ignore = []
 
             self.mapdl.esel('none')
             for element in elements:
