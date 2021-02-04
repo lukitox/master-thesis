@@ -48,9 +48,9 @@ class Femodel:
             self.materials[key].assign_mp()
 
         # Geometry settings
-        b = 1     # Breite 
-        h = 1     # Länge
-        F = 100     # Kraft
+        b = 1*1000     # Breite 
+        h = 1*1000    # Länge
+        F = 100*1000     # Kraft
 
         self.mapdl.k(1,0,0,0)
         self.mapdl.k(2,b,0,0)
