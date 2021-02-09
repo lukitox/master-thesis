@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="705px" preserveAspectRatio="none" style="width:1052px;height:705px;" version="1.1" viewBox="0 0 1052 705" width="1052px" zoomAndPan="magnify"><defs><filter height="300%" id="fpgttau330x4h" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b0a93aebd65bb3468015f36161c68501]
+class Propeller--><rect codeLine="28" fill="#FEFECE" filter="url(#fpgttau330x4h)" height="337.7031" id="Propeller" style="stroke: #A80036; stroke-width: 1.5;" width="436" x="305" y="7"/><ellipse cx="490.75" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M493.7188,28.6406 Q493.1406,28.9375 492.5,29.0781 Q491.8594,29.2344 491.1563,29.2344 Q488.6563,29.2344 487.3281,27.5938 Q486.0156,25.9375 486.0156,22.8125 Q486.0156,19.6875 487.3281,18.0313 Q488.6563,16.375 491.1563,16.375 Q491.8594,16.375 492.5,16.5313 Q493.1563,16.6875 493.7188,16.9844 L493.7188,19.7031 Q493.0938,19.125 492.5,18.8594 Q491.9063,18.5781 491.2813,18.5781 Q489.9375,18.5781 489.25,19.6563 Q488.5625,20.7188 488.5625,22.8125 Q488.5625,24.9063 489.25,25.9844 Q489.9375,27.0469 491.2813,27.0469 Q491.9063,27.0469 492.5,26.7813 Q493.0938,26.5 493.7188,25.9219 L493.7188,28.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="56" x="511.25" y="27.1543">Propeller</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="306" x2="740" y1="39" y2="39"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="47"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="108" x="325" y="53.2104">__parameters: Dict</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="59.8047"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="99" x="325" y="66.0151">__loadcases: Dict</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="72.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="122" x="325" y="78.8198">__load_envelope: Dict</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="85.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="94" x="325" y="91.6245">__geometry: List</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="98.2188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="88" x="325" y="104.4292">__sections: List</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="306" x2="740" y1="111.0234" y2="111.0234"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="119.0234"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="410" x="325" y="125.2339">__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="313" y="131.8281"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="102" x="325" y="138.0386">__repr__(self): Str</text><ellipse cx="316" cy="147.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="88" x="325" y="150.8433">calc_loads(self)</text><ellipse cx="316" cy="160.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="328" x="325" y="163.6479">pressure_distribution(self, loadcase: Loadcase): np.array</text><ellipse cx="316" cy="190.0469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="111" x="325" y="193.2573">geometry(self): List</text><ellipse cx="316" cy="202.8516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="116" x="325" y="206.062">loadcases(self): Dict</text><ellipse cx="316" cy="215.6563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="139" x="325" y="218.8667">load_envelope(self): Dict</text><ellipse cx="316" cy="228.4609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="125" x="325" y="231.6714">parameters(self): Dict</text><ellipse cx="316" cy="241.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="105" x="325" y="244.4761">sections(self): List</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="306" x2="505" y1="176.6445" y2="176.6445"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="36" x="505" y="179.9526">Getter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="541" x2="740" y1="176.6445" y2="176.6445"/><ellipse cx="316" cy="270.875" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="293" x="325" y="274.0854">add_loadcase(self, name: Str, loadcase: Loadcase)</text><ellipse cx="316" cy="283.6797" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="232" x="325" y="286.8901">add_section(self, rR: Float, airfoil: Airfoil)</text><ellipse cx="316" cy="296.4844" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="217" x="325" y="299.6948">geometry(self, array: List or np.array)</text><ellipse cx="316" cy="309.2891" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="200" x="325" y="312.4995">parameters(self, parameters: Dict)</text><ellipse cx="316" cy="322.0938" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="134" x="325" y="325.3042">set_load_envelope(self)</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="0" x="329" y="338.1089"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="306" x2="505.5" y1="257.4727" y2="257.4727"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="505.5" y="260.7808">Setter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="540.5" x2="740" y1="257.4727" y2="257.4727"/><!--MD5=[432a26014d6806de21f9dcededb4ca89]
+class Airfoil--><rect codeLine="6" fill="#FEFECE" filter="url(#fpgttau330x4h)" height="286.4844" id="Airfoil" style="stroke: #A80036; stroke-width: 1.5;" width="500" x="7" y="405"/><ellipse cx="235.75" cy="421" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M238.7188,426.6406 Q238.1406,426.9375 237.5,427.0781 Q236.8594,427.2344 236.1563,427.2344 Q233.6563,427.2344 232.3281,425.5938 Q231.0156,423.9375 231.0156,420.8125 Q231.0156,417.6875 232.3281,416.0313 Q233.6563,414.375 236.1563,414.375 Q236.8594,414.375 237.5,414.5313 Q238.1563,414.6875 238.7188,414.9844 L238.7188,417.7031 Q238.0938,417.125 237.5,416.8594 Q236.9063,416.5781 236.2813,416.5781 Q234.9375,416.5781 234.25,417.6563 Q233.5625,418.7188 233.5625,420.8125 Q233.5625,422.9063 234.25,423.9844 Q234.9375,425.0469 236.2813,425.0469 Q236.9063,425.0469 237.5,424.7813 Q238.0938,424.5 238.7188,423.9219 L238.7188,426.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="34" x="256.25" y="425.1543">Airfoil</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="506" y1="437" y2="437"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="445"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="149" x="27" y="451.2104">__coordinates: DataFrame</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="457.8047"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="108" x="27" y="464.0151">__parameters: Dict</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="470.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="111" x="27" y="476.8198">__polar: DataFrame</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="483.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="165" x="27" y="489.6245">__xrotor_characteristics: Dict</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="8" x2="506" y1="496.2188" y2="496.2188"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="504.2188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="398" x="27" y="510.4292">__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="517.0234"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="259" x="27" y="523.2339">__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="529.8281"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="102" x="27" y="536.0386">__repr__(self): Str</text><ellipse cx="18" cy="545.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="281" x="27" y="548.8433">cp_vs_x(self, mode: Str, value: Float): DataFrame</text><ellipse cx="18" cy="558.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="473" x="27" y="561.6479">interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame</text><ellipse cx="18" cy="588.0469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="166" x="27" y="591.2573">coordinates(self): DataFrame</text><ellipse cx="18" cy="600.8516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="125" x="27" y="604.062">parameters(self): Dict</text><ellipse cx="18" cy="613.6563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="128" x="27" y="616.8667">polar(self): DataFrame</text><ellipse cx="18" cy="626.4609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="182" x="27" y="629.6714">xrotor_characteristics(self): Dict</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="8" x2="239" y1="574.6445" y2="574.6445"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="36" x="239" y="577.9526">Getter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="275" x2="506" y1="574.6445" y2="574.6445"/><ellipse cx="18" cy="656.0703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="278" x="27" y="659.2808">coordinates(self, coordinates: Str or DataFrame)</text><ellipse cx="18" cy="668.875" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="474" x="27" y="672.0854">set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)</text><ellipse cx="18" cy="681.6797" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="274" x="27" y="684.8901">xrotor_characteristics(self, characteristics: Dict)</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="8" x2="239.5" y1="642.668" y2="642.668"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="239.5" y="645.9761">Setter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="274.5" x2="506" y1="642.668" y2="642.668"/><!--MD5=[b6942295d4995444148e641b385ccc5b]
+class Loadcase--><rect codeLine="53" fill="#FEFECE" filter="url(#fpgttau330x4h)" height="235.2656" id="Loadcase" style="stroke: #A80036; stroke-width: 1.5;" width="496" x="542" y="430.5"/><ellipse cx="755.75" cy="446.5" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M758.7188,452.1406 Q758.1406,452.4375 757.5,452.5781 Q756.8594,452.7344 756.1563,452.7344 Q753.6563,452.7344 752.3281,451.0938 Q751.0156,449.4375 751.0156,446.3125 Q751.0156,443.1875 752.3281,441.5313 Q753.6563,439.875 756.1563,439.875 Q756.8594,439.875 757.5,440.0313 Q758.1563,440.1875 758.7188,440.4844 L758.7188,443.2031 Q758.0938,442.625 757.5,442.3594 Q756.9063,442.0781 756.2813,442.0781 Q754.9375,442.0781 754.25,443.1563 Q753.5625,444.2188 753.5625,446.3125 Q753.5625,448.4063 754.25,449.4844 Q754.9375,450.5469 756.2813,450.5469 Q756.9063,450.5469 757.5,450.2813 Q758.0938,450 758.7188,449.4219 L758.7188,452.1406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="60" x="776.25" y="450.6543">Loadcase</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="543" x2="1037" y1="462.5" y2="462.5"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="550" y="470.5"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="74" x="562" y="476.7104">__data = List</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="550" y="483.3047"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="116" x="562" y="489.5151">__flight_speed: Float</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="550" y="496.1094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="562" y="502.3198">__name: Str</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="543" x2="1037" y1="508.9141" y2="508.9141"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="550" y="516.9141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="247" x="562" y="523.1245">__init__(self, name: Str, flight_speed: Float)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="550" y="529.7188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="102" x="562" y="535.9292">__repr__(self): Str</text><ellipse cx="553" cy="562.3281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="82" x="562" y="565.5386">data(self): List</text><ellipse cx="553" cy="575.1328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="133" x="562" y="578.3433">flight_speed(self): Float</text><ellipse cx="553" cy="587.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="86" x="562" y="591.1479">name(self): Str</text><ellipse cx="553" cy="600.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="209" x="562" y="603.9526">results(self): DataFrame, DataFrame</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="543" x2="772" y1="548.9258" y2="548.9258"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="36" x="772" y="552.2339">Getter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="808" x2="1037" y1="548.9258" y2="548.9258"/><ellipse cx="553" cy="630.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="210" x="562" y="633.562">flight_speed(self, flight_speed: Float)</text><ellipse cx="553" cy="643.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="126" x="562" y="646.3667">name(self, name: Str)</text><ellipse cx="553" cy="655.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="470" x="562" y="659.1714">set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="543" x2="772.5" y1="616.9492" y2="616.9492"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="35" x="772.5" y="620.2573">Setter</text><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 1.0,2.0;" x1="807.5" x2="1037" y1="616.9492" y2="616.9492"/><!--MD5=[4bcdfd812b6a22662a0ddb1addf058ba]
+reverse link Propeller to Airfoil--><path codeLine="3" d="M394.32,355.99 C382.52,372.41 370.67,388.89 359.15,404.92 " fill="none" id="Propeller-backto-Airfoil" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#FFFFFF" points="402.06,345.22,395.3105,347.7585,395.0577,354.9652,401.8073,352.4267,402.06,345.22" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="388.7891" y="364.7513">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="341.1074" y="393.7424">1..*</text><!--MD5=[423eff011b7f80488028cccd7ff48d91]
+reverse link Propeller to Loadcase--><path codeLine="4" d="M652.18,356.01 C670.38,381.23 688.69,406.6 705.74,430.24 " fill="none" id="Propeller-backto-Loadcase" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#FFFFFF" points="644.39,345.22,644.6538,352.4263,651.4072,354.9544,651.1434,347.7481,644.39,345.22" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="641.3424" y="364.7513">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="676.6054" y="419.2782">1..*</text><!--MD5=[124014a9e768cdca6e45f03aed74dd17]
+@startuml
+'skinparam monochrome true
+
+Propeller "1" o- - "1..*" Airfoil
+Propeller "1" o- - "1..*" Loadcase
+
+class Airfoil{
+  -__coordinates: DataFrame
+  -__parameters: Dict
+  -__polar: DataFrame
+  -__xrotor_characteristics: Dict
+  - -
+  -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
+  -{static}__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
+  -__repr__(self): Str
+  +cp_vs_x(self, mode: Str, value: Float): DataFrame
+  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame
+  ..Getter..
+  +coordinates(self): DataFrame
+  +parameters(self): Dict
+  +polar(self): DataFrame
+  +xrotor_characteristics(self): Dict
+  ..Setter..
+  +coordinates(self, coordinates: Str or DataFrame)
+  +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
+  +xrotor_characteristics(self, characteristics: Dict)
+}
+
+class Propeller{
+  -__parameters: Dict
+  -__loadcases: Dict
+  -__load_envelope: Dict
+  -__geometry: List
+  -__sections: List
+  - -
+  -__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)
+  -__repr__(self): Str
+  +calc_loads(self)
+  +pressure_distribution(self, loadcase: Loadcase): np.array
+  ..Getter..
+  +geometry(self): List
+  +loadcases(self): Dict
+  +load_envelope(self): Dict
+  +parameters(self): Dict
+  +sections(self): List
+  ..Setter..
+  +add_loadcase(self, name: Str, loadcase: Loadcase)
+  +add_section(self, rR: Float, airfoil: Airfoil)
+  +geometry(self, array: List or np.array)
+  +parameters(self, parameters: Dict)
+  +set_load_envelope(self)
+  
+}
+class Loadcase{
+  -__data = List
+  -__flight_speed: Float
+  -__name: Str
+  - -
+  -__init__(self, name: Str, flight_speed: Float)
+  -__repr__(self): Str
+  ..Getter..
+  +data(self): List
+  +flight_speed(self): Float
+  +name(self): Str
+  +results(self): DataFrame, DataFrame
+  ..Setter..
+  +flight_speed(self, flight_speed: Float)
+  +name(self, name: Str)
+  +set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)
+}
+
+@enduml
+
+@startuml
+
+Propeller "1" o- - "1..*" Airfoil
+Propeller "1" o- - "1..*" Loadcase
+
+class Airfoil{
+  -__coordinates: DataFrame
+  -__parameters: Dict
+  -__polar: DataFrame
+  -__xrotor_characteristics: Dict
+  - -
+  -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
+  -{static}__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
+  -__repr__(self): Str
+  +cp_vs_x(self, mode: Str, value: Float): DataFrame
+  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame
+  ..Getter..
+  +coordinates(self): DataFrame
+  +parameters(self): Dict
+  +polar(self): DataFrame
+  +xrotor_characteristics(self): Dict
+  ..Setter..
+  +coordinates(self, coordinates: Str or DataFrame)
+  +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
+  +xrotor_characteristics(self, characteristics: Dict)
+}
+
+class Propeller{
+  -__parameters: Dict
+  -__loadcases: Dict
+  -__load_envelope: Dict
+  -__geometry: List
+  -__sections: List
+  - -
+  -__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)
+  -__repr__(self): Str
+  +calc_loads(self)
+  +pressure_distribution(self, loadcase: Loadcase): np.array
+  ..Getter..
+  +geometry(self): List
+  +loadcases(self): Dict
+  +load_envelope(self): Dict
+  +parameters(self): Dict
+  +sections(self): List
+  ..Setter..
+  +add_loadcase(self, name: Str, loadcase: Loadcase)
+  +add_section(self, rR: Float, airfoil: Airfoil)
+  +geometry(self, array: List or np.array)
+  +parameters(self, parameters: Dict)
+  +set_load_envelope(self)
+  
+}
+class Loadcase{
+  -__data = List
+  -__flight_speed: Float
+  -__name: Str
+  - -
+  -__init__(self, name: Str, flight_speed: Float)
+  -__repr__(self): Str
+  ..Getter..
+  +data(self): List
+  +flight_speed(self): Float
+  +name(self): Str
+  +results(self): DataFrame, DataFrame
+  ..Setter..
+  +flight_speed(self, flight_speed: Float)
+  +name(self, name: Str)
+  +set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)
+}
+
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 17:10:01 CEST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: de
+Country: DE
+--></g></svg>

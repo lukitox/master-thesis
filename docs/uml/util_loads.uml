@@ -1,0 +1,72 @@
+@startuml
+'skinparam monochrome true
+
+Propeller "1" o-- "1..*" Airfoil
+Propeller "1" o-- "1..*" Loadcase
+
+class Airfoil{
+  -__coordinates: DataFrame
+  -__parameters: Dict
+  -__polar: DataFrame
+  -__xrotor_characteristics: Dict
+  --
+  -__init__(self, airfoil_filename: Str, Re: Float, Ncrit=9: Int, Iter=200: Int)
+  -{static}__fit_cl_alpha__(self, x, x0, x1, a3, b1, b3, c2)
+  -__repr__(self): Str
+  +cp_vs_x(self, mode: Str, value: Float): DataFrame
+  +{static}interpolate(airfoil1: Airfoil, airfoil2: Airfoil, fraction_of_2nd_airfoil: Float): DataFrame
+  ..Getter..
+  +coordinates(self): DataFrame
+  +parameters(self): Dict
+  +polar(self): DataFrame
+  +xrotor_characteristics(self): Dict
+  ..Setter..
+  +coordinates(self, coordinates: Str or DataFrame)
+  +set_polar(self, alpha_start=-20: Float, alpha_stop=20: Float, alpha_inc=0.25: Float)
+  +xrotor_characteristics(self, characteristics: Dict)
+}
+
+class Propeller{
+  -__parameters: Dict
+  -__loadcases: Dict
+  -__load_envelope: Dict
+  -__geometry: List
+  -__sections: List
+  --
+  -__init__(self, number_of_blades: Int, tip_radius: Float, hub_radius: Float)
+  -__repr__(self): Str
+  +calc_loads(self)
+  +pressure_distribution(self, loadcase: Loadcase): np.array
+  ..Getter..
+  +geometry(self): List
+  +loadcases(self): Dict
+  +load_envelope(self): Dict
+  +parameters(self): Dict
+  +sections(self): List
+  ..Setter..
+  +add_loadcase(self, name: Str, loadcase: Loadcase)
+  +add_section(self, rR: Float, airfoil: Airfoil)
+  +geometry(self, array: List or np.array)
+  +parameters(self, parameters: Dict)
+  +set_load_envelope(self)
+  
+}
+class Loadcase{
+  -__data = List
+  -__flight_speed: Float
+  -__name: Str
+  --
+  -__init__(self, name: Str, flight_speed: Float)
+  -__repr__(self): Str
+  ..Getter..
+  +data(self): List
+  +flight_speed(self): Float
+  +name(self): Str
+  +results(self): DataFrame, DataFrame
+  ..Setter..
+  +flight_speed(self, flight_speed: Float)
+  +name(self, name: Str)
+  +set_data(self, prescribe_type: Str, value: Float, fix=None: Str, value2=None: Float)
+}
+
+@enduml

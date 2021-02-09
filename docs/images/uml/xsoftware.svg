@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="395px" preserveAspectRatio="none" style="width:772px;height:395px;" version="1.1" viewBox="0 0 772 395" width="772px" zoomAndPan="magnify"><defs><filter height="300%" id="f1rvi24v3eoxro" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e3d158ccbe291f3bf2130bb0560e8ce5]
+class Xsoftware--><rect codeLine="6" fill="#FEFECE" filter="url(#f1rvi24v3eoxro)" height="137.6328" id="Xsoftware" style="stroke: #A80036; stroke-width: 1.5;" width="307" x="188" y="7"/><ellipse cx="306.75" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M309.7188,28.6406 Q309.1406,28.9375 308.5,29.0781 Q307.8594,29.2344 307.1563,29.2344 Q304.6563,29.2344 303.3281,27.5938 Q302.0156,25.9375 302.0156,22.8125 Q302.0156,19.6875 303.3281,18.0313 Q304.6563,16.375 307.1563,16.375 Q307.8594,16.375 308.5,16.5313 Q309.1563,16.6875 309.7188,16.9844 L309.7188,19.7031 Q309.0938,19.125 308.5,18.8594 Q307.9063,18.5781 307.2813,18.5781 Q305.9375,18.5781 305.25,19.6563 Q304.5625,20.7188 304.5625,22.8125 Q304.5625,24.9063 305.25,25.9844 Q305.9375,27.0469 307.2813,27.0469 Q307.9063,27.0469 308.5,26.7813 Q309.0938,26.5 309.7188,25.9219 L309.7188,28.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="61" x="327.25" y="27.1543">Xsoftware</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="189" x2="494" y1="39" y2="39"/><ellipse cx="199" cy="50" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="57" x="208" y="53.2104">name: Str</text><ellipse cx="199" cy="62.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="42" x="208" y="66.0151">f: Open</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="189" x2="494" y1="72.6094" y2="72.6094"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="196" y="80.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="70" x="208" y="86.8198">__init__(self)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="196" y="93.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="83" x="208" y="99.6245">__enter__(self)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="196" y="106.2188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="281" x="208" y="112.4292">__exit__(self, exc_type, exc_value, exc_traceback)</text><ellipse cx="199" cy="122.0234" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="111" x="208" y="125.2339">run(self, argument)</text><ellipse cx="199" cy="134.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="122" x="208" y="138.0386">run_array(self, array)</text><!--MD5=[de9f1b0669f1b04c62e8b4e897d712da]
+class Xfoil--><rect codeLine="16" fill="#FEFECE" filter="url(#f1rvi24v3eoxro)" height="137.6328" id="Xfoil" style="stroke: #A80036; stroke-width: 1.5;" width="277" x="7" y="224"/><ellipse cx="128.75" cy="240" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M131.7188,245.6406 Q131.1406,245.9375 130.5,246.0781 Q129.8594,246.2344 129.1563,246.2344 Q126.6563,246.2344 125.3281,244.5938 Q124.0156,242.9375 124.0156,239.8125 Q124.0156,236.6875 125.3281,235.0313 Q126.6563,233.375 129.1563,233.375 Q129.8594,233.375 130.5,233.5313 Q131.1563,233.6875 131.7188,233.9844 L131.7188,236.7031 Q131.0938,236.125 130.5,235.8594 Q129.9063,235.5781 129.2813,235.5781 Q127.9375,235.5781 127.25,236.6563 Q126.5625,237.7188 126.5625,239.8125 Q126.5625,241.9063 127.25,242.9844 Q127.9375,244.0469 129.2813,244.0469 Q129.9063,244.0469 130.5,243.7813 Q131.0938,243.5 131.7188,242.9219 L131.7188,245.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="25" x="149.25" y="244.1543">Xfoil</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="283" y1="256" y2="256"/><ellipse cx="18" cy="267" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="76" x="27" y="270.2104">input_file: Str</text><ellipse cx="18" cy="279.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="57" x="27" y="283.0151">name: Str</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="289.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="27" y="295.8198">__mode: Str</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="283" y1="302.4141" y2="302.4141"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="310.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="174" x="27" y="316.6245">__init__(self, mode='hide': Str)</text><ellipse cx="18" cy="326.2188" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="251" x="27" y="329.4292">read_coordinates(filename: Str): DataFrame</text><ellipse cx="18" cy="339.0234" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="228" x="27" y="342.2339">read_cp_vs_x(filename: Str): DataFrame</text><ellipse cx="18" cy="351.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="213" x="27" y="355.0386">read_polar(filename: Str): DataFrame</text><!--MD5=[b98970b5d7fbe7870a87f8ac0faf8db4]
+class Xrotor--><rect codeLine="26" fill="#FEFECE" filter="url(#f1rvi24v3eoxro)" height="176.0469" id="Xrotor" style="stroke: #A80036; stroke-width: 1.5;" width="439" x="319" y="205"/><ellipse cx="515.25" cy="221" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M518.2188,226.6406 Q517.6406,226.9375 517,227.0781 Q516.3594,227.2344 515.6563,227.2344 Q513.1563,227.2344 511.8281,225.5938 Q510.5156,223.9375 510.5156,220.8125 Q510.5156,217.6875 511.8281,216.0313 Q513.1563,214.375 515.6563,214.375 Q516.3594,214.375 517,214.5313 Q517.6563,214.6875 518.2188,214.9844 L518.2188,217.7031 Q517.5938,217.125 517,216.8594 Q516.4063,216.5781 515.7813,216.5781 Q514.4375,216.5781 513.75,217.6563 Q513.0625,218.7188 513.0625,220.8125 Q513.0625,222.9063 513.75,223.9844 Q514.4375,225.0469 515.7813,225.0469 Q516.4063,225.0469 517,224.7813 Q517.5938,224.5 518.2188,223.9219 L518.2188,226.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="38" x="535.75" y="225.1543">Xrotor</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="320" x2="757" y1="237" y2="237"/><ellipse cx="330" cy="248" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="76" x="339" y="251.2104">input_file: Str</text><ellipse cx="330" cy="260.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="57" x="339" y="264.0151">name: Str</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="327" y="270.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="125" x="339" y="276.8198">__loadcase: Loadcase</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="327" y="283.4141"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="339" y="289.6245">__mode: Str</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="327" y="296.2188"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="122" x="339" y="302.4292">__propeller: Propeller</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="320" x2="757" y1="309.0234" y2="309.0234"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="327" y="317.0234"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="413" x="339" y="323.2339">__init__(self, propeller: Propeller, loadcase: Loadcase, mode='hide': Str)</text><ellipse cx="330" cy="332.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="51" x="339" y="336.0386">arbi(self)</text><ellipse cx="330" cy="345.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="107" x="339" y="348.8433">parse_airfoils(self)</text><ellipse cx="330" cy="358.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="254" x="339" y="361.6479">read_bend_output(filename: Str): DataFrame</text><ellipse cx="330" cy="371.2422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="252" x="339" y="374.4526">read_oper_output(filename: Str): DataFrame</text><!--MD5=[cb006b10550e40cbe910f03b1c13cc26]
+reverse link Xsoftware to Xfoil--><path codeLine="3" d="M265.78,160.06 C246.6,181.1 226.21,203.46 207.78,223.68 " fill="none" id="Xsoftware-backto-Xfoil" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="260.84,155.09,279.48,145.03,271.18,164.52,260.84,155.09" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[69a732efceb5f56650e76bb8b3b61df4]
+reverse link Xsoftware to Xrotor--><path codeLine="4" d="M417.56,160.01 C430.98,174.66 444.99,189.95 458.51,204.71 " fill="none" id="Xsoftware-backto-Xrotor" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="412.18,164.5,403.83,145.03,422.5,155.04,412.18,164.5" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[54c9b0dcbbbc9ca411c0654ddffa1b69]
+@startuml
+'skinparam monochrome true
+
+Xsoftware <|- - Xfoil
+Xsoftware <|- - Xrotor
+
+class Xsoftware {
+  +name: Str
+  +f: Open
+  -__init__(self)
+  -__enter__(self)
+  -__exit__(self, exc_type, exc_value, exc_traceback)
+  +run(self, argument)
+  +run_array(self, array)
+}
+
+class Xfoil {
+  +input_file: Str
+  +name: Str
+  -__mode: Str
+  -__init__(self, mode='hide': Str)
+  +{static}read_coordinates(filename: Str): DataFrame
+  +{static}read_cp_vs_x(filename: Str): DataFrame
+  +{static}read_polar(filename: Str): DataFrame
+}
+
+class Xrotor {
+  +input_file: Str
+  +name: Str
+  -__loadcase: Loadcase
+  -__mode: Str
+  -__propeller: Propeller
+  - -
+  -__init__(self, propeller: Propeller, loadcase: Loadcase, mode='hide': Str)
+  +arbi(self)
+  +parse_airfoils(self)
+  +{static}read_bend_output(filename: Str): DataFrame
+  +{static}read_oper_output(filename: Str): DataFrame
+}
+  
+@enduml
+
+@startuml
+
+Xsoftware <|- - Xfoil
+Xsoftware <|- - Xrotor
+
+class Xsoftware {
+  +name: Str
+  +f: Open
+  -__init__(self)
+  -__enter__(self)
+  -__exit__(self, exc_type, exc_value, exc_traceback)
+  +run(self, argument)
+  +run_array(self, array)
+}
+
+class Xfoil {
+  +input_file: Str
+  +name: Str
+  -__mode: Str
+  -__init__(self, mode='hide': Str)
+  +{static}read_coordinates(filename: Str): DataFrame
+  +{static}read_cp_vs_x(filename: Str): DataFrame
+  +{static}read_polar(filename: Str): DataFrame
+}
+
+class Xrotor {
+  +input_file: Str
+  +name: Str
+  -__loadcase: Loadcase
+  -__mode: Str
+  -__propeller: Propeller
+  - -
+  -__init__(self, propeller: Propeller, loadcase: Loadcase, mode='hide': Str)
+  +arbi(self)
+  +parse_airfoils(self)
+  +{static}read_bend_output(filename: Str): DataFrame
+  +{static}read_oper_output(filename: Str): DataFrame
+}
+  
+@enduml
+
+PlantUML version 1.2020.19(Mon Oct 12 17:10:01 CEST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: de
+Country: DE
+--></g></svg>
