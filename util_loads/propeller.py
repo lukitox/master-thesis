@@ -213,11 +213,12 @@ class Propeller:
             if section <= self.sections[0][0]:
                 airfoil = self.sections[0][1]
                 
-                pressures = airfoil.cp_vs_x('cl', df['CL'][idx],[1,1])
+                pressures, _, _ = airfoil.cp_vs_x('cl', df['CL'][idx],[1,1])
+                
             elif section >= self.sections[len(self.sections)-1][0]:
                 airfoil = self.sections[len(self.sections)-1][1]
                 
-                pressures = airfoil.cp_vs_x('cl', df['CL'][idx],[1,1])
+                pressures, _, _ = airfoil.cp_vs_x('cl', df['CL'][idx],[1,1])
             else:
                 index = bisect.bisect([x[0] for x in self.sections],section)
                 left_section = self.sections[index-1]
@@ -225,28 +226,16 @@ class Propeller:
                 
                 fraction = (section - left_section[0])/ \
                     (right_section[0] - left_section[0])
-                    
-            #     airfoil = Airfoil('interpolated', df['REx10^3'][idx]*1000) 
                 
-            #     coords, profiltropfen, camberline = Airfoil.interpolate(left_section[1],
-            #                                                             right_section[1],
-            #                                                             fraction)
-                
-            #     airfoil.coordinates = coords
+                #print(left_section[1].cp_vs_x('cl', df['CL'][idx]))
             
-            # pressures = airfoil.cp_vs_x('cl', df['CL'][idx],[0,0])
+                ls_p, ls_cf, ls_polar = left_section[1].cp_vs_x('cl', df['CL'][idx])
+                rs_p, rs_cf, rs_polar = right_section[1].cp_vs_x('cl', df['CL'][idx])
             
-                pressures = ((left_section[1].cp_vs_x('cl',
-                                                      df['CL'][idx],
-                                                      [1,1])
-                             * (1-fraction))
-                             + (right_section[1].cp_vs_x('cl',
-                                                         df['CL'][idx],
-                                                         [1,1])
-                                * (fraction)))
-            
-            Cp_suc[:,idx] = pressures['Cp_suc']
-            Cp_pres[:,idx] = pressures['Cp_pres']
+                pressures = (ls_p * (1-fraction)) + (rs_p * (fraction))
+                                                                
+            Cp_suc[:,idx] = np.array(pressures['Cp_suc'])
+            Cp_pres[:,idx] = np.array(pressures['Cp_pres'])
         
         X, Y = np.meshgrid(stations, np.arange(0.01, 1.00, 0.01))
         
