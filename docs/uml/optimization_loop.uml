@@ -1,0 +1,16 @@
+@startuml
+actor main
+group Optimization
+main -> Femodel: Setup Femodel
+Propeller -> Femodel: Load envelope
+main -> Optimization: Define optimization Problem
+main -> Optimizer: Define and set up Optimizer
+Optimization -> Optimizer: Optimization\nProblem
+loop until convergence
+	Optimizer -> Femodel: Design Variables
+	Femodel -> Optimizer: Objective, Constraint Values
+	Optimizer -> Optimizer: Design Variable\nvariation
+	end
+Optimizer -> main: Optimization problem solution
+end
+@enduml

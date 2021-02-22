@@ -334,7 +334,9 @@ class Femodel:
         pass
 
     def clear(self):
-        """Resets the MAPDL Session. """
+        """Resets the MAPDL Session. """  +clear(self)
+
+
         
         self.mapdl.finish()
         self.mapdl.clear('NOSTART')
