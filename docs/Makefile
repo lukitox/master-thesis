@@ -26,3 +26,6 @@ plantuml:
 	$(PLANTUML) -psvg -o ../images/uml/ ./uml/*.uml
 	
 html: plantuml
+
+umllatex:
+	$(PLANTUML) -psvg -tlatex -o ../images/uml/ ./uml/*.uml
