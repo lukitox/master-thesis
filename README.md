@@ -1,1 +1,2 @@
-Hier soll meine Programmarchitektur zur Kopplung von Geometrie, FEM und Optimierung entstehen und verwaltet werden.
+Bei Fragen in die Doku unter ./docs/_build/html/ schauen.
+Alternativ stehe ich unter l.hi@posteo.de gerne zur Verfügung.
