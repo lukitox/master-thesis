@@ -8,3 +8,11 @@ util_mapdl/__pycache__/
 femodel/.ipynb_checkpoints/
 
 .ipynb_checkpoints/
+
+*.aux
+
+*.log
+
+*.gz
+
+pretab.txt
