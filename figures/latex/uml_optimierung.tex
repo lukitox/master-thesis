@@ -1,0 +1,40 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{tikz-uml}
+%\tikzumlset{fill class=black!5}
+%\tikzumlset{fill package=black!2}
+
+\begin{document}
+\begin{tikzpicture}
+	\begin{umlpackage}{Analysemodell}
+		\umlemptyclass[x=-1.,width=19ex]{Femodel}
+		
+		\umlemptyclass[x=5., y=-0.5,width=19ex]{Propellermodel}
+		
+		\umlemptyclass[x=1.,y=-3.,width=19ex]{Material}
+		\umlemptyclass[x=5.,y=-3.5,width=19ex]{Propeller}
+		\umlaggreg[arg1=1,arg2=1..*,pos1=0.4,pos2=0.99]{Femodel}{Material}
+		
+		
+		\umlaggreg[arg1=1,arg2=1]{Propellermodel}{Propeller}
+		
+		\umlemptyclass[x=-3.,y=-3.,width=19ex]{MAPDL Core}
+		\umlaggreg[arg1=1,arg2=1,pos1=0.1,pos2=0.7]{Femodel}{MAPDL Core}
+		
+		\umlinherit{Propellermodel}{Femodel}
+	\end{umlpackage}
+	
+	
+	\begin{umlpackage}{Optimierung}
+		\umlemptyclass[x=5.,y=3.,width=19ex]{Optimization}
+		\umldep{Optimization}{Propellermodel}
+		
+		\umlemptyclass[y=3,width=19ex]{ALPSO}
+		\umlaggreg[arg1=1,arg2=1]{Optimization}{ALPSO}
+		
+		\umlinherit{Propellermodel}{Femodel}
+		
+	\end{umlpackage}
+\end{tikzpicture}
+\end{document}

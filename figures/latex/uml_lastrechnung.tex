@@ -1,0 +1,25 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+\usepackage{tikz-uml}
+%\tikzumlset{fill class=black!5}
+%\tikzumlset{fill package=black!2}
+
+\begin{document}
+\begin{tikzpicture}
+	\umlemptyclass[width=15ex]{Propeller}
+	\umlemptyclass[x=-3.,y=-3.,width=15ex]{Airfoil}
+	\umlemptyclass[x=3.,y=-3.,width=15ex]{Loadcase}
+	\umlaggreg[arg1=1,pos1=0.1,arg2=1..*,pos2=0.7]{Propeller}{Airfoil}
+	\umlaggreg[arg1=1,pos1=0.4,arg2=1..*,pos2=0.99]{Propeller}{Loadcase}
+	
+	\umlemptyclass[x=-4.,y=-0.5,width=15ex]{Xrotor}
+	\umlemptyclass[x=-7.,y=-3.5,width=15ex]{Xfoil}
+	\umldep[]{Xrotor}{Propeller}
+	\umldep[]{Xfoil}{Airfoil}
+	
+	\umlemptyclass[x=-8.,y=-0.5,width=15ex]{Xsoftware}
+	\umlinherit{Xrotor}{Xsoftware}
+	\umlinherit{Xfoil}{Xsoftware}
+\end{tikzpicture}
+\end{document}
