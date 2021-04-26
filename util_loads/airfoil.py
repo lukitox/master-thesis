@@ -294,9 +294,9 @@ class Airfoil:
             polar = polar.append(pd.Series(), ignore_index=True)
             polar = polar.fillna(0)
             
-            warnings.warn('Unconverged point: ' + str(self) + ' ' + \
-                          str(mode) + ' ' + str(value) + '. Filling with 0.',
-                          RuntimeWarning)
+            # warnings.warn('Unconverged point: ' + str(self) + ' ' + \
+                          # str(mode) + ' ' + str(value) + '. Filling with 0.',
+                          # RuntimeWarning)
                         
         return Xfoil.read_cp_vs_x(cp_vs_x_file, True), Xfoil.read_cf_vs_x(dump_file),\
             polar
